@@ -1,0 +1,11 @@
+@import 'tailwindcss';
+@import './theme/_theme';
+
+@plugin '@tailwindcss/forms';
+@plugin '@tailwindcss/typography';
+
+@layer base {
+	body {
+		@apply bg-lighthouse-white font-corp text-ocean-blue;
+	}
+}

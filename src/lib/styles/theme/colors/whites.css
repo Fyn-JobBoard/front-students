@@ -1,0 +1,7 @@
+@theme {
+	--color-lighthouse-white: #fffdf0;
+	--color-ocean-white: #f3f3f3;
+
+	--color-white-500: var(--color-lighthouse-white);
+	--color-white-300: var(--color-ocean-white);
+}

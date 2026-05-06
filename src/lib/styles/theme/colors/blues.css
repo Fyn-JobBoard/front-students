@@ -1,0 +1,9 @@
+@theme {
+	--color-ocean-blue: #334590;
+	--color-ecume-blue: #808bba;
+	--color-bleuet-blue: #e8ecff;
+
+	--color-blue-500: var(--color-ocean-blue);
+	--color-blue-300: var(--color-ecume-blue);
+	--color-blue-100: var(--color-bleuet-blue);
+}

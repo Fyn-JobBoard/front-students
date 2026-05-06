@@ -1,0 +1,7 @@
+@import './grift.css';
+@import './just-sans.css';
+
+@theme {
+	--font-headings: var(--font-grift);
+	--font-corp: var(--font-just-sans);
+}

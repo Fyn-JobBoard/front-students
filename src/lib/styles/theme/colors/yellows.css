@@ -1,0 +1,9 @@
+@theme {
+	--color-lighthouse-yellow: #ffdd3c;
+	--color-reflect-yellow: #fff192;
+	--color-butter-yellow: #fff5c3;
+
+	--color-yellow-500: var(--color-lighthouse-yellow);
+	--color-yellow-300: var(--color-reflect-yellow);
+	--color-yellow-100: var(--color-butter-yellow);
+}
