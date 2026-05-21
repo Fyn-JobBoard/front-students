@@ -48,8 +48,7 @@
 
 <script lang="ts">
 	import { page } from '$app/state';
-
-	import Logo from '$lib/assets/brand/logo.png';
+	import Logo from '$lib/assets/brand/icon-yellow.svg';
 </script>
 
 <footer class="bg-blue-800 text-[#8C99C7]">
