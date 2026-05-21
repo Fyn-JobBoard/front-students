@@ -16,7 +16,7 @@
 			<span class="text-2xl leading-none font-extrabold text-[#30428f]">{number}</span>
 		</div>
 		<div class="flex flex-col gap-5">
-			<h3 class="font-just-sans font-semibold m-0 text-xl leading-tight text-[#30428f]">{title}</h3>
+			<h3 class="m-0 font-just-sans text-xl leading-tight font-semibold text-[#30428f]">{title}</h3>
 			<p
 				class="m-0 max-w-[250px] font-just-sans text-base leading-[1.55] font-light text-[#7f8dcc]"
 			>

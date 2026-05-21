@@ -34,7 +34,7 @@
 		Comment ça marche ?
 	</h2>
 
-	<p class="font-just-sans font-light m-0 mb-[52px] text-center text-base leading-6 text-[#808BBA]">
+	<p class="m-0 mb-[52px] text-center font-just-sans text-base leading-6 font-light text-[#808BBA]">
 		Trois minutes suffisent pour postuler
 	</p>
 
