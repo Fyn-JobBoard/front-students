@@ -74,13 +74,13 @@
 	];
 </script>
 
-<section class="bg-bleuet-blue p-20">
+<section class="bg-bleuet-blue p-20 max-md:px-6">
 	<div class="text-center">
 		<h2 class="font-headings text-[size:--spacing(9)] font-extrabold">Suivi de tes candidatures</h2>
 		<p class="font-light text-ecume-blue">Visualise l'état de chaque candidature en temps réel</p>
 	</div>
 
-	<ol class="mt-8 flex items-start justify-stretch gap-4">
+	<ol class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:flex items-start justify-stretch gap-4">
 		{#each TABLES as table}
 			<li class="w-full">
 				<Table {...table} />
