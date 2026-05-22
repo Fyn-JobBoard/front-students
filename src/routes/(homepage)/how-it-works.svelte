@@ -28,7 +28,7 @@
 </script>
 
 <script lang="ts">
-	import CardsStep from './hiw-card.svelte';
+	import StepCard from './hiw-card.svelte';
 </script>
 
 <section class="bg-bleuet-blue px-3.5 pt-20 pb-14">
@@ -44,7 +44,7 @@
 		class="mx-auto grid max-w-screen-2xl grid-cols-4 gap-5.5 px-1.5 max-lg:grid-cols-2 max-lg:px-5 max-sm:grid-cols-1"
 	>
 		{#each STEPS as step}
-			<CardsStep {...step} />
+			<StepCard {...step} />
 		{/each}
 	</div>
 </section>
