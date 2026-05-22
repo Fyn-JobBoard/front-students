@@ -1,7 +1,7 @@
-<script lang="ts">
-	import CardsStep from './cards-step.svelte';
+<script module lang="ts">
+	import CardsStep from './hiw-card.svelte';
 
-	const steps = [
+	export const STEPS = [
 		{
 			number: '01',
 			title: 'Crée ton profil',
@@ -29,20 +29,20 @@
 	];
 </script>
 
-<section class="bg-[#e8ecff] px-[14px] pt-20 pb-[60px]">
-	<h2 class="m-0 mb-4 text-center font-grift text-4xl leading-tight font-extrabold text-[#334590]">
+<section class="bg-bleuet-blue px-3.5 pt-20 pb-14">
+	<h2 class="m-0 mb-4 text-center font-grift text-4xl leading-tight font-extrabold text-ocean-blue">
 		Comment ça marche ?
 	</h2>
 
-	<p class="m-0 mb-[52px] text-center font-just-sans text-base leading-6 font-light text-[#808BBA]">
+	<p class="m-0 mb-13 text-center font-just-sans text-base leading-6 font-light text-ecume-blue">
 		Trois minutes suffisent pour postuler
 	</p>
 
 	<div
-		class="mx-auto grid max-w-[1440px] grid-cols-4 gap-[22px] px-1.5 max-lg:grid-cols-2 max-lg:px-5 max-sm:grid-cols-1"
+		class="mx-auto grid max-w-screen-2xl grid-cols-4 gap-5.5 px-1.5 max-lg:grid-cols-2 max-lg:px-5 max-sm:grid-cols-1"
 	>
-		{#each steps as step}
-			<CardsStep number={step.number} title={step.title} description={step.description} />
+		{#each STEPS as step}
+			<CardsStep {...step} />
 		{/each}
 	</div>
 </section>
