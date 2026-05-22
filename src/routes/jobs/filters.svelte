@@ -26,7 +26,9 @@
 </script>
 
 <script lang="ts">
+	import Checkbox from '$lib/components/ui/forms/checkbox.svelte';
 	import { SvelteSet } from 'svelte/reactivity';
+	import FilterSection from './filter-section.svelte';
 
 	let {
 		filters = $bindable()
@@ -49,85 +51,66 @@
 	});
 </script>
 
-<form method="dialog">
-	<section>
-		<h3>Type de contrat</h3>
+<form method="dialog" class="rounded-3xl bg-white p-8 pt-6 border-2 border-[#EEEEEE]">
+	<FilterSection title="Type de contrat">
 		{#each Object.entries(contractLabels) as [type, label]}
-			<label for="{type}_contract">
-				<input
-					type="checkbox"
-					id="{type}_contract"
-					name="{type}_contract"
-					value={type}
-					bind:checked={
-						() => contracts.has(type as ContractType),
-						(checked) => {
-							if (checked) {
-								contracts.add(type as ContractType);
-							} else {
-								contracts.delete(type as ContractType);
-							}
+			<Checkbox
+				{label}
+				name="{type}_contract"
+				extra_label="hello"
+				bind:checked={
+					() => contracts.has(type as ContractType),
+					(checked) => {
+						if (checked) {
+							contracts.add(type as ContractType);
+						} else {
+							contracts.delete(type as ContractType);
 						}
 					}
-				/>
-				<span>{label}</span>
-			</label>
+				}
+			/>
 		{/each}
-	</section>
+	</FilterSection>
 
-	<section>
-		<h3>Domaine</h3>
-
+	<FilterSection title="Domaine">
 		{#each Object.entries(ACTIVITY_DOMAINS) as [name, id]}
-			<label for="domain_{id}">
-				<input
-					type="checkbox"
-					name="activity_domain_{id}"
-					id="domain_{id}"
-					value={id}
-					bind:checked={
-						() => domains.has(id),
-						(checked) => {
-							if (checked) {
-								domains.add(id);
-							} else {
-								domains.delete(id);
-							}
+			<Checkbox
+				label={name}
+				name="activity_domain_{id}"
+				bind:checked={
+					() => domains.has(id),
+					(checked) => {
+						if (checked) {
+							domains.add(id);
+						} else {
+							domains.delete(id);
 						}
 					}
-				/>
-				<span>{name}</span>
-			</label>
+				}
+			/>
 		{/each}
-	</section>
+	</FilterSection>
 
-	<section>
-		<h3>Localisation</h3>
+	<FilterSection title="Localisation">
 		{#each LOCALISATIONS as loc}
-			<label for="loc_{loc}">
-				<input
-					type="checkbox"
-					name="loc_{loc}"
-					id="loc_{loc}"
-					value={loc}
-					bind:checked={
-						() => localisations.has(loc),
-						(checked) => {
-							if (checked) {
-								localisations.add(loc);
-							} else {
-								localisations.delete(loc);
-							}
+			<Checkbox
+				label={loc}
+				name="loc_{loc}"
+				bind:checked={
+					() => localisations.has(loc),
+					(checked) => {
+						if (checked) {
+							localisations.add(loc);
+						} else {
+							localisations.delete(loc);
 						}
 					}
-				/>
-				<span>{loc}</span>
-			</label>
+				}
+			/>
 		{/each}
-	</section>
+	</FilterSection>
 
-	<section>
-		<h3>Durée</h3>
-		<input type="range" name="months" min="1" max="24" bind:value={duration} />
-	</section>
+	<FilterSection title="Durée">
+		<input class="w-full" type="range" name="months" min="1" max="24" bind:value={duration} />
+	</FilterSection>
 </form>
