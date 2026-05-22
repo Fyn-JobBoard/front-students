@@ -36,6 +36,6 @@
 	<p class="text-black">{label}</p>
 
 	{#if extra_label}
-		<span class="justify-self-end text-ecume-blue text-xs">{extra_label}</span>
+		<span class="justify-self-end text-ecume-blue text-xs font-light">{extra_label}</span>
 	{/if}
 </label>

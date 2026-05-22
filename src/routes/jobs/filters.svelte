@@ -27,6 +27,7 @@
 
 <script lang="ts">
 	import Checkbox from '$lib/components/ui/forms/checkbox.svelte';
+	import Range from '$lib/components/ui/forms/range.svelte';
 	import { SvelteSet } from 'svelte/reactivity';
 	import FilterSection from './filter-section.svelte';
 
@@ -51,7 +52,7 @@
 	});
 </script>
 
-<form method="dialog" class="rounded-3xl bg-white p-8 pt-6 border-2 border-[#EEEEEE]">
+<form method="dialog" class="rounded-3xl border-2 border-[#EEEEEE] bg-white p-8 pt-6">
 	<FilterSection title="Type de contrat">
 		{#each Object.entries(contractLabels) as [type, label]}
 			<Checkbox
@@ -111,6 +112,17 @@
 	</FilterSection>
 
 	<FilterSection title="Durée">
-		<input class="w-full" type="range" name="months" min="1" max="24" bind:value={duration} />
+		<Range
+			name="months"
+			min={{
+				value: 1,
+				label: '1 mois'
+			}}
+			max={{
+				value: 24,
+				label: '24 mois'
+			}}
+			bind:value={duration}
+		/>
 	</FilterSection>
 </form>
