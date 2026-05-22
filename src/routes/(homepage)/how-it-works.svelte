@@ -1,6 +1,4 @@
 <script module lang="ts">
-	import CardsStep from './hiw-card.svelte';
-
 	export const STEPS = [
 		{
 			number: '01',
@@ -27,6 +25,10 @@
 				"Visualise l'état de chaque dossier en temps réel sur ton tableau de bord kanban personnel."
 		}
 	];
+</script>
+
+<script lang="ts">
+	import CardsStep from './hiw-card.svelte';
 </script>
 
 <section class="bg-bleuet-blue px-3.5 pt-20 pb-14">
