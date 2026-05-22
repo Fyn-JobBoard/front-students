@@ -26,15 +26,17 @@
 </script>
 
 <script lang="ts">
+	import { SvelteSet } from 'svelte/reactivity';
+
 	let {
 		filters = $bindable()
 	}: {
 		filters: Filters;
 	} = $props();
 
-	let contracts = $state(new Set<ContractType>());
-	let domains = $state(new Set<number>());
-	let localisations = $state(new Set<string>());
+	let contracts = $state(new SvelteSet<ContractType>());
+	let domains = $state(new SvelteSet<number>());
+	let localisations = $state(new SvelteSet<string>());
 	let duration: number = $state(2);
 
 	$effect(() => {
