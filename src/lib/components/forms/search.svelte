@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { EventHandler } from 'svelte/elements';
-	import Button from '../button.svelte';
-	import Tag from '../tag.svelte';
+	import Button from '../ui/button.svelte';
+	import Tag from '../ui/tag.svelte';
 
 	let {
 		name,

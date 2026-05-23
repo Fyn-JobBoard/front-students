@@ -18,7 +18,7 @@
 <script>
 	import Simple from '$lib/components/heros/simple.svelte';
 	import StatsBar from '$lib/components/metrics/stats-bar.svelte';
-	import Search from '$lib/components/ui/forms/search.svelte';
+	import Search from '$lib/components/forms/search.svelte';
 </script>
 
 <Simple
