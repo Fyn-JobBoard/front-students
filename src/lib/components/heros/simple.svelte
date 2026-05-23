@@ -5,7 +5,8 @@
 	const {
 		title,
 		children,
-		tag
+		tag,
+		class: extraClass
 	}: {
 		/**
 		 * Each odd values will be yellow while the even one will be blue.
@@ -13,11 +14,12 @@
 		title: string | string[];
 		tag?: string;
 		children?: Snippet;
+		class?: string;
 	} = $props();
 </script>
 
-<section class="bg-butter-yellow p-8">
-	<div class="mx-auto grid max-w-190 justify-items-center gap-8">
+<section class="bg-lighthouse-white p-8 {extraClass}">
+	<div class="mx-auto grid max-w-190 justify-items-center gap-16">
 		{#if tag}
 			<Tag text={tag} ping class="font-semibold max-md:text-sm" />
 		{/if}
@@ -31,7 +33,7 @@
 		</h1>
 
 		{#if children}
-			<div>
+			<div class="w-full">
 				{@render children()}
 			</div>
 		{/if}

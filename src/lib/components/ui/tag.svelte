@@ -16,7 +16,7 @@
 
 <p
 	class={[
-		'rounded-full',
+		'rounded-full text-sm font-normal',
 		thin ? 'px-4 py-1' : 'px-6 py-2',
 		selected
 			? 'bg-ocean-blue font-semibold text-white'
