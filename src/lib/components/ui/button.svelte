@@ -5,9 +5,11 @@
 	const {
 		type,
 		action,
+		size = 'default',
 		children
 	}: {
 		type: 'primary' | 'secondary' | 'neutral';
+		size?: 'default' | 'small';
 		children: Snippet;
 		action:
 			| {
@@ -24,7 +26,9 @@
 {#snippet content()}
 	<div
 		class={{
-			'cursor-pointer rounded-full py-2.5 px-4 font-corp': true,
+			'inline-flex w-fit cursor-pointer items-center justify-center rounded-full font-corp': true,
+			'px-4 py-2.5': size === 'default',
+			'px-3 py-1.5 text-sm': size === 'small',
 			'bg-ocean-blue text-white': type === 'primary',
 			'bg-lighthouse-yellow text-ocean-blue': type === 'secondary',
 			'border-2 border-ocean-blue bg-transparent text-ocean-blue': type === 'neutral'
