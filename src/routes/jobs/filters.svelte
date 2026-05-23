@@ -58,7 +58,6 @@
 			<Checkbox
 				{label}
 				name="{type}_contract"
-				extra_label="hello"
 				bind:checked={
 					() => contracts.has(type as ContractType),
 					(checked) => {

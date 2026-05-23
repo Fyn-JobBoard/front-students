@@ -29,6 +29,10 @@
 	} = $props();
 
 	const id = $derived(givenId ?? `range_${name}`);
+
+	const min_value = $derived(typeof min === 'object' ? min.value : (min ?? 0));
+	const max_value = $derived(typeof max === 'object' ? max.value : (max ?? 100));
+	const progress = $derived((value - min_value) / (max_value - min_value));
 </script>
 
 {#snippet range_label(aria: string, label: string, classes?: string)}
@@ -42,7 +46,10 @@
 		<p>{label}</p>
 	{/if}
 
-	<div class="relative">
+	<div
+		class="relative before:w-full before:bg-bleuet-blue after:w-(--progress) after:bg-ocean-blue"
+		style:--progress={progress * 100 + '%'}
+	>
 		<input
 			type="range"
 			{name}
@@ -50,7 +57,9 @@
 			bind:value
 			min={typeof min === 'object' ? min.value : min}
 			max={typeof max === 'object' ? max.value : max}
-			class="h-2 w-full cursor-col-resize appearance-none rounded-full bg-ecume-blue text-ocean-blue"
+			class="
+				h-2 w-full cursor-col-resize appearance-none rounded-full bg-ecume-blue text-ocean-blue opacity-0
+			"
 		/>
 
 		{#if typeof min === 'object'}
@@ -63,23 +72,16 @@
 </label>
 
 <style>
-	input {
-		&::-ms-thumb,
-		&::-webkit-slider-thumb,
-		&::-moz-range-thumb,
-		&::slider-thumb {
-			appearance: none;
-			width: 2px;
-			height: 2px;
-			background: transparent;
-		}
+	label > div {
+		&::before,
+		&::after {
+			content: '';
+			position: absolute;
+			height: 30%;
+			top: 50%;
+			left: 0;
+			translate: 0 -50%;
 
-		&::-moz-progress-bar,
-		&::-moz-range-progress,
-		&::-webkit-progress-value,
-		&::-webkit-progress-bar {
-			background-color: currentColor;
-			height: 100%;
 			border-radius: calc(1px * infinity);
 		}
 	}

@@ -27,7 +27,7 @@
 >
 	<input
 		type="checkbox"
-		class="appearance-none rounded-sm border-2 border-ocean-blue bg-white checked:bg-ocean-blue"
+		class="appearance-none rounded-sm border-2 border-ocean-blue bg-white bg-none checked:bg-ocean-blue"
 		{name}
 		{id}
 		{value}
@@ -36,6 +36,6 @@
 	<p class="text-black">{label}</p>
 
 	{#if extra_label}
-		<span class="justify-self-end text-ecume-blue text-xs font-light">{extra_label}</span>
+		<span class="justify-self-end text-xs font-light text-ecume-blue">{extra_label}</span>
 	{/if}
 </label>
