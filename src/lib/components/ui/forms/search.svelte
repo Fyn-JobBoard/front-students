@@ -24,9 +24,9 @@
 </script>
 
 <form {action} method="get" {onsubmit} class="rounded-3xl bg-white p-2 shadow-xl">
-	<section class="flex items-center gap-4 p-4">
+	<section class="flex items-center gap-4 p-4 max-sm:flex-col max-sm:items-end">
 		<label
-			class="flex grow items-center gap-[inherit]"
+			class="flex w-full grow items-center gap-[inherit]"
 			for={id}
 			aria-label={placeholder ?? 'Effectuer une recherche'}
 		>
@@ -46,10 +46,10 @@
 
 	{#if suggestions?.length}
 		<section
-			class="grid grid-cols-[auto_1fr] items-center gap-4 rounded-2xl bg-[#F6F7FC] px-8 py-1 text-sm"
+			class="grid items-center gap-4 rounded-2xl bg-[#F6F7FC] p-2 text-sm md:grid-cols-[auto_1fr] md:px-8 md:py-1"
 		>
-			<h3 class="text-ecume-blue">Suggestions :</h3>
-			<ul class="flex w-full gap-4 overflow-x-scroll py-2">
+			<h3 class="text-ecume-blue max-md:ml-2">Suggestions :</h3>
+			<ul class="flex w-full gap-4 overflow-x-scroll md:py-2">
 				{#each suggestions as suggestion}
 					<li>
 						<button

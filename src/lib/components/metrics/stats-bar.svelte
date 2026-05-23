@@ -9,14 +9,11 @@
 	} = $props();
 </script>
 
-<ul class="flex items-center justify-between rounded-3xl bg-white px-12 py-8">
-	{#each metrics as metric, index}
-		{#if index}
-			<li aria-hidden="true" class="flex h-full items-center justify-center">
-				<hr class="h-70/100 w-0.5 rounded-full border-none bg-bleuet-blue" />
-			</li>
-		{/if}
-		<li>
+<ul
+	class="flex flex-wrap items-center justify-between gap-x-8 gap-y-10 rounded-3xl bg-white px-12 py-8"
+>
+	{#each metrics as metric}
+		<li class="grid w-fit place-content-center">
 			<Metric {...metric} />
 		</li>
 	{/each}
