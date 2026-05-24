@@ -1,0 +1,29 @@
+[
+	{
+		"stars": 5,
+		"review": "Grâce à FYN, j'ai décroché mon alternance chez Publicis en moins de 3 semaines. L'outil d'analyse CV m'a permis d'adapter mon dossier exactement à ce que cherchaient les recruteurs.",
+		"reviewer": {
+			"first_name": "Alice",
+			"last_name": "Laurent",
+			"status": "Alternante Marketing – Publicis"
+		}
+	},
+	{
+		"stars": 5,
+		"review": "L'agrégateur est bluffant : je voyais toutes les offres tech sur une seule interface. J'ai postulé à 15 entreprises en un après-midi. Résultat : 4 entretiens et 1 contrat signé.",
+		"reviewer": {
+			"first_name": "Thomas",
+			"last_name": "Martin",
+			"status": "Alternant Dev – Doctolib"
+		}
+	},
+	{
+		"stars": 5,
+		"review": "Le kanban de suivi est ma feature préférée. Fini les tableaux Excel ! Je sais exactement où j'en suis avec chaque entreprise, en temps réel.",
+		"reviewer": {
+			"first_name": "Sofia",
+			"last_name": "Chen",
+			"status": "Alternante Finance – BNP Paribas"
+		}
+	}
+]
