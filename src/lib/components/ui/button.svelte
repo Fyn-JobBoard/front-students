@@ -1,6 +1,10 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	import type { AriaRole, HTMLAttributeAnchorTarget, MouseEventHandler } from 'svelte/elements';
+	import type {
+		HTMLAttributeAnchorTarget,
+		HTMLButtonAttributes,
+		MouseEventHandler
+	} from 'svelte/elements';
 
 	const {
 		type,
@@ -17,8 +21,9 @@
 					target?: HTMLAttributeAnchorTarget;
 			  }
 			| {
-					onclick: MouseEventHandler<HTMLButtonElement>;
-					role: AriaRole;
+					type: HTMLButtonAttributes['type'];
+					onclick?: MouseEventHandler<HTMLButtonElement>;
+					role?: HTMLButtonAttributes['role'];
 			  };
 	} = $props();
 </script>
@@ -43,7 +48,7 @@
 		{@render content()}
 	</a>
 {:else}
-	<button onclick={action.onclick} role={action.role}>
+	<button {...action}>
 		{@render content()}
 	</button>
 {/if}
