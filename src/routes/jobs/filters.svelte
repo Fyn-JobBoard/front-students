@@ -37,10 +37,10 @@
 		filters?: Filters;
 	} = $props();
 
-	let contracts = $state(new SvelteSet<ContractType>());
-	let domains = $state(new SvelteSet<number>());
-	let localisations = $state(new SvelteSet<string>());
-	let duration: number = $state(2);
+	let contracts = $state(new SvelteSet<ContractType>(filters?.contract));
+	let domains = $state(new SvelteSet<number>(filters?.activity_domain_ids));
+	let localisations = $state(new SvelteSet<string>(filters?.localisation));
+	let duration: number = $state(filters?.duration ?? 2);
 
 	$effect(() => {
 		filters = {
