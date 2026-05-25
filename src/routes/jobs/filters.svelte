@@ -1,5 +1,10 @@
 <script module lang="ts">
 	export type ContractType = 'intership' | 'stage' | 'alternating_stage';
+	export interface FilterItem<T> {
+		label: string;
+		value: T;
+	}
+
 	export interface Filters {
 		contract?: ContractType[];
 		activity_domain_ids?: number[];
