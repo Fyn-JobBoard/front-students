@@ -110,7 +110,7 @@
 		{/each}
 	</FilterSection>
 
-	<FilterSection title="Durée">
+	<FilterSection title="Durée: {duration} mois">
 		<Range
 			name="months"
 			min={{
