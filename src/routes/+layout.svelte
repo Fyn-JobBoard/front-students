@@ -13,7 +13,7 @@
 
 <Header />
 
-<main class="min-h-screen">
+<main class="min-h-[60svh]">
 	{@render children()}
 </main>
 
