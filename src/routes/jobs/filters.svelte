@@ -34,7 +34,7 @@
 	let {
 		filters = $bindable()
 	}: {
-		filters: Filters;
+		filters?: Filters;
 	} = $props();
 
 	let contracts = $state(new SvelteSet<ContractType>());
