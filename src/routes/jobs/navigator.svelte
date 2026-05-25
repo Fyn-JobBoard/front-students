@@ -43,14 +43,14 @@
 	onMount(() => refresh());
 </script>
 
-<section class="grid grid-cols-[auto_1fr] gap-8">
+<section class="grid grid-rows-2 lg:grid-cols-[auto_1fr] gap-8">
 	<aside>
 		{#key force_filter_update}
 			<Filters bind:filters />
 		{/key}
 	</aside>
 	<main>
-		<header class="grid grid-cols-[1fr_auto] gap-8">
+		<header class="grid grid-rows-2 lg:grid-cols-[1fr_auto] gap-8">
 			<Search
 				name="job_search"
 				bind:value={query}
