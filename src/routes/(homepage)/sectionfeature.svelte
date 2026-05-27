@@ -68,9 +68,9 @@
 		</div>
 
 		
-		<div class="grid grid-cols-2 gap-6 max-md:grid-cols-1">
+		<ul class="grid grid-cols-2 gap-6 max-md:grid-cols-1">
 			{#each features as feature}
-				<div class="flex flex-col gap-6 rounded-3xl p-8 {feature.bg}">
+				<li class="flex flex-col gap-6 rounded-3xl p-8 {feature.bg}">
 					<span class="{feature.icon} text-3xl {feature.iconColor}"></span>
 					<div>
 						<h3 class="mb-3 font-grift text-xl font-bold {feature.titleColor}">
@@ -83,9 +83,9 @@
 					<Button type={feature.buttonType} action={{ url: feature.url }}>
 						{feature.cta}
 					</Button>
-				</div>
+				</li>
 			{/each}
-		</div>
+		</ul>
 
 	</div>
 </section>
