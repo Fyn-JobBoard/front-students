@@ -6,7 +6,7 @@
 	<div class="mx-auto max-w-3xl text-center">
 
 		<h2 class="mb-6 font-grift text-5xl font-extrabold leading-tight text-ocean-blue max-md:text-4xl">
-			Prêt à décrocher<br />ton alternance idéale ?
+			Prêt à décrocher ton alternance idéale ?
 		</h2>
 
 		<p class="mb-10 font-just-sans text-lg font-normal text-ocean-blue/70">
