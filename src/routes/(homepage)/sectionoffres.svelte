@@ -98,13 +98,7 @@
 			{#each filteredOffers as offer}
 				<li>
 					<JobCard
-						id={offer.id}
-						category={offer.category}
-						title={offer.title}
-						company={offer.company}
-						description={offer.description}
-						location={offer.location}
-						featured={offer.featured}
+						{...offer}
 					/>
 				</li>
 			{/each}
