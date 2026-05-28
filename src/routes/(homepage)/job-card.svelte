@@ -24,7 +24,7 @@
 		featured
 			? 'bg-ocean-blue border-ocean-blue text-white'
 			: 'bg-white border border-[#e8ecff] text-ocean-blue'
-	].join(' ')}>
+]}>
 
 		<div>
 			<span class={[
