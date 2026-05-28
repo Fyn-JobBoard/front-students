@@ -63,7 +63,7 @@
 	import Tag from '$lib/components/ui/tag.svelte';
 	import JobCard from './job-card.svelte';
 
-	let activeCategory = $state('Tous');
+	let activeCategory: string | undefined = $state(undefined);
 
 	let filteredOffers = $derived(
 		activeCategory === 'Tous'
