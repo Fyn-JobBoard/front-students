@@ -85,6 +85,11 @@
 		</div>
 
 		<ul class="mb-8 flex flex-wrap gap-2">
+			<li>
+				<button onclick={() => (activeCategory = undefined)}>
+					<Tag text="Tous" selected={activeCategory === undefined} />
+				</button>
+			</li>
 			{#each categories as category}
 				<li>
 					<button onclick={() => activeCategory = category}>
