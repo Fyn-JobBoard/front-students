@@ -1,4 +1,4 @@
-<script module>
+<script lang="ts" module>
 	const categories = ['Tous', 'Marketing', 'Développement', 'Design', 'Finance', 'RH', 'Commerce', 'Data'];
 
 	const offers = [
