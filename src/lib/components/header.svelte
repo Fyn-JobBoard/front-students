@@ -19,7 +19,7 @@
 
 <script lang="ts">
 	import { page } from '$app/state';
-	import Logo from '$lib/assets/brand/logo-yellow.svg';
+	import Logo from '$lib/assets/brand/logo-blue.svg';
 	import Button from './ui/button.svelte';
 </script>
 
