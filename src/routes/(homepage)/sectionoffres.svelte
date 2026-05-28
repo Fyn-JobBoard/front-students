@@ -61,12 +61,12 @@
 
 <script lang="ts">
 	import Tag from '$lib/components/ui/tag.svelte';
-	import JobCard from './job-card.svelte';
+	import JobCard from '$lib/components/jobs/card.svelte';
 
 	let activeCategory: string | undefined = $state(undefined);
 
 	let filteredOffers = $derived(
-		activeCategory === 'Tous'
+		activeCategory === undefined
 			? offers
 			: offers.filter((o) => o.category === activeCategory)
 	);
@@ -90,7 +90,7 @@
 					<Tag text="Tous" selected={activeCategory === undefined} />
 				</button>
 			</li>
-			{#each categories as category}
+			{#each CATEGORIES as category}
 				<li>
 					<button onclick={() => activeCategory = category}>
 						<Tag text={category} selected={activeCategory === category} />
