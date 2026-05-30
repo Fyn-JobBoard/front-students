@@ -24,7 +24,7 @@
 
 <header
 	class={[
-		'group/header fixed top-0 left-0 flex w-full justify-between px-8 lg:items-center lg:py-4',
+		'group/header fixed top-0 left-0 flex w-full justify-between px-8 lg:items-center lg:py-4 z-100',
 
 		// mobile version
 		'max-lg:h-full max-lg:not-has-checked:pointer-events-none',
