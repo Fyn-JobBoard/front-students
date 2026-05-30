@@ -4,7 +4,7 @@
 
 <section class="bg-lighthouse-white px-3.5 pt-20 pb-14">
 	<div class="mx-auto grid max-w-screen-2xl grid-cols-2 items-center gap-12 max-lg:grid-cols-1">
-		<div class="flex flex-col items-start gap-6 pl-[100px] max-lg:pl-0">
+		<div class="flex flex-col items-start gap-6 pl-25 max-lg:pl-0">
 			<span
 				class="rounded-full bg-butter-yellow px-4 py-1.5 font-just-sans text-xs font-semibold text-ocean-blue"
 			>
@@ -54,11 +54,11 @@
 		</div>
 
 		<article
-			class="min-h-[27.5rem] w-full max-w-[35rem] justify-self-center rounded-3xl border border-[#dfe6ff] bg-white px-7 py-6"
+			class="min-h-110 w-full max-w-140 justify-self-center rounded-3xl border border-[#dfe6ff] bg-white px-7 py-6"
 		>
 			<div class="flex items-start gap-5">
 				<div
-					class="flex h-[4.5rem] w-[4.5rem] shrink-0 items-center justify-center rounded-full bg-reflect-yellow"
+					class="flex h-18 w-18 shrink-0 items-center justify-center rounded-full bg-reflect-yellow"
 				>
 					<span class="font-grift text-lg font-black text-ocean-blue">ML</span>
 				</div>
@@ -104,7 +104,9 @@
 				</span>
 			</div>
 
-			<p class="mt-6 max-w-[38.75rem] font-just-sans text-base leading-7 font-light text-ecume-blue italic">
+			<p
+				class="mt-6 max-w-155 font-just-sans text-base leading-7 font-light text-ecume-blue italic"
+			>
 				Passionnée par le marketing digital, je cherche une alternance pour mettre en pratique mes
 				compétences en stratégie de contenu.
 			</p>
