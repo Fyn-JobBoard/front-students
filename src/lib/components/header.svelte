@@ -41,7 +41,7 @@
 			<img src={Logo} alt="Logo Fyn" />
 		</a>
 
-		<input type="checkbox" name="menu_toggler" class="'lg:hidden" aria-hidden="true" />
+		<input type="checkbox" name="menu_toggler" class="lg:hidden" aria-hidden="true" />
 	</div>
 
 	<nav
