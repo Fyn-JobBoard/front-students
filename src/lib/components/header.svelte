@@ -6,8 +6,7 @@
 		Offres: '/jobs',
 		Entreprises: '/companies',
 		'A propos': '/fyn',
-		Contact: '/contact',
-		Test: '/header'
+		Contact: '/contact'
 	};
 	export const NAVIGATION_CTAS: {
 		[key: string]: { url: string; type: ComponentProps<typeof Button>['type'] };
