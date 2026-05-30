@@ -3,19 +3,19 @@
 	import Hero from './hero.svelte';
 	import HowItWorks from './how-it-works.svelte';
 	import Kanban from './kanban.svelte';
-	import ProfileSection from './profile-section.svelte';
+	import Profile from './profile-section.svelte';
 	import ScrappingBanner from './scrapping-banner.svelte';
-	import Sectionfeature from './sectionfeature.svelte';
-	import Sectionoffres from './sectionoffres.svelte';
-	import TestimonialsSection from './testimonials-section.svelte';
+	import Features from './features-section.svelte';
+	import Offers from './offers-section.svelte';
+	import Testimonials from './testimonials-section.svelte';
 </script>
 
 <Hero />
-<Sectionoffres />
+<Offers />
 <HowItWorks />
 <ScrappingBanner />
-<ProfileSection />
+<Profile />
 <Kanban />
-<Sectionfeature />
-<TestimonialsSection />
+<Features />
+<Testimonials />
 <CtaBand />
