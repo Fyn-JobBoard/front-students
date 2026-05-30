@@ -97,14 +97,14 @@
 	}
 </script>
 
-<section class="grid gap-8 max-lg:grid-rows-2 lg:grid-cols-[auto_1fr]">
-	<aside class="sticky top-22 h-fit">
+<section class="grid gap-8 max-lg:grid-rows-[repeat(2,auto)] lg:grid-cols-[auto_1fr]">
+	<aside class="lg:sticky lg:top-22 h-fit">
 		{#key force_filter_update}
 			<Filters bind:filters />
 		{/key}
 	</aside>
 	<main>
-		<header class="grid gap-8 max-lg:grid-rows-2 lg:grid-cols-[1fr_auto]">
+		<header class="grid gap-8 max-lg:grid-rows-[repeat(2,auto)] lg:grid-cols-[1fr_auto]">
 			<Search
 				name="job_search"
 				bind:value={query}
@@ -166,7 +166,7 @@
 
 			{#key fetch_result}
 				{#await fetch_offers() then offers}
-					<ul class="grid grid-cols-2 gap-4">
+					<ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
 						{#each offers as offer}
 							<JobCard {...offer} />
 						{/each}
