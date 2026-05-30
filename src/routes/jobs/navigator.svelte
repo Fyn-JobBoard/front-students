@@ -4,7 +4,7 @@
 	import JobCard from '$lib/components/jobs/card.svelte';
 	import Select from '$lib/components/ui/forms/select.svelte';
 	import Tag from '$lib/components/ui/tag.svelte';
-	import { onMount, type ComponentProps } from 'svelte';
+	import { type ComponentProps } from 'svelte';
 	import Filters, { type ContractType, type Filters as FiltersType } from './filters.svelte';
 
 	const { searchParams } = page.url;
@@ -28,8 +28,6 @@
 		if (query) {
 			page.url.searchParams.set('query', query);
 		}
-
-		console.debug(`Querying '${query}' sorted by ${sort}. Filtered by:`, filters);
 
 		offers = null;
 		fetch_result++;
@@ -78,10 +76,25 @@
 				featured: false
 			}
 		];
-		return offers;
-	}
+		return offers.sort((a, b) => {
+			if (a.featured && !b.featured) {
+				return -1;
+			}
 
-	onMount(() => refresh());
+			switch (sort) {
+				case 'query': {
+					return b.title > a.title ? -1 : 1;
+				}
+				case 'date': {
+					console.warn('The date sort is not implemented.');
+					return 0;
+				}
+				default: {
+					return 0;
+				}
+			}
+		});
+	}
 </script>
 
 <section class="grid gap-8 max-lg:grid-rows-2 lg:grid-cols-[auto_1fr]">
