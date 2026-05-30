@@ -54,7 +54,7 @@
 </script>
 
 <section class="bg-lighthouse-white px-6 py-20">
-	<div class="mx-auto max-w-screen-xl">
+	<div class="mx-auto max-w-7xl">
 
 		
 		<div class="mb-14 text-center">

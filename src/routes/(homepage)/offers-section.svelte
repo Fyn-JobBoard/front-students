@@ -73,7 +73,7 @@
 </script>
 
 <section class="bg-white px-6 py-16">
-	<div class="mx-auto max-w-screen-xl">
+	<div class="mx-auto max-w-7xl">
 
 		<div class="mb-8 flex items-center justify-between">
 			<h2 class="font-headings text-3xl font-extrabold text-ocean-blue">
