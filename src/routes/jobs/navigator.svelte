@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import Search from '$lib/components/forms/search.svelte';
+	import JobCard from '$lib/components/jobs/card.svelte';
 	import Select from '$lib/components/ui/forms/select.svelte';
 	import Tag from '$lib/components/ui/tag.svelte';
-	import { onMount } from 'svelte';
+	import { onMount, type ComponentProps } from 'svelte';
 	import Filters, { type ContractType, type Filters as FiltersType } from './filters.svelte';
 
 	const { searchParams } = page.url;
@@ -19,7 +20,7 @@
 
 	let force_filter_update = $state(0);
 	let fetch_result = $state(0);
-	let offers: null | [] = $state(null);
+	let offers: null | ComponentProps<typeof JobCard>[] = $state(null);
 
 	function refresh(e?: Event) {
 		e?.preventDefault();
@@ -36,7 +37,47 @@
 
 	async function fetch_offers(): Promise<NonNullable<typeof offers>> {
 		await new Promise((r) => setTimeout(r, 400));
-		offers = [];
+		offers = [
+			{
+				id: '1',
+				category: 'Marketing',
+				title: 'Chef de Projet Marketing Digital',
+				company: 'Publicis Groupe',
+				description:
+					'Pilotez des campagnes 360° pour des marques internationales. Gestion budget & KPIs.',
+				location: 'Paris (75)',
+				featured: true
+			},
+			{
+				id: '2',
+				category: 'Développement',
+				title: 'Développeur Full Stack React/Node',
+				company: 'Doctolib',
+				description: 'Développez des features critiques pour 60 millions de patients en Europe.',
+				location: 'Paris (75)',
+				featured: false
+			},
+			{
+				id: '3',
+				category: 'Finance',
+				title: 'Analyste M&A Junior',
+				company: 'BNP Paribas',
+				description:
+					'Participez à des opérations de fusion-acquisition dans les secteurs tech & santé.',
+				location: 'La Défense (92)',
+				featured: false
+			},
+			{
+				id: '4',
+				category: 'Design',
+				title: 'Product Designer UX/UI',
+				company: 'Figma',
+				description:
+					'Imaginez les futurs outils de design collaboratif utilisés par des millions de créatifs.',
+				location: 'Remote',
+				featured: false
+			}
+		];
 		return offers;
 	}
 
@@ -44,7 +85,7 @@
 </script>
 
 <section class="grid gap-8 max-lg:grid-rows-2 lg:grid-cols-[auto_1fr]">
-	<aside>
+	<aside class="sticky top-22 h-fit">
 		{#key force_filter_update}
 			<Filters bind:filters />
 		{/key}
@@ -112,9 +153,9 @@
 
 			{#key fetch_result}
 				{#await fetch_offers() then offers}
-					<ul>
+					<ul class="grid grid-cols-2 gap-4">
 						{#each offers as offer}
-							<li>{offer}</li>
+							<JobCard {...offer} />
 						{/each}
 					</ul>
 				{/await}
