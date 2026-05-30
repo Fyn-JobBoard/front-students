@@ -10,6 +10,14 @@
 	import Testimonials from './testimonials-section.svelte';
 </script>
 
+<svelte:head>
+	<title>Fyn - La plateform #1 des alternants</title>
+	<meta
+		name="description"
+		content="Fyn est un job board spécialisé dans la recherche de stage et alternance"
+	/>
+</svelte:head>
+
 <Hero />
 <Offers />
 <HowItWorks />
