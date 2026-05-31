@@ -14,6 +14,6 @@
 <header>
 	<Hero />
 </header>
-<main class="mx-auto max-w-400 px-4">
+<main class="mx-auto max-w-400 px-4 pb-14">
 	<Navigator />
 </main>
