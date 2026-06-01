@@ -2,8 +2,8 @@
 	let {
 		label,
 		name,
-		accept = '',
-		helper = '',
+		accept,
+		helper,
 		required = false,
 		files = $bindable()
 	}: {

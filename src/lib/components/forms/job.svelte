@@ -1,15 +1,15 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import TextareaField from '$lib/components/forms/textareafield.svelte';
+	import TextareaField from '$lib/components/ui/forms/textarea.svelte';
 	import Button from '$lib/components/ui/button.svelte';
-	import JobHiddenFields from './jobhiddenfields.svelte';
 
 	let {
-		jobId = page.url.searchParams.get('job_id') ?? page.url.searchParams.get('jobId') ?? '',
-		jobTitle = page.url.searchParams.get('job_title') ?? page.url.searchParams.get('jobTitle') ?? ''
+		job
 	}: {
-		jobId?: string;
-		jobTitle?: string;
+		job: {
+			id: string;
+			title: string;
+		};
 	} = $props();
 </script>
 
@@ -26,7 +26,7 @@
 					Offre ciblée
 				</p>
 				<h2 class="mt-2 text-xl font-bold text-ocean-blue">
-					{jobTitle || 'Nom du poste non renseigné'}
+					{job.title || 'Nom du poste non renseigné'}
 				</h2>
 			</div>
 
@@ -40,7 +40,8 @@
 				required
 			/>
 
-			<JobHiddenFields {jobId} {jobTitle} />
+			<input type="hidden" name="job_id" value={job.id} />
+			<input type="hidden" name="job_title" value={job.title} />
 
 			<div class="flex justify-start pt-2">
 				<Button type="primary" action={{ type: 'submit' }}>Envoyer ma candidature</Button>
