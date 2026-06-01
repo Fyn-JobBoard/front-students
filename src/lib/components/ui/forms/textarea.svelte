@@ -4,7 +4,7 @@
 		name,
 		placeholder,
 		rows = 5,
-		minHeight = 'min-h-32',
+		minHeight = '300px',
 		maxlength = 8192,
 		required = false,
 		value = $bindable('')
