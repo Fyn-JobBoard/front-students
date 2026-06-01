@@ -3,8 +3,13 @@
 
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
+@plugin '@iconify/tailwind4';
 
 @layer base {
+	:root {
+		scroll-padding-top: 6rem;
+	}
+
 	body {
 		@apply bg-lighthouse-white font-corp text-ocean-blue;
 	}

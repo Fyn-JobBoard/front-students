@@ -3,6 +3,8 @@
 	--color-ecume-blue: #808bba;
 	--color-bleuet-blue: #e8ecff;
 
+	--color-blue-800: #181f3f;
+
 	--color-blue-500: var(--color-ocean-blue);
 	--color-blue-300: var(--color-ecume-blue);
 	--color-blue-100: var(--color-bleuet-blue);
