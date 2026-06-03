@@ -32,5 +32,8 @@
 		"tailwindcss": "^4.2.2",
 		"typescript": "^6.0.2",
 		"vite": "^8.0.7"
+	},
+	"dependencies": {
+		"fyn-api-sdk": "github:fyn-jobboard/sdk#0.1.3"
 	}
 }
