@@ -1,4 +1,4 @@
-import type { FetchAPI } from 'fyn-api-sdk';
+import type { Configuration, FetchAPI } from 'fyn-api-sdk';
 
 /**
  * Because the Swagger-Codegen has an issue with bearer authentification,
@@ -15,12 +15,11 @@ export class FynFetchClients {
 	 * @param skip_auth Default: `false`
 	 * 	- `boolean` -> This will add or remove the Authorization header
 	 * 	- `lazy` -> If the authorization header has already been set, do not edit it
-	 * @returns
 	 */
-	public static guest(skip_auth: boolean | 'lazy' | 'force' = false): FetchAPI {
+	public static guest(skip_auth: boolean | 'lazy' | 'force' = false, fetcher = fetch): FetchAPI {
 		const { API_TOKEN } = process.env;
 		if (!API_TOKEN) {
-			return fetch;
+			return fetcher;
 		}
 
 		if (skip_auth === 'lazy') {
@@ -28,7 +27,8 @@ export class FynFetchClients {
 				{
 					bearer: API_TOKEN
 				},
-				true
+				true,
+				fetcher
 			);
 		}
 
@@ -40,7 +40,7 @@ export class FynFetchClients {
 				headers.set('Authorization', API_TOKEN);
 			}
 
-			return fetch(url, {
+			return fetcher(url, {
 				...init,
 				headers
 			});
@@ -64,13 +64,14 @@ export class FynFetchClients {
 					email: string;
 					password: string;
 			  },
-		lazy: boolean = false
+		lazy: boolean = false,
+		fetcher = fetch
 	): FetchAPI {
 		return (url, init: RequestInit) => {
 			const headers = new Headers(init.headers);
 
 			if (headers.has('Authorization') && lazy) {
-				return fetch(url, init);
+				return fetcher(url, init);
 			}
 
 			let auth_value: string;
@@ -83,10 +84,20 @@ export class FynFetchClients {
 			}
 			headers.set('Authorization', auth_value);
 
-			return fetch(url, {
+			return fetcher(url, {
 				...init,
 				headers
 			});
 		};
 	}
+}
+
+export function useApi<
+	ApiClass extends new (
+		configuration?: Configuration | undefined,
+		basePath?: string,
+		fetch?: FetchAPI
+	) => InstanceType<ApiClass>
+>(api: ApiClass, fetcher: FetchAPI, configuration?: Configuration): InstanceType<ApiClass> {
+	return new api(configuration, process.env.API_ENDPOINT, fetcher);
 }
