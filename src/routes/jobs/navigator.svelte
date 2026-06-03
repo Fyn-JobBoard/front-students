@@ -4,6 +4,7 @@
 	import JobCard from '$lib/components/jobs/card.svelte';
 	import Select from '$lib/components/ui/forms/select.svelte';
 	import Tag from '$lib/components/ui/tag.svelte';
+	import type { ListJobsResponse } from 'fyn-api-sdk';
 	import { type ComponentProps } from 'svelte';
 	import Filters, { type ContractType, type Filters as FiltersType } from './filters.svelte';
 
@@ -34,7 +35,11 @@
 	}
 
 	async function fetch_offers(): Promise<NonNullable<typeof offers>> {
-		await new Promise((r) => setTimeout(r, 400));
+		const answer: ListJobsResponse = await fetch(
+			`/jobs/list?page=1&query=${encodeURI(query ?? '')}`
+		).then((r) => r.json());
+		console.log(answer);
+
 		offers = [
 			{
 				id: '1',
@@ -98,7 +103,7 @@
 </script>
 
 <section class="grid gap-8 max-lg:grid-rows-[repeat(2,auto)] lg:grid-cols-[auto_1fr]">
-	<aside class="lg:sticky lg:top-22 h-fit">
+	<aside class="h-fit lg:sticky lg:top-22">
 		{#key force_filter_update}
 			<Filters bind:filters />
 		{/key}
@@ -166,7 +171,7 @@
 
 			{#key fetch_result}
 				{#await fetch_offers() then offers}
-					<ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
+					<ul class="grid grid-cols-1 gap-4 md:grid-cols-2">
 						{#each offers as offer}
 							<JobCard {...offer} />
 						{/each}
