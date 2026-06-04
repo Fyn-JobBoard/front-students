@@ -22,29 +22,25 @@ export class FynFetchClients {
 			return fetcher;
 		}
 
-		if (skip_auth === 'lazy') {
-			return FynFetchClients.auth(
-				{
-					bearer: API_TOKEN
-				},
-				true,
-				fetcher
-			);
+		if (skip_auth === true) {
+			return (url, init: RequestInit) => {
+				const headers = new Headers(init.headers);
+				headers.delete('Authorization');
+
+				return fetcher(url, {
+					...init,
+					headers
+				});
+			};
 		}
 
-		return (url, init: RequestInit) => {
-			const headers = new Headers(init.headers);
-			if (headers.has('Authorization') && skip_auth) {
-				headers.delete('Authorization');
-			} else if (!skip_auth) {
-				headers.set('Authorization', API_TOKEN);
-			}
-
-			return fetcher(url, {
-				...init,
-				headers
-			});
-		};
+		return FynFetchClients.auth(
+			{
+				bearer: API_TOKEN
+			},
+			skip_auth === 'lazy',
+			fetcher
+		);
 	}
 
 	/**
