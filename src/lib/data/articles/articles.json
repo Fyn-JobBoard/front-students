@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "title": "10 conseils pour décrocher un stage en développement web",
+    "description": "Découvrez nos astuces pour maximiser vos chances de trouver un stage dans le domaine du développement web, même sans expérience.",
+    "content": "<h2>Par où commencer ?</h2><p>La recherche de stage peut sembler intimidante, mais avec une bonne méthode, tout devient plus simple. Voici nos 10 conseils pour vous guider, de la création de votre CV à la préparation des entretiens.</p><h3>1. Personnalisez votre CV</h3><p>Adaptez votre CV à chaque candidature en mettant en avant les compétences et projets pertinents pour l'offre.</p><h3>2. Utilisez LinkedIn et les réseaux professionnels</h3><p>Créez un profil complet et actif sur LinkedIn. Rejoignez des groupes dédiés aux stages et à l'alternance, et n'hésitez pas à contacter directement les recruteurs.</p>",
+    "publish_date": "2026-05-15T08:00:00+02:00"
+  },
+  {
+    "id": 2,
+    "title": "Alternance : comment trouver une entreprise d'accueil ?",
+    "description": "Trouver une entreprise pour son alternance est une étape clé. Voici les étapes à suivre pour réussir.",
+    "content": "<h2>Les clés pour réussir</h2><p>L'alternance allie théorie et pratique, mais encore faut-il trouver une entreprise prête à vous accompagner. Voici une méthodologie éprouvée.</p><h3>Étape 1 : Ciblez les secteurs porteurs</h3><p>Certains secteurs, comme le numérique, l'industrie ou la santé, sont particulièrement ouverts à l'alternance. Identifiez ceux qui correspondent à votre formation.</p><h3>Étape 2 : Postulez tôt</h3><p>Les offres d'alternance sont souvent publiées plusieurs mois à l'avance. Commencez vos recherches dès que possible.</p>",
+    "publish_date": "2026-05-20T10:30:00+02:00"
+  },
+  {
+    "id": 3,
+    "title": "Les erreurs à éviter lors de votre candidature pour un stage",
+    "description": "Évitez les pièges classiques qui peuvent faire échouer votre candidature pour un stage ou une alternance.",
+    "content": "<h2>Ne tombez pas dans ces pièges</h2><p>Une candidature mal préparée peut coûter cher. Voici les erreurs les plus fréquentes et comment les éviter.</p><h3>1. Envoyer un CV et une lettre de motivation génériques</h3><p>Chaque entreprise est unique : montrez que vous avez pris le temps de comprendre leurs besoins.</p><h3>2. Négliger les réseaux</h3><p>Beaucoup d'offres ne sont pas publiées publiquement. Le bouche-à-oreille et les contacts personnels sont souvent la clé.</p>",
+    "publish_date": "2026-05-25T14:00:00+02:00"
+  },
+  {
+    "id": 4,
+    "title": "Témoignage : Mon expérience en alternance chez une startup lyonnaise",
+    "description": "Retour d'expérience d'un étudiant en alternance dans une startup du numérique à Lyon.",
+    "content": "<h2>Un parcours enrichissant</h2><p>Je m'appelle Thomas, j'ai 22 ans et je suis actuellement en 3ème année de Bachelor Développeur Full-Stack en alternance chez <em>TechLy</em>, une startup lyonnaise spécialisée dans les solutions SaaS. Voici mon retour sur cette expérience.</p><h3>Pourquoi l'alternance ?</h3><p>J'ai choisi l'alternance pour allier théorie et pratique, et surtout pour me professionnaliser rapidement. Aujourd'hui, je ne le regrette pas.</p><h3>Les défis rencontrés</h3><p>S'adapter au rythme de l'entreprise tout en suivant les cours n'a pas toujours été facile, mais c'est formateur.</p>",
+    "publish_date": "2026-06-01T09:00:00+02:00"
+  },
+  {
+    "id": 5,
+    "title": "Les compétences les plus recherchées en stage en 2026",
+    "description": "Quelles sont les compétences techniques et soft skills les plus demandées par les recruteurs pour les stages cette année ?",
+    "content": "<h2>Les incontournables de 2026</h2><p>Les attentes des recruteurs évoluent chaque année. Voici les compétences qui feront la différence en 2026.</p><h3>Compétences techniques</h3><ul><li><strong>Développement web :</strong> Maîtrise de JavaScript, React, Node.js.</li><li><strong>Data :</strong> SQL, Python, outils d'analyse comme Power BI.</li><li><strong>Cloud :</strong> AWS, Azure, Docker.</li></ul><h3>Soft skills</h3><ul><li>Adaptabilité</li><li>Travail en équipe</li><li>Résolution de problèmes</li></ul>",
+    "publish_date": "2026-05-30T16:45:00+02:00"
+  }
+]
