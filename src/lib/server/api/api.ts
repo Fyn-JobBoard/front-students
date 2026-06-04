@@ -17,7 +17,7 @@ export class FynFetchClients {
 	 * 	- `lazy` -> If the authorization header has already been set, do not edit it
 	 */
 	public static guest(skip_auth: boolean | 'lazy' | 'force' = false, fetcher = fetch): FetchAPI {
-		const { API_TOKEN } = process.env;
+		const { API_TOKEN } = import.meta.env;
 		if (!API_TOKEN) {
 			return fetcher;
 		}
@@ -95,5 +95,5 @@ export function useApi<
 		fetch?: FetchAPI
 	) => InstanceType<ApiClass>
 >(api: ApiClass, fetcher: FetchAPI, configuration?: Configuration): InstanceType<ApiClass> {
-	return new api(configuration, process.env.API_ENDPOINT, fetcher);
+	return new api(configuration, import.meta.env.API_ENDPOINT, fetcher);
 }

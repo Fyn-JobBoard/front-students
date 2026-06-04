@@ -1,72 +1,75 @@
 <script lang="ts">
+	import type { Job } from 'fyn-api-sdk';
+
 	const {
-		id,
-		category,
-		title,
-		company,
-		description,
-		location,
+		job,
 		featured = false
 	}: {
-		id: string;
-		category: string;
-		title: string;
-		company: string;
-		description: string;
-		location: string;
+		job: Job;
 		featured?: boolean;
 	} = $props();
+
+	const { id, title, description, company, lat, lng, activityDomain } = $derived(job);
 </script>
 
 <a href="/jobs/{id}" class="block h-full">
-	<article class={[
-		'flex flex-col justify-between rounded-2xl p-6 h-full transition-shadow hover:shadow-md',
-		featured
-			? 'bg-ocean-blue border-ocean-blue text-white'
-			: 'bg-white border border-[#e8ecff] text-ocean-blue'
-]}>
-
+	<article
+		class={[
+			'flex h-full flex-col justify-between rounded-2xl p-6 transition-shadow hover:shadow-md',
+			featured
+				? 'border-ocean-blue bg-ocean-blue text-white'
+				: 'border border-[#e8ecff] bg-white text-ocean-blue'
+		]}
+	>
 		<div>
-			<span class={[
-				'rounded-full px-3 py-1 font-corps text-xs font-medium',
-				featured ? 'bg-white/15 text-white' : 'bg-[#f0f3ff] text-ocean-blue'
-			].join(' ')}>
-				{category}
+			<span
+				class={[
+					'font-corps rounded-full px-3 py-1 text-xs font-medium',
+					featured ? 'bg-white/15 text-white' : 'bg-[#f0f3ff] text-ocean-blue'
+				].join(' ')}
+			>
+				{activityDomain?.name}
 			</span>
 
-			<h3 class={[
-				'mt-4 font-headings text-xl font-bold leading-tight',
-				featured ? 'text-white' : 'text-ocean-blue'
-			].join(' ')}>
+			<h3
+				class={[
+					'mt-4 font-headings text-xl leading-tight font-bold',
+					featured ? 'text-white' : 'text-ocean-blue'
+				].join(' ')}
+			>
 				{title}
 			</h3>
 
-			<p class={[
-				'mt-2 font-corps text-sm font-bold',
-				featured ? 'text-white' : 'text-ocean-blue'
-			].join(' ')}>
-				{company}
+			<p
+				class={[
+					'font-corps mt-2 text-sm font-bold',
+					featured ? 'text-white' : 'text-ocean-blue'
+				].join(' ')}
+			>
+				{company?.name}
 			</p>
 
-			<p class={[
-				'mt-3 font-corps text-sm leading-relaxed',
-				featured ? 'text-white/70' : 'text-ecume-blue'
-			].join(' ')}>
+			<p
+				class={[
+					'font-corps mt-3 text-sm leading-relaxed',
+					featured ? 'text-white/70' : 'text-ecume-blue'
+				].join(' ')}
+			>
 				{description}
 			</p>
 		</div>
 
 		<div class="mt-6 flex items-center justify-between">
-			<span class={[
-				'font-corps text-sm',
-				featured ? 'text-white/70' : 'text-ecume-blue'
-			].join(' ')}>
-				📍 {location}
+			<span
+				class={['font-corps text-sm', featured ? 'text-white/70' : 'text-ecume-blue'].join(' ')}
+			>
+				📍 {lat}/{lng}
 			</span>
-			<span class="flex h-10 w-10 items-center justify-center rounded-full bg-lighthouse-yellow text-ocean-blue text-lg font-bold">
+			<span
+				class="flex h-10 w-10 items-center justify-center rounded-full bg-lighthouse-yellow text-lg font-bold text-ocean-blue"
+			>
 				&#8594;
 			</span>
 		</div>
-
 	</article>
 </a>
