@@ -3,12 +3,16 @@
 		name = 'password',
 		label = 'Mot de passe',
 		value = $bindable(''),
-		id: givenId
+		id: givenId,
+		required = false,
+		placeholder = ''
 	}: {
 		name?: string;
 		label?: string;
 		value?: string;
 		id?: string;
+		required?: boolean;
+		placeholder?: string;
 	} = $props();
 
 	const id = $derived(givenId ?? `password_${name}`);
@@ -24,9 +28,10 @@
 			{id}
 			{name}
 			type={showPassword ? 'text' : 'password'}
-			required
+			{required}
+			{placeholder}
 			bind:value
-			class="w-full rounded-xl border border-bleuet-blue px-4 py-3 pr-12 font-corps text-sm text-ocean-blue placeholder:text-ecume-blue focus:border-ocean-blue focus:outline-none"
+			class="w-full font-corps rounded-xl border border-bleuet-blue px-4 py-3 pr-12 text-sm text-ocean-blue placeholder:text-ecume-blue focus:border-ocean-blue focus:outline-none"
 		/>
 		<button
 			type="button"

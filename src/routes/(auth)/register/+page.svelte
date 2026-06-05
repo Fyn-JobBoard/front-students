@@ -2,6 +2,7 @@
 	import Button from '$lib/components/ui/button.svelte';
 	import Email from '$lib/components/ui/forms/email.svelte';
 	import Password from '$lib/components/ui/forms/password.svelte';
+	import Text from '$lib/components/ui/forms/text.svelte';
 
 	let password = $state('');
 	let confirmPassword = $state('');
@@ -10,10 +11,6 @@
 		confirmPassword.length > 0 && password !== confirmPassword
 			? 'Les mots de passe ne correspondent pas'
 			: ''
-	);
-
-	let canSubmit = $derived(
-		password.length > 0 && confirmPassword.length > 0 && password === confirmPassword
 	);
 </script>
 
@@ -33,41 +30,20 @@
 			</p>
 
 			<form method="POST" action="/register" class="flex flex-col gap-4">
-				<div class="grid grid-cols-2 gap-4">
-					<div class="flex flex-col gap-1.5">
-						<label for="firstname" class="font-corps text-sm font-medium text-ocean-blue">
-							Prénom
-						</label>
-						<input
-							id="firstname"
-							name="firstname"
-							type="text"
-							required
-							class="font-corps rounded-xl border border-bleuet-blue px-4 py-3 text-sm text-ocean-blue placeholder:text-ecume-blue focus:border-ocean-blue focus:outline-none"
-						/>
-					</div>
-					<div class="flex flex-col gap-1.5">
-						<label for="lastname" class="font-corps text-sm font-medium text-ocean-blue">
-							Nom
-						</label>
-						<input
-							id="lastname"
-							name="lastname"
-							type="text"
-							required
-							class="font-corps rounded-xl border border-bleuet-blue px-4 py-3 text-sm text-ocean-blue placeholder:text-ecume-blue focus:border-ocean-blue focus:outline-none"
-						/>
-					</div>
+				<div class="grid grid-cols-2 gap-4 max-sm:grid-cols-1">
+					<Text name="firstname" label="Prénom" required />
+					<Text name="lastname" label="Nom" required />
 				</div>
 
-				<Email />
+				<Email required />
 
-				<Password bind:value={password} />
+				<Password required />
 
 				<div class="flex flex-col gap-1.5">
 					<Password
 						name="confirm_password"
 						label="Confirmer le mot de passe"
+						required
 						bind:value={confirmPassword}
 					/>
 					{#if passwordError}

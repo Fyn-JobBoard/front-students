@@ -1,21 +1,21 @@
 <script lang="ts">
 	let {
-		name = 'email',
-		label = 'Email',
+		name,
+		label,
 		value = $bindable(''),
 		id: givenId,
 		required = false,
 		placeholder = ''
 	}: {
-		name?: string;
-		label?: string;
+		name: string;
+		label: string;
 		value?: string;
 		id?: string;
 		required?: boolean;
 		placeholder?: string;
 	} = $props();
 
-	const id = $derived(givenId ?? `email_${name}`);
+	const id = $derived(givenId ?? `text_${name}`);
 </script>
 
 <div class="flex flex-col gap-1.5">
@@ -25,7 +25,7 @@
 	<input
 		{id}
 		{name}
-		type="email"
+		type="text"
 		{required}
 		{placeholder}
 		bind:value
