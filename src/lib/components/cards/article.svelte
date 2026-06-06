@@ -47,16 +47,12 @@
 					<h3 class="mt-2 text-xl font-semibold text-ocean-blue">{article.title}</h3>
 					<p class="mt-3 text-sm leading-6 text-ocean-blue/70">{article.description}</p>
 
-					<details class="mt-5">
-						<summary
-							class="focus:ring-picton-blue inline-flex w-fit cursor-pointer list-none items-center rounded-md bg-ocean-blue px-4 py-2 text-sm font-medium text-white transition hover:bg-ocean-blue/90 focus:ring-2 focus:ring-offset-2 focus:outline-none"
-						>
-							Lire l'article
-						</summary>
-						<div class="prose prose-sm mt-4 max-w-none text-ocean-blue/80">
-							{@html article.content}
-						</div>
-					</details>
+					<a
+						href={`/resources/${article.id}`}
+						class="focus:ring-picton-blue mt-5 inline-flex w-fit items-center rounded-md bg-ocean-blue px-4 py-2 text-sm font-medium text-white transition hover:bg-ocean-blue/90 focus:ring-2 focus:ring-offset-2 focus:outline-none"
+					>
+						Lire l'article
+					</a>
 				</div>
 			</article>
 		{/each}

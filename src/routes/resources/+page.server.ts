@@ -1,7 +1,8 @@
 import type { PageServerLoad } from './$types';
 
 const pdfFiles = import.meta.glob('../../lib/resources/pdf/*.pdf', {
-	import: 'default'
+	import: 'default',
+	query: '?no-inline'
 }) as Record<string, () => Promise<string>>;
 
 const titleFromFileName = (path: string) => {
