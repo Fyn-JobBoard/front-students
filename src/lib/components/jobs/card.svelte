@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Job } from 'fyn-api-sdk';
+	import City from '../resolvers/city.svelte';
 
 	const {
 		job,
@@ -63,7 +64,9 @@
 			<span
 				class={['font-corps text-sm', featured ? 'text-white/70' : 'text-ecume-blue'].join(' ')}
 			>
-				📍 {lat}/{lng}
+				{#if lat && lng}
+					📍 <City {lat} {lng} />
+				{/if}
 			</span>
 			<span
 				class="flex h-10 w-10 items-center justify-center rounded-full bg-lighthouse-yellow text-lg font-bold text-ocean-blue"

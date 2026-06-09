@@ -1,0 +1,25 @@
+import { error, json } from '@sveltejs/kit';
+import type { RequestHandler } from './$types';
+
+export const GET: RequestHandler = async ({ url, fetch }) => {
+	const lat = parseFloat(url.searchParams.get('lat') ?? ''),
+		lng = parseFloat(url.searchParams.get('lng') ?? '');
+	if (!(lat && lng)) {
+		throw error(400, 'Missing or invalid lat/lng params.');
+	}
+
+	const params = new URLSearchParams({
+		lat: lat.toString(),
+		lon: lng.toString(),
+		apiKey: import.meta.env.GEOAPIFY_TOKEN,
+		format: 'json',
+		type: 'city'
+	});
+
+	const endpoint = new URL(`?${params.toString()}`, 'https://api.geoapify.com/v1/geocode/reverse');
+
+	return json(await fetch(endpoint)
+		.catch(() => null)
+		.then((r) => r?.json())
+		.then((data) => data.results[0]));
+};
