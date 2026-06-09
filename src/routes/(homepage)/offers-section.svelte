@@ -81,7 +81,7 @@
 	let filteredOffers = $derived(
 		activeCategory === undefined
 			? offers
-			: offers.filter((o) => o.activity_domain.name === activeCategory)
+			: offers.filter((o) => o.activity_domain!.name === activeCategory)
 	);
 </script>
 
@@ -102,7 +102,7 @@
 					<Tag text="Tous" selected={activeCategory === undefined} />
 				</button>
 			</li>
-			{#each offers.map((j) => j.activity_domain.name) as category}
+			{#each offers.map((j) => j.activity_domain!.name) as category}
 				<li>
 					<button onclick={() => (activeCategory = category)}>
 						<Tag text={category} selected={activeCategory === category} />
