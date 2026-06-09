@@ -1,62 +1,72 @@
 <script lang="ts" module>
-	const CATEGORIES = ['Marketing', 'Développement', 'Design', 'Finance', 'RH', 'Commerce', 'Data'];
+	import { Job } from 'fyn-api-sdk';
 
-	const offers: Job[] = [
+	type PartialJob = Partial<Omit<Job, 'company'>> & {
+		company: { name: string };
+		featured?: boolean;
+	};
+
+	const offers: PartialJob[] = [
 		{
 			id: '',
-			category: 'Marketing',
+			activity_domain: { id: 1, name: 'Marketing' },
 			title: 'Chef de Projet Marketing Digital',
 			company: { name: 'Publicis Groupe' },
 			description:
 				'Pilotez des campagnes 360° pour des marques internationales. Gestion budget & KPIs.',
-			location: 'Paris (75)',
+			lat: 48.866667,
+			lng: 2.333333,
 			featured: true
 		},
 		{
 			id: '',
-			category: 'Développement',
+			activity_domain: { id: 2, name: 'Développement' },
 			title: 'Développeur Full Stack React/Node',
 			company: { name: 'Doctolib' },
 			description: 'Développez des features critiques pour 60 millions de patients en Europe.',
-			location: 'Paris (75)',
+			lat: 48.866667,
+			lng: 2.333333,
 			featured: false
 		},
 		{
 			id: '',
-			category: 'Finance',
+			activity_domain: { id: 2, name: 'Finance' },
 			title: 'Analyste M&A Junior',
 			company: { name: 'BNP Paribas' },
 			description:
 				'Participez à des opérations de fusion-acquisition dans les secteurs tech & santé.',
-			location: 'La Défense (92)',
+			lat: 48.866667,
+			lng: 2.333333,
 			featured: false
 		},
 		{
 			id: '',
-			category: 'Design',
+			activity_domain: { id: 3, name: 'Design' },
 			title: 'Product Designer UX/UI',
 			company: { name: 'Figma' },
 			description:
 				'Imaginez les futurs outils de design collaboratif utilisés par des millions de créatifs.',
-			location: 'Remote',
+			mode: Job.ModeEnum.Remote,
 			featured: false
 		},
 		{
 			id: '',
-			category: 'RH',
+			activity_domain: { id: 4, name: 'RH' },
 			title: 'Talent Acquisition Specialist',
 			company: { name: 'Decathlon' },
 			description: 'Recrutez les talents de demain et développez notre marque employeur sportive.',
-			location: 'Lille (59)',
+			lat: 50.62925,
+			lng: 3.057256,
 			featured: false
 		},
 		{
 			id: '',
-			category: 'Commerce',
+			activity_domain: { id: 5, name: 'Commerce' },
 			title: 'Business Developer SaaS B2B',
 			company: { name: 'HubSpot' },
 			description: 'Développez notre portefeuille PME et startups sur le marché francophone.',
-			location: 'Dublin / Remote',
+			lat: 45.75,
+			lng: 4.85,
 			featured: false
 		}
 	];
@@ -65,12 +75,13 @@
 <script lang="ts">
 	import JobCard from '$lib/components/jobs/card.svelte';
 	import Tag from '$lib/components/ui/tag.svelte';
-	import type { Job } from 'fyn-api-sdk';
 
 	let activeCategory: string | undefined = $state(undefined);
 
 	let filteredOffers = $derived(
-		activeCategory === undefined ? offers : offers.filter((o) => o.category === activeCategory)
+		activeCategory === undefined
+			? offers
+			: offers.filter((o) => o.activity_domain.name === activeCategory)
 	);
 </script>
 
@@ -91,7 +102,7 @@
 					<Tag text="Tous" selected={activeCategory === undefined} />
 				</button>
 			</li>
-			{#each CATEGORIES as category}
+			{#each offers.map((j) => j.activity_domain.name) as category}
 				<li>
 					<button onclick={() => (activeCategory = category)}>
 						<Tag text={category} selected={activeCategory === category} />
@@ -101,9 +112,9 @@
 		</ul>
 
 		<ul class="grid grid-cols-3 gap-5 max-lg:grid-cols-2 max-md:grid-cols-1">
-			{#each filteredOffers as offer, index}
+			{#each filteredOffers as offer}
 				<li>
-					<JobCard job={offer} featured={!index} />
+					<JobCard job={offer} featured={offer.featured} />
 				</li>
 			{/each}
 		</ul>

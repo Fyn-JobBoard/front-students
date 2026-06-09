@@ -11,8 +11,9 @@ export const GET: RequestHandler = async ({ url, fetch }) => {
 	}
 
 	const cache_key = `${lat}:${lng}`;
-	if (cache.has(cache_key)) {
-		return json(cache.get(cache_key)!);
+	let chached;
+	if ((chached = cache.get(cache_key))) {
+		return json(chached);
 	}
 
 	const params = new URLSearchParams({
@@ -26,9 +27,14 @@ export const GET: RequestHandler = async ({ url, fetch }) => {
 	const endpoint = new URL(`?${params.toString()}`, 'https://api.geoapify.com/v1/geocode/reverse');
 
 	const answer = await fetch(endpoint)
-		.catch(() => null)
-		.then((r) => r?.json())
-		.then((data) => data.results[0]);
+		.then((r) => r.json())
+		.then((data) => {
+			if (!('results' in data)) {
+				return null;
+			}
+
+			return data.results[0] ?? null;
+		});
 
 	if (answer) {
 		cache.set(cache_key, answer);
