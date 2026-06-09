@@ -16,7 +16,7 @@
 		})
 	);
 
-	const url = $derived(new URL(`/api/resolvers/city?${params.toString()}`, page.url));
+	const url = $derived(new URL(`/api/resolve/city?${params.toString()}`, page.url));
 </script>
 
 {#await fetch(url).then((r) => r.json())}
