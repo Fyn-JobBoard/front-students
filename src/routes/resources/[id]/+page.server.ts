@@ -10,7 +10,7 @@ export const load: PageServerLoad = ({ params }) => {
 	const article = articles.find((item) => item.id === articleId);
 
 	if (!article) {
-		error(404, 'Article introuvable');
+		throw error(404, 'Article introuvable');
 	}
 
 	return {
