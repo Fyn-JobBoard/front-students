@@ -1,5 +1,5 @@
 <script module lang="ts">
-	export type Article = {
+	export interface Article {
 		id: number;
 		title: string;
 		description: string;
