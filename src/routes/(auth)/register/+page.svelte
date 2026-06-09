@@ -1,8 +1,10 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import Button from '$lib/components/ui/button.svelte';
 	import Email from '$lib/components/ui/forms/email.svelte';
 	import Password from '$lib/components/ui/forms/password.svelte';
 	import Text from '$lib/components/ui/forms/text.svelte';
+	import type { PageProps } from './$types';
 
 	let password = $state('');
 	let confirmPassword = $state('');
@@ -12,6 +14,8 @@
 			? 'Les mots de passe ne correspondent pas'
 			: ''
 	);
+
+	const { form }: PageProps = $props();
 </script>
 
 <svelte:head>
@@ -29,15 +33,19 @@
 				Rejoins 12 000+ étudiants qui ont déjà trouvé leur alternance sur Fyn
 			</p>
 
-			<form method="POST" action="/register" class="flex flex-col gap-4">
+			<form method="POST" action="/register" class="flex flex-col gap-4" use:enhance>
+				{#if form?.error}
+					<p class="text-red-400">{form.error}</p>
+				{/if}
+
 				<div class="grid grid-cols-2 gap-4 max-sm:grid-cols-1">
-					<Text name="firstname" label="Prénom" required />
-					<Text name="lastname" label="Nom" required />
+					<Text name="first_name" label="Prénom" required />
+					<Text name="last_name" label="Nom" required />
 				</div>
 
 				<Email required />
 
-				<Password required />
+				<Password bind:value={password} required />
 
 				<div class="flex flex-col gap-1.5">
 					<Password
