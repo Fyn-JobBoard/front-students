@@ -12,16 +12,16 @@
         "@iconify-json/mdi": "^1.2.3",
         "@iconify/tailwind4": "^1.2.3",
         "@sveltejs/adapter-auto": "^7.0.1",
-        "@sveltejs/kit": "^2.63.0",
+        "@sveltejs/kit": "^2.64.0",
         "@sveltejs/vite-plugin-svelte": "^7.1.2",
         "@tailwindcss/forms": "^0.5.11",
-        "@tailwindcss/typography": "^0.5.19",
+        "@tailwindcss/typography": "^0.5.20",
         "@tailwindcss/vite": "^4.3.0",
-        "@types/node": "^25.9.1",
+        "@types/node": "^25.9.2",
         "prettier": "^3.8.3",
         "prettier-plugin-svelte": "^3.5.2",
         "prettier-plugin-tailwindcss": "^0.7.4",
-        "svelte": "^5.56.1",
+        "svelte": "^5.56.3",
         "svelte-check": "^4.6.0",
         "tailwindcss": "^4.3.0",
         "typescript": "^6.0.3",
@@ -210,7 +210,7 @@
 
     "fsevents": ["fsevents@2.3.3", "", { "os": "darwin" }, "sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw=="],
 
-    "fyn-api-sdk": ["fyn-api-sdk@github:fyn-jobboard/sdk#cba3295", { "dependencies": { "isomorphic-fetch": "^3.0.0" } }, "Fyn-JobBoard-sdk-cba3295", "sha512-5c902mffR25Q0aMOExLNvdwBihK4eTxxm6kIAZTk+FyY3/Pa7XoWlRgZH0Pi5EgDTdkyFQ8X6DwnA6jK3CXPiQ=="],
+    "fyn-api-sdk": ["fyn-api-sdk@github:fyn-jobboard/sdk#c3a8ea2", { "dependencies": { "isomorphic-fetch": "^3.0.0" } }, "Fyn-JobBoard-sdk-c3a8ea2", "sha512-KcvxiioNAS2P/STQlSX6vn74KuHizELDhDK0P3mGByaOMQTtCIoI0XlsDBsD4IvfMSD+UDdE7NkX0I8fPo5huQ=="],
 
     "graceful-fs": ["graceful-fs@4.2.11", "", {}, "sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ=="],
 
