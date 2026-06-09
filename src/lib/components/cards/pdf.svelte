@@ -1,5 +1,5 @@
 <script module lang="ts">
-	export type PdfResource = {
+	export interface PdfResource {
 		title: string;
 		file: string;
 	};
