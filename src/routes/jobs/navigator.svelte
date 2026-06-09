@@ -4,6 +4,7 @@
 	import JobCard from '$lib/components/jobs/card.svelte';
 	import Select from '$lib/components/ui/forms/select.svelte';
 	import Tag from '$lib/components/ui/tag.svelte';
+	import type { ListJobsResponse } from 'fyn-api-sdk';
 	import { type ComponentProps } from 'svelte';
 	import Filters, { type ContractType, type Filters as FiltersType } from './filters.svelte';
 
@@ -34,48 +35,13 @@
 	}
 
 	async function fetch_offers(): Promise<NonNullable<typeof offers>> {
-		await new Promise((r) => setTimeout(r, 400));
-		offers = [
-			{
-				id: '1',
-				category: 'Marketing',
-				title: 'Chef de Projet Marketing Digital',
-				company: 'Publicis Groupe',
-				description:
-					'Pilotez des campagnes 360° pour des marques internationales. Gestion budget & KPIs.',
-				location: 'Paris (75)',
-				featured: true
-			},
-			{
-				id: '2',
-				category: 'Développement',
-				title: 'Développeur Full Stack React/Node',
-				company: 'Doctolib',
-				description: 'Développez des features critiques pour 60 millions de patients en Europe.',
-				location: 'Paris (75)',
-				featured: false
-			},
-			{
-				id: '3',
-				category: 'Finance',
-				title: 'Analyste M&A Junior',
-				company: 'BNP Paribas',
-				description:
-					'Participez à des opérations de fusion-acquisition dans les secteurs tech & santé.',
-				location: 'La Défense (92)',
-				featured: false
-			},
-			{
-				id: '4',
-				category: 'Design',
-				title: 'Product Designer UX/UI',
-				company: 'Figma',
-				description:
-					'Imaginez les futurs outils de design collaboratif utilisés par des millions de créatifs.',
-				location: 'Remote',
-				featured: false
-			}
-		];
+		const answer: ListJobsResponse = await fetch(
+			`/jobs/list?page=1&query=${encodeURI(query ?? '')}`
+		).then((r) => r.json());
+		console.log(answer);
+
+		offers = answer.list.map((job) => ({ job, featured: false }));
+
 		return offers.sort((a, b) => {
 			if (a.featured && !b.featured) {
 				return -1;
@@ -83,7 +49,7 @@
 
 			switch (sort) {
 				case 'query': {
-					return b.title > a.title ? -1 : 1;
+					return b.job.title > a.job.title ? -1 : 1;
 				}
 				case 'date': {
 					console.warn('The date sort is not implemented.');
@@ -98,7 +64,7 @@
 </script>
 
 <section class="grid gap-8 max-lg:grid-rows-[repeat(2,auto)] lg:grid-cols-[auto_1fr]">
-	<aside class="lg:sticky lg:top-22 h-fit">
+	<aside class="h-fit lg:sticky lg:top-22">
 		{#key force_filter_update}
 			<Filters bind:filters />
 		{/key}
@@ -166,7 +132,7 @@
 
 			{#key fetch_result}
 				{#await fetch_offers() then offers}
-					<ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
+					<ul class="grid grid-cols-1 gap-4 md:grid-cols-2">
 						{#each offers as offer}
 							<JobCard {...offer} />
 						{/each}

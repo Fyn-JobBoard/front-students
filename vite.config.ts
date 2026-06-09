@@ -1,5 +1,5 @@
-import tailwindcss from '@tailwindcss/vite';
 import { sveltekit } from '@sveltejs/kit/vite';
+import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
@@ -10,5 +10,6 @@ export default defineConfig({
 				assetFileNames: 'assets/[name].[hash][extname]'
 			}
 		}
-	}
+	},
+	envPrefix: ['API_', 'VITE_', 'GEOAPIFY_', 'APP_']
 });
