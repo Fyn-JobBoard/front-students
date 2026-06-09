@@ -1,7 +1,11 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import Button from '$lib/components/ui/button.svelte';
 	import Email from '$lib/components/ui/forms/email.svelte';
 	import Password from '$lib/components/ui/forms/password.svelte';
+	import type { PageProps } from './$types';
+
+	const { form }: PageProps = $props();
 </script>
 
 <svelte:head>
@@ -19,7 +23,11 @@
 				Connecte-toi pour accéder à tes offres et candidatures
 			</p>
 
-			<form method="POST" action="/login" class="flex flex-col gap-4">
+			<form method="POST" class="flex flex-col gap-4" use:enhance>
+				{#if form?.error}
+					<p class="text-red-400">{form.error}</p>
+				{/if}
+
 				<Email />
 
 				<Password />

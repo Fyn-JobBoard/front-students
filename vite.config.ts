@@ -4,5 +4,5 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
 	plugins: [tailwindcss(), sveltekit()],
-	envPrefix: ['API_', 'VITE_', 'GEOAPIFY_']
+	envPrefix: ['API_', 'VITE_', 'GEOAPIFY_', 'APP_']
 });

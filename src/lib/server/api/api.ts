@@ -13,10 +13,10 @@ export class FynFetchClients {
 	/**
 	 * Make requests as the default user (the one defined in the env)
 	 * @param skip_auth Default: `false`
-	 * 	- `boolean` -> This will add or remove the Authorization header
+	 * 	- `boolean` -> If `true`, it will make the request without any Authorization header
 	 * 	- `lazy` -> If the authorization header has already been set, do not edit it
 	 */
-	public static guest(skip_auth: boolean | 'lazy' | 'force' = false, fetcher = fetch): FetchAPI {
+	public static guest(skip_auth: boolean | 'lazy' = false, fetcher = fetch): FetchAPI {
 		const { API_TOKEN } = import.meta.env;
 		if (!API_TOKEN) {
 			return fetcher;
