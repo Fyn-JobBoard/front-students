@@ -1,9 +1,9 @@
 import { FynFetchClients, useApi } from '$lib/server/api/api';
-import { fail, type Actions } from '@sveltejs/kit';
+import { fail, redirect, type Actions } from '@sveltejs/kit';
 import { AccountsApi, RequiredError } from 'fyn-api-sdk';
 
 export const actions: Actions = {
-	default: async ({ fetch, request, cookies }) => {
+	default: async ({ fetch, request, cookies, url }) => {
 		const accounts = useApi(AccountsApi, FynFetchClients.guest(false, fetch));
 		const data = await request.formData();
 		const email = data.get('email')?.toString(),
@@ -41,6 +41,6 @@ export const actions: Actions = {
 			});
 		}
 
-		return registered;
+		redirect(303, url.searchParams.get('redirect') ?? '/');
 	}
 };

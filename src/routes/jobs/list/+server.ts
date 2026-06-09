@@ -2,8 +2,11 @@ import { FynFetchClients, useApi } from '$lib/server/api/api';
 import { JobsApi, type ListJobsResponse } from 'fyn-api-sdk';
 import type { RequestHandler } from './$types';
 
-export const GET: RequestHandler = async ({ fetch, url }) => {
-	const jobs = useApi(JobsApi, FynFetchClients.guest(undefined, fetch));
+export const GET: RequestHandler = async ({ fetch, url, cookies }) => {
+	const jobs = useApi(
+		JobsApi,
+		FynFetchClients.from_cookies(cookies, FynFetchClients.guest(undefined, fetch), fetch)
+	);
 
 	const page = parseInt(url.searchParams.get('page') ?? '');
 

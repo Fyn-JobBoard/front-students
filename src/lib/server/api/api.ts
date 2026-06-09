@@ -1,3 +1,4 @@
+import { redirect, type Cookies } from '@sveltejs/kit';
 import type { Configuration, FetchAPI } from 'fyn-api-sdk';
 
 /**
@@ -10,6 +11,24 @@ import type { Configuration, FetchAPI } from 'fyn-api-sdk';
  * @see https://github.com/swagger-api/swagger-codegen/pull/12750
  */
 export class FynFetchClients {
+	/**
+	 * Make the request as the current logged-in user.
+	 * @param cookies The cookies object
+	 * @param fallback If the auth cookie is not set, use this fallback. If undefined and the auth cookie is not set, it throw a redirect response to the login page
+	 */
+	public static from_cookies(cookies: Cookies, fallback?: FetchAPI, fetcher = fetch) {
+		const jwt = cookies.get(import.meta.env.APP_AUTH_COOKIE);
+		if (jwt) {
+			return FynFetchClients.auth({ bearer: jwt }, false, fetcher);
+		}
+
+		if (!fallback) {
+			throw redirect(303, '/login');
+		}
+
+		return fallback;
+	}
+
 	/**
 	 * Make requests as the default user (the one defined in the env)
 	 * @param skip_auth Default: `false`

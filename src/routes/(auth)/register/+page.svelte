@@ -16,7 +16,6 @@
 	);
 
 	const { form }: PageProps = $props();
-	$inspect(form);
 </script>
 
 <svelte:head>
