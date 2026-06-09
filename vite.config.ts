@@ -4,5 +4,12 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
 	plugins: [tailwindcss(), sveltekit()],
+	build: {
+		rollupOptions: {
+			output: {
+				assetFileNames: 'assets/[name].[hash][extname]'
+			}
+		}
+	},
 	envPrefix: ['API_', 'VITE_', 'GEOAPIFY_', 'APP_']
 });
