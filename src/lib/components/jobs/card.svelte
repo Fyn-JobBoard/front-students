@@ -10,7 +10,7 @@
 		featured?: boolean;
 	} = $props();
 
-	const { id, title, description, company, lat, lng, activityDomain } = $derived(job);
+	const { id, title, description, company, lat, lng, activity_domain } = $derived(job);
 </script>
 
 <a href="/jobs/{id}" class="block h-full">
@@ -29,7 +29,7 @@
 					featured ? 'bg-white/15 text-white' : 'bg-[#f0f3ff] text-ocean-blue'
 				].join(' ')}
 			>
-				{activityDomain?.name}
+				{activity_domain.name}
 			</span>
 
 			<h3
@@ -47,7 +47,7 @@
 					featured ? 'text-white' : 'text-ocean-blue'
 				].join(' ')}
 			>
-				{company?.name}
+				{company.name}
 			</p>
 
 			<p

@@ -1,11 +1,18 @@
 import { error, json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
+const cache = new Map<string, any>();
+
 export const GET: RequestHandler = async ({ url, fetch }) => {
 	const lat = parseFloat(url.searchParams.get('lat') ?? ''),
 		lng = parseFloat(url.searchParams.get('lng') ?? '');
 	if (!(lat && lng)) {
 		throw error(400, 'Missing or invalid lat/lng params.');
+	}
+
+	const cache_key = `${lat}:${lng}`;
+	if (cache.has(cache_key)) {
+		return json(cache.get(cache_key)!);
 	}
 
 	const params = new URLSearchParams({
@@ -18,8 +25,13 @@ export const GET: RequestHandler = async ({ url, fetch }) => {
 
 	const endpoint = new URL(`?${params.toString()}`, 'https://api.geoapify.com/v1/geocode/reverse');
 
-	return json(await fetch(endpoint)
+	const answer = await fetch(endpoint)
 		.catch(() => null)
 		.then((r) => r?.json())
-		.then((data) => data.results[0]));
+		.then((data) => data.results[0]);
+
+	if (answer) {
+		cache.set(cache_key, answer);
+	}
+	return json(answer);
 };
