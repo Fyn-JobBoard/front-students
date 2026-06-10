@@ -4,7 +4,7 @@
 	export const NAVIGATION = {
 		Accueil: '/',
 		Offres: '/jobs',
-		Entreprises: '/companies',
+		Ressources: '/resources',
 		'A propos': '/fyn',
 		Contact: '/contact'
 	};

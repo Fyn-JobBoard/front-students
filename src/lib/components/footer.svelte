@@ -13,7 +13,7 @@
 			'A propos de Fyn': '/fyn',
 			'Comment ça marche': '/fyn#how',
 			Témoignages: '/fyn#testimonies',
-			'Blog & conseils': '/actualities',
+			'Blog & conseils': '/resources',
 			"Rejoindre l'équipe": '/fyn/join'
 		},
 		Support: {
