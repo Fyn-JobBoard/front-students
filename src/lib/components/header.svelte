@@ -24,7 +24,7 @@
 
 <header
 	class={[
-		'group/header fixed top-0 left-0 flex w-full justify-between px-8 lg:items-center lg:py-4 z-100',
+		'group/header fixed top-0 left-0 z-100 grid grid-cols-[1fr_auto_1fr] w-full justify-between px-8 lg:items-center lg:py-4',
 
 		// mobile version
 		'max-lg:h-full max-lg:not-has-checked:pointer-events-none',
@@ -83,10 +83,10 @@
 	<nav
 		class="transition-transform max-lg:py-4 max-lg:group-not-has-checked/header:translate-y-full"
 	>
-		<ul class="flex items-center gap-2 max-lg:justify-center max-lg:gap-8">
+		<ul class="flex justify-end items-center gap-2 max-lg:justify-center max-lg:gap-8">
 			{#each Object.entries(NAVIGATION_CTAS) as [label, { url: url_str, type }]}
 				{@const url = new URL(url_str, page.url)}
-				{@const is_local = url.host !== page.url.host}
+				{@const is_local = url.host === page.url.host}
 
 				<li>
 					<Button
