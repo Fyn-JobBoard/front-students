@@ -1,37 +1,44 @@
 [
-  {
-    "id": 1,
-    "title": "10 conseils pour décrocher un stage en développement web",
-    "description": "Découvrez nos astuces pour maximiser vos chances de trouver un stage dans le domaine du développement web, même sans expérience.",
-    "content": "<h2>Par où commencer ?</h2><p>La recherche de stage peut sembler intimidante, mais avec une bonne méthode, tout devient plus simple. Voici nos 10 conseils pour vous guider, de la création de votre CV à la préparation des entretiens.</p><h3>1. Personnalisez votre CV</h3><p>Adaptez votre CV à chaque candidature en mettant en avant les compétences et projets pertinents pour l'offre.</p><h3>2. Utilisez LinkedIn et les réseaux professionnels</h3><p>Créez un profil complet et actif sur LinkedIn. Rejoignez des groupes dédiés aux stages et à l'alternance, et n'hésitez pas à contacter directement les recruteurs.</p>",
-    "publish_date": "2026-05-15T08:00:00+02:00"
-  },
-  {
-    "id": 2,
-    "title": "Alternance : comment trouver une entreprise d'accueil ?",
-    "description": "Trouver une entreprise pour son alternance est une étape clé. Voici les étapes à suivre pour réussir.",
-    "content": "<h2>Les clés pour réussir</h2><p>L'alternance allie théorie et pratique, mais encore faut-il trouver une entreprise prête à vous accompagner. Voici une méthodologie éprouvée.</p><h3>Étape 1 : Ciblez les secteurs porteurs</h3><p>Certains secteurs, comme le numérique, l'industrie ou la santé, sont particulièrement ouverts à l'alternance. Identifiez ceux qui correspondent à votre formation.</p><h3>Étape 2 : Postulez tôt</h3><p>Les offres d'alternance sont souvent publiées plusieurs mois à l'avance. Commencez vos recherches dès que possible.</p>",
-    "publish_date": "2026-05-20T10:30:00+02:00"
-  },
-  {
-    "id": 3,
-    "title": "Les erreurs à éviter lors de votre candidature pour un stage",
-    "description": "Évitez les pièges classiques qui peuvent faire échouer votre candidature pour un stage ou une alternance.",
-    "content": "<h2>Ne tombez pas dans ces pièges</h2><p>Une candidature mal préparée peut coûter cher. Voici les erreurs les plus fréquentes et comment les éviter.</p><h3>1. Envoyer un CV et une lettre de motivation génériques</h3><p>Chaque entreprise est unique : montrez que vous avez pris le temps de comprendre leurs besoins.</p><h3>2. Négliger les réseaux</h3><p>Beaucoup d'offres ne sont pas publiées publiquement. Le bouche-à-oreille et les contacts personnels sont souvent la clé.</p>",
-    "publish_date": "2026-05-25T14:00:00+02:00"
-  },
-  {
-    "id": 4,
-    "title": "Témoignage : Mon expérience en alternance chez une startup lyonnaise",
-    "description": "Retour d'expérience d'un étudiant en alternance dans une startup du numérique à Lyon.",
-    "content": "<h2>Un parcours enrichissant</h2><p>Je m'appelle Thomas, j'ai 22 ans et je suis actuellement en 3ème année de Bachelor Développeur Full-Stack en alternance chez <em>TechLy</em>, une startup lyonnaise spécialisée dans les solutions SaaS. Voici mon retour sur cette expérience.</p><h3>Pourquoi l'alternance ?</h3><p>J'ai choisi l'alternance pour allier théorie et pratique, et surtout pour me professionnaliser rapidement. Aujourd'hui, je ne le regrette pas.</p><h3>Les défis rencontrés</h3><p>S'adapter au rythme de l'entreprise tout en suivant les cours n'a pas toujours été facile, mais c'est formateur.</p>",
-    "publish_date": "2026-06-01T09:00:00+02:00"
-  },
-  {
-    "id": 5,
-    "title": "Les compétences les plus recherchées en stage en 2026",
-    "description": "Quelles sont les compétences techniques et soft skills les plus demandées par les recruteurs pour les stages cette année ?",
-    "content": "<h2>Les incontournables de 2026</h2><p>Les attentes des recruteurs évoluent chaque année. Voici les compétences qui feront la différence en 2026.</p><h3>Compétences techniques</h3><ul><li><strong>Développement web :</strong> Maîtrise de JavaScript, React, Node.js.</li><li><strong>Data :</strong> SQL, Python, outils d'analyse comme Power BI.</li><li><strong>Cloud :</strong> AWS, Azure, Docker.</li></ul><h3>Soft skills</h3><ul><li>Adaptabilité</li><li>Travail en équipe</li><li>Résolution de problèmes</li></ul>",
-    "publish_date": "2026-05-30T16:45:00+02:00"
-  }
+	{
+		"id": 1,
+		"title": "10 conseils pour décrocher un stage en développement web",
+		"description": "Découvrez nos astuces pour maximiser vos chances de trouver un stage dans le domaine du développement web, même sans expérience.",
+		"content": "<h2>Par où commencer ?</h2><p>La recherche de stage peut sembler intimidante, mais avec une bonne méthode, tout devient plus simple. Voici nos 10 conseils pour vous guider, de la création de votre CV à la préparation des entretiens.</p><h3>1. Personnalisez votre CV</h3><p>Adaptez votre CV à chaque candidature en mettant en avant les compétences et projets pertinents pour l'offre.</p><h3>2. Utilisez LinkedIn et les réseaux professionnels</h3><p>Créez un profil complet et actif sur LinkedIn. Rejoignez des groupes dédiés aux stages et à l'alternance, et n'hésitez pas à contacter directement les recruteurs.</p>",
+		"publish_date": "2026-05-15T08:00:00+02:00"
+	},
+	{
+		"id": 2,
+		"title": "Alternance : comment trouver une entreprise d'accueil ?",
+		"description": "Trouver une entreprise pour son alternance est une étape clé. Voici les étapes à suivre pour réussir.",
+		"content": "<h2>Les clés pour réussir</h2><p>L'alternance allie théorie et pratique, mais encore faut-il trouver une entreprise prête à vous accompagner. Voici une méthodologie éprouvée.</p><h3>Étape 1 : Ciblez les secteurs porteurs</h3><p>Certains secteurs, comme le numérique, l'industrie ou la santé, sont particulièrement ouverts à l'alternance. Identifiez ceux qui correspondent à votre formation.</p><h3>Étape 2 : Postulez tôt</h3><p>Les offres d'alternance sont souvent publiées plusieurs mois à l'avance. Commencez vos recherches dès que possible.</p>",
+		"publish_date": "2026-05-20T10:30:00+02:00"
+	},
+	{
+		"id": 3,
+		"title": "Les erreurs à éviter lors de votre candidature pour un stage",
+		"description": "Évitez les pièges classiques qui peuvent faire échouer votre candidature pour un stage ou une alternance.",
+		"content": "<h2>Ne tombez pas dans ces pièges</h2><p>Une candidature mal préparée peut coûter cher. Voici les erreurs les plus fréquentes et comment les éviter.</p><h3>1. Envoyer un CV et une lettre de motivation génériques</h3><p>Chaque entreprise est unique : montrez que vous avez pris le temps de comprendre leurs besoins.</p><h3>2. Négliger les réseaux</h3><p>Beaucoup d'offres ne sont pas publiées publiquement. Le bouche-à-oreille et les contacts personnels sont souvent la clé.</p>",
+		"publish_date": "2026-05-25T14:00:00+02:00"
+	},
+	{
+		"id": 4,
+		"title": "Témoignage : Mon expérience en alternance chez une startup lyonnaise",
+		"description": "Retour d'expérience d'un étudiant en alternance dans une startup du numérique à Lyon.",
+		"content": "<h2>Un parcours enrichissant</h2><p>Je m'appelle Thomas, j'ai 22 ans et je suis actuellement en 3ème année de Bachelor Développeur Full-Stack en alternance chez <em>TechLy</em>, une startup lyonnaise spécialisée dans les solutions SaaS. Voici mon retour sur cette expérience.</p><h3>Pourquoi l'alternance ?</h3><p>J'ai choisi l'alternance pour allier théorie et pratique, et surtout pour me professionnaliser rapidement. Aujourd'hui, je ne le regrette pas.</p><h3>Les défis rencontrés</h3><p>S'adapter au rythme de l'entreprise tout en suivant les cours n'a pas toujours été facile, mais c'est formateur.</p>",
+		"publish_date": "2026-06-01T09:00:00+02:00"
+	},
+	{
+		"id": 5,
+		"title": "Les compétences les plus recherchées en stage en 2026",
+		"description": "Quelles sont les compétences techniques et soft skills les plus demandées par les recruteurs pour les stages cette année ?",
+		"content": "<h2>Les incontournables de 2026</h2><p>Les attentes des recruteurs évoluent chaque année. Voici les compétences qui feront la différence en 2026.</p><h3>Compétences techniques</h3><ul><li><strong>Développement web :</strong> Maîtrise de JavaScript, React, Node.js.</li><li><strong>Data :</strong> SQL, Python, outils d'analyse comme Power BI.</li><li><strong>Cloud :</strong> AWS, Azure, Docker.</li></ul><h3>Soft skills</h3><ul><li>Adaptabilité</li><li>Travail en équipe</li><li>Résolution de problèmes</li></ul>",
+		"publish_date": "2026-05-30T16:45:00+02:00"
+	},
+	{
+		"id": 6,
+		"title": "Salaire alternance 2025 : combien tu vas toucher selon ton niveau d'études",
+		"description": "Le salaire en alternance dépend de ton âge, ton niveau de formation et ton type de contrat. On te résume tout : grilles 2025, différence stage vs alternance, et ce qui change en 2026.",
+		"content": "<h2>C'est quoi le salaire en alternance ?</h2><p>En alternance, tu es salarié. Tu perçois donc un salaire mensuel, versé par l'entreprise, calculé en pourcentage du SMIC ou du salaire minimum conventionnel si la branche professionnelle prévoit un niveau plus élevé.</p><p>Il existe deux types de contrats d'alternance :</p><ul><li>Le contrat d'apprentissage (le plus courant aujourd'hui, quasi exclusivement utilisé depuis la chute du contrat de pro).</li><li>Le contrat de professionnalisation (en déclin depuis 2024, -25 % fin 2024, -7 % fin août 2025).</li></ul><p>Dans les deux cas, la grille de rémunération est encadrée par la loi.</p><h2>Grille des salaires en apprentissage 2025</h2><p>Le salaire d'un apprenti est exprimé en pourcentage du SMIC. Le SMIC brut mensuel est de 1 801,80 € en 2025 (base 35h).</p><p>Attention : depuis mars 2025, des cotisations sociales supplémentaires ont été introduites par la loi de financement de la Sécurité sociale 2025, ce qui réduit légèrement le net perçu par rapport aux années précédentes.</p><h3>Moins de 18 ans</h3><ul><li>Première année : 27 % du SMIC, soit environ 486 € brut/mois</li><li>Deuxième année : 39 % du SMIC, soit environ 703 € brut/mois</li><li>Troisième année : 55 % du SMIC, soit environ 991 € brut/mois</li></ul><h3>18 à 25 ans</h3><ul><li>Première année : 43 % du SMIC, soit environ 775 € brut/mois</li><li>Deuxième année : 51 % du SMIC, soit environ 919 € brut/mois</li><li>Troisième année : 67 % du SMIC, soit environ 1 207 € brut/mois</li></ul><h3>26 ans et plus</h3><ul><li>Première année : 53 % du SMIC (minimum légal), mais le salaire ne peut pas être inférieur au SMIC, soit 1 801,80 €</li><li>Deuxième et troisième années : même plancher</li></ul><p>Ces pourcentages sont des minimums légaux. Ta convention collective peut prévoir des taux plus élevés. C'est le cas dans de nombreuses branches (banque, assurance, industrie). Toujours vérifier.</p><h2>Et en contrat de professionnalisation ?</h2><p>La grille est légèrement différente.</p><ul><li>Moins de 26 ans et sans qualification reconnue : minimum 55 % du SMIC</li><li>Moins de 26 ans avec qualification (niveau bac ou titre pro reconnu) : minimum 65 % du SMIC</li><li>26 ans et plus : minimum 85 % du SMIC, ou 100 % du salaire minimum conventionnel si plus favorable</li></ul><p>Le contrat de pro est plus souvent utilisé pour des formations certifiantes courtes, des reconversions, ou des profils plus avancés dans leur parcours.</p><h2>Stage vs alternance : quelle différence de rémunération ?</h2><p>En stage, la gratification minimale légale est d'environ 4,35 à 4,50 € par heure, soit environ 630 à 650 € pour un stage à temps plein. Ce n'est pas un salaire : les cotisations sociales ne s'appliquent pas de la même façon, et tu n'accumules pas de droits à la retraite ou au chômage.</p><p>En alternance, tu es salarié à part entière. Tu cotises, tu accumules des droits, et ton niveau de rémunération est plus élevé. À niveau de formation équivalent, les alternants affichent des rémunérations à 3 ans supérieures à celles de la voie scolaire : 2 400 € pour un Bac+5 en alternance, contre 2 200 € pour un Bac+5 en formation initiale (source : Tableau de bord Enseignement Supérieur, octobre 2025).</p><h2>Les aides en plus du salaire</h2><p>Certaines entreprises accordent des avantages complémentaires qui ne s'affichent pas dans le salaire brut : tickets restaurant, participation aux transports, accès au comité d'entreprise, prime de fin d'année. Ces éléments varient selon la taille de l'entreprise et le secteur. Pense à les inclure dans ta négociation ou à les vérifier avant de signer.</p><h2>Ce que ça change en 2026</h2><p>L'équation financière de l'alternance a changé cette année. Depuis mars 2025, les cotisations sociales plus élevées sur les salaires d'apprentis réduisent mécaniquement le net. En parallèle, les aides versées aux entreprises ont été diminuées, notamment pour les niveaux Bac+3 et plus et pour les structures de 250 salariés et plus. Résultat : certaines petites structures recrutent moins, et la concurrence entre candidats s'est durcie sur certains secteurs.</p><p>Ça ne veut pas dire que l'alternance perd de son intérêt. 91 % des alternants restent satisfaits ou très satisfaits de leur expérience (Baromètre Walt 2024). Mais ça signifie qu'il faut être encore plus préparé pour décrocher le bon contrat.</p><h2>En résumé</h2><p>Le salaire en alternance dépend de ton âge et de ton année de contrat. Entre 18 et 25 ans, compte entre 775 € et 1 207 € brut/mois selon ta progression. La convention collective peut pousser ce chiffre à la hausse. Depuis mars 2025, le net a légèrement diminué avec les nouvelles cotisations. Et à long terme, l'alternance paie : les alternants gagnent plus vite que leurs pairs en formation initiale.</p><div class='cta-block'><p>Tu cherches une alternance ? Retrouve toutes les offres centralisées sur Fyn, le seul agrégateur dédié aux étudiants.</p><a href='/offres'>Voir les offres d'alternance et de stage disponibles &gt;</a></div>",
+		"publish_date": "2026-06-10T08:00:00+02:00"
+	}
 ]
