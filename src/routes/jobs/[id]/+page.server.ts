@@ -10,7 +10,7 @@ export const load: PageServerLoad = async ({ cookies, fetch, params }) => {
 		FynFetchClients.from_cookies(cookies, FynFetchClients.guest(undefined, fetch), fetch)
 	);
 
-	const job = await jobs.jobsControllerFindOneV1(params.id, params.id).catch((reason) => {
+	const job = await jobs.jobsControllerFindOneV1(params.id).catch((reason) => {
 		console.error(reason);
 		throw error(404, 'Offre introuvable');
 	});
