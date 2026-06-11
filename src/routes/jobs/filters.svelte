@@ -1,75 +1,77 @@
 <script module lang="ts">
-	export type ContractType = 'intership' | 'stage' | 'alternating_stage';
-	export interface FilterItem<T> {
-		label: string;
+	export interface LabeledFilter<T> {
+		label?: string;
 		value: T;
 	}
 
-	export interface Filters {
-		contract?: ContractType[];
-		activity_domain_ids?: number[];
-		localisation?: string[];
-		duration?: number;
-		source?: string[];
-	}
-
-	const contractLabels: {
-		[key in ContractType]: string;
-	} = {
-		stage: 'Stage',
-		alternating_stage: 'Stage alterné',
-		intership: 'Alternance'
-	};
-
-	export const ACTIVITY_DOMAINS = {
-		Marketing: 1,
-		Développement: 2,
-		Design: 3
+	export const contractLabels: Record<Job.ContractEnum, string> = {
+		[Job.ContractEnum.Stage]: 'Stage',
+		[Job.ContractEnum.Internship]: 'Alternance',
+		[Job.ContractEnum.AlternatingStage]: 'Stage alterné'
 	};
 
 	export const LOCALISATIONS = ['Paris', 'Lyon', 'Nante'];
+
+	export interface Filters {
+		contracts?: LabeledFilter<Job.ContractEnum>[];
+		activity_domains?: ActivityDomain[];
+		localisations?: string[];
+		duration?: LabeledFilter<number>;
+		// sources?: Filter<string>[];
+	}
 </script>
 
 <script lang="ts">
 	import Checkbox from '$lib/components/ui/forms/checkbox.svelte';
 	import Range from '$lib/components/ui/forms/range.svelte';
+	import { type ActivityDomain, Job } from 'fyn-api-sdk';
 	import { SvelteSet } from 'svelte/reactivity';
 	import FilterSection from './filter-section.svelte';
 
 	let {
-		filters = $bindable()
+		filters = $bindable(),
+		available_activity_domains
 	}: {
 		filters?: Filters;
+		available_activity_domains: ActivityDomain[];
 	} = $props();
 
-	let contracts = $state(new SvelteSet<ContractType>(filters?.contract));
-	let domains = $state(new SvelteSet<number>(filters?.activity_domain_ids));
-	let localisations = $state(new SvelteSet<string>(filters?.localisation));
-	let duration: number = $state(filters?.duration ?? 2);
+	let contracts = $state(new SvelteSet<Job.ContractEnum>(filters?.contracts?.map((c) => c.value)));
+	let domains = $state(new SvelteSet<ActivityDomain>(filters?.activity_domains));
+	let localisations = $state(new SvelteSet<string>(filters?.localisations));
+	let duration: number = $state(filters?.duration?.value ?? 2);
 
 	$effect(() => {
 		filters = {
-			contract: contracts.size ? Array.from(contracts) : undefined,
-			activity_domain_ids: domains.size ? Array.from(domains) : undefined,
-			localisation: localisations.size ? Array.from(localisations) : undefined,
-			duration
+			contracts: contracts.size
+				? Array.from(contracts).map((value) => ({
+						label: contractLabels[value],
+						value
+					}))
+				: undefined,
+			activity_domains: domains.size ? Array.from(domains) : undefined,
+			localisations: localisations.size ? Array.from(localisations) : undefined,
+			duration: {
+				label: `${duration} mois`,
+				value: duration
+			}
 		};
 	});
 </script>
 
 <form method="dialog" class="rounded-3xl border-2 border-[#EEEEEE] bg-white p-8 pt-6">
 	<FilterSection title="Type de contrat">
-		{#each Object.entries(contractLabels) as [type, label]}
+		{#each Object.entries(contractLabels) as [value, label]}
 			<Checkbox
 				{label}
-				name="{type}_contract"
+				name="{value}_contract"
 				bind:checked={
-					() => contracts.has(type as ContractType),
+					() => contracts.has(value as unknown as Job.ContractEnum),
 					(checked) => {
 						if (checked) {
-							contracts.add(type as ContractType);
+							contracts.add(value as unknown as Job.ContractEnum);
 						} else {
-							contracts.delete(type as ContractType);
+							contracts.delete(value as unknown as Job.ContractEnum);
 						}
 					}
 				}
@@ -77,24 +79,26 @@
 		{/each}
 	</FilterSection>
 
-	<FilterSection title="Domaine">
-		{#each Object.entries(ACTIVITY_DOMAINS) as [name, id]}
-			<Checkbox
-				label={name}
-				name="activity_domain_{id}"
-				bind:checked={
-					() => domains.has(id),
-					(checked) => {
-						if (checked) {
-							domains.add(id);
-						} else {
-							domains.delete(id);
+	{#if available_activity_domains.length}
+		<FilterSection title="Domaine">
+			{#each available_activity_domains as domain (domain.id)}
+				<Checkbox
+					label={domain.name}
+					name="activity_domain_{domain.id}"
+					bind:checked={
+						() => !!Array.from(domains).find((d) => d.id === domain.id),
+						(checked) => {
+							if (checked) {
+								domains.add(domain);
+							} else {
+								domains.delete(domain);
+							}
 						}
 					}
-				}
-			/>
-		{/each}
-	</FilterSection>
+				/>
+			{/each}
+		</FilterSection>
+	{/if}
 
 	<FilterSection title="Localisation">
 		{#each LOCALISATIONS as loc}
