@@ -2,13 +2,7 @@
 	import { Job } from 'fyn-api-sdk';
 	import City from '../resolvers/city.svelte';
 
-	type JobWithNamedTags = Job & {
-		tags: Array<{
-			name?: string;
-		}>;
-	};
-
-	const { job }: { job: JobWithNamedTags } = $props();
+	const { job } = $props();
 
 	const modeLabels: Record<Job.ModeEnum, string> = {
 		[Job.ModeEnum.Remote]: 'Télétravail',
@@ -72,8 +66,8 @@
 	const companyWebsite = $derived(job.company?.website_url);
 	const skills = $derived.by(() => {
 		const tagNames = job.tags
-			?.map((tag) => tag.name)
-			.filter((name): name is string => Boolean(name));
+			?.map((tag: { name?: string }) => tag.name)
+			.filter((tag: string | undefined): tag is string => Boolean(tag));
 
 		if (tagNames?.length) return tagNames;
 		return [category];

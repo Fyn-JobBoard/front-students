@@ -1,10 +1,8 @@
 <script lang="ts" module>
 	import { Job } from 'fyn-api-sdk';
 
-	type PartialJob = Pick<Job, 'id' | 'title' | 'description'> &
-		Partial<Pick<Job, 'lat' | 'lng' | 'mode'>> & {
-		activity_domain: Pick<Job['activity_domain'], 'id' | 'name'>;
-		company: Pick<Job['company'], 'name'>;
+	type PartialJob = Partial<Omit<Job, 'company'>> & {
+		company: { name: string };
 		featured?: boolean;
 	};
 
