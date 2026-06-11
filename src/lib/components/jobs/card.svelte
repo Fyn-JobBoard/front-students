@@ -4,13 +4,22 @@
 
 	const {
 		job,
-		featured = false
+		featured = false,
+		max_description_length = 200
 	}: {
 		job: Job;
 		featured?: boolean;
+		max_description_length?: number;
 	} = $props();
 
 	const { id, title, description, company, lat, lng, activity_domain } = $derived(job);
+	const description_preview = $derived.by(() => {
+		const stripped = description.replaceAll(/<\/?\w+(?:\s+.*?)?>/g, '');
+		if (stripped.length > max_description_length) {
+			return stripped.slice(0, 200).replace(/\w+(?!\s+)$/, '') + '...';
+		}
+		return stripped;
+	});
 </script>
 
 <a href="/jobs/{id}" class="block h-full">
@@ -52,11 +61,11 @@
 
 			<p
 				class={[
-					'font-corps mt-3 text-sm leading-relaxed',
+					'font-corps mt-3 max-h-60 overflow-hidden text-sm',
 					featured ? 'text-white/70' : 'text-ecume-blue'
 				].join(' ')}
 			>
-				{description}
+				{description_preview}
 			</p>
 		</div>
 

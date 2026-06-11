@@ -1,6 +1,9 @@
-<script>
+<script lang="ts">
+	import type { PageProps } from './$types';
 	import Hero from './hero.svelte';
 	import Navigator from './navigator.svelte';
+
+	const { data }: PageProps = $props();
 </script>
 
 <svelte:head>
@@ -15,5 +18,5 @@
 	<Hero />
 </header>
 <main class="mx-auto max-w-400 px-4 pb-14">
-	<Navigator />
+	<Navigator available_activity_domains={data.domains} />
 </main>

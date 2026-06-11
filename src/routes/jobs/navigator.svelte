@@ -4,16 +4,32 @@
 	import JobCard from '$lib/components/jobs/card.svelte';
 	import Select from '$lib/components/ui/forms/select.svelte';
 	import Tag from '$lib/components/ui/tag.svelte';
-	import type { ListJobsResponse } from 'fyn-api-sdk';
+	import { Job, type ActivityDomain, type ListJobsResponse } from 'fyn-api-sdk';
 	import { type ComponentProps } from 'svelte';
-	import Filters, { type ContractType, type Filters as FiltersType } from './filters.svelte';
+	import Filters, { contractLabels, type Filters as FiltersType } from './filters.svelte';
 
 	const { searchParams } = page.url;
+
+	const {
+		available_activity_domains
+	}: {
+		available_activity_domains: ActivityDomain[];
+	} = $props();
+
 	let filters: FiltersType = $state({
-		source: searchParams.getAll('src'),
-		activity_domain_ids: searchParams.getAll('domain').map((v) => parseInt(v)),
-		contract: searchParams.getAll('type') as ContractType[],
-		duration: parseInt(searchParams.get('duration') ?? '1'),
+		sources: searchParams.getAll('src'),
+		contracts: searchParams
+			.getAll('type')
+			.filter(
+				(type: string | Job.ContractEnum): type is Job.ContractEnum => type in Job.ContractEnum
+			)
+			.map((contract) => ({
+				label: contractLabels[contract as unknown as Job.ContractEnum],
+				value: contract as unknown as Job.ContractEnum
+			})),
+		duration: {
+			value: parseInt(searchParams.get('duration') ?? '1')
+		},
 		localisation: searchParams.getAll('loc')
 	});
 	let query: string | undefined = $state(searchParams.get('query') ?? undefined);
@@ -66,7 +82,7 @@
 <section class="grid gap-8 max-lg:grid-rows-[repeat(2,auto)] lg:grid-cols-[auto_1fr]">
 	<aside class="h-fit lg:sticky lg:top-22">
 		{#key force_filter_update}
-			<Filters bind:filters />
+			<Filters bind:filters {available_activity_domains} />
 		{/key}
 	</aside>
 	<main>
@@ -106,7 +122,7 @@
 					Nous recherchons des offres...
 				{/if}
 			</h2>
-			<ul class="my-4 flex gap-2">
+			<ul class="my-4 flex flex-wrap gap-2">
 				{#each Object.entries(filters) as [key, data]}
 					{#if data instanceof Array}
 						{#each data as val}
@@ -115,14 +131,23 @@
 									class="cursor-pointer"
 									onclick={() => {
 										//@ts-ignore
-										filters[key] = filters[key].filter((v) => v !== val);
+										filters[key] = filters[key].filter((v) => {
+											if ('id' in val) {
+												return v.id !== val.id;
+											} else if ('value' in val) {
+												return v.value !== val.value;
+											} else {
+												return v !== val;
+											}
+										});
+
 										force_filter_update++;
 										refresh();
 									}}
 									type="button"
 									title="Supprimer le filtre {val}"
 								>
-									<Tag text={val} />
+									<Tag text={val.label ?? val.value ?? val.name ?? val} />
 								</button>
 							</li>
 						{/each}
