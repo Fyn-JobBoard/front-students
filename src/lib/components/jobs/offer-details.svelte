@@ -2,7 +2,7 @@
 	import { Job } from 'fyn-api-sdk';
 	import City from '../resolvers/city.svelte';
 
-	const { job } = $props();
+	const { job }: { job: Job } = $props();
 
 	const modeLabels: Record<Job.ModeEnum, string> = {
 		[Job.ModeEnum.Remote]: 'Télétravail',
