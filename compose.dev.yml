@@ -1,0 +1,15 @@
+name: Fyn - Developpement
+
+services:
+  app:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+    ports:
+      - 5173:5173
+    volumes:
+      - ./src:/app/src
+      - ./static:/app/static
