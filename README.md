@@ -188,7 +188,7 @@ The development server supports hot module replacement (HMR). Changes to Svelte 
 **Start the development container:**
 
 ```bash
-docker compose -f compose.dev.yml --env-file .env up
+docker compose -f compose.dev.yml up
 ```
 
 This will:
@@ -232,7 +232,7 @@ The production build outputs to the `build/` directory.
 **Build and run with Docker Compose:**
 
 ```bash
-docker compose --env-file .env up
+docker compose up
 ```
 
 This will:
