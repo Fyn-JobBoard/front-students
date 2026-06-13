@@ -12,7 +12,8 @@ CMD [ "bun", "dev", "--port", "5173", "--host", "0.0.0.0" ]
 
 FROM dev AS build
 
-RUN bun run build --outDir build
+# We use the following env to force using the node adapter
+RUN GCP_BUILDPACKS=1 bun run build --outDir build
 
 FROM oven/bun:slim AS prod
 

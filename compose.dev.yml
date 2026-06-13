@@ -1,13 +1,14 @@
-name: Fyn - Developpement
+name: Fyn Students - Developpement
 
 services:
   app:
-    env_file:
-      - .env
     build:
       context: .
       dockerfile: Dockerfile
       target: dev
+    env_file:
+      - path: .env
+        required: false
     ports:
       - 5173:5173
     volumes:
