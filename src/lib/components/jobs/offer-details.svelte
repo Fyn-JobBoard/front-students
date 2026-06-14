@@ -58,7 +58,7 @@
 	const category = $derived(job.activity_domain?.name ?? 'Offre');
 	const title = $derived(job.title);
 	const companyName = $derived(job.company?.name ?? 'Entreprise');
-	const fallbackLocation = 'Localisation à définir';
+	const fallbackLocation = 'Localisation non déterminée';
 	const exclusive = $derived(!job.scrapped_from);
 	const applyLink = $derived(job.apply_link);
 	const description = $derived(job.description);
@@ -99,123 +99,109 @@
 	]);
 </script>
 
-<section class="bg-lighthouse-white px-4 py-10 sm:px-6 lg:py-14">
-	<div
-		class="mr-auto grid w-full max-w-[800px] gap-8 pt-24 lg:ml-[60px] lg:grid-cols-[520px] lg:items-start"
-	>
-		<article
-			class="box-border h-auto w-full rounded-2xl border border-[#dbe4ff] bg-white px-6 py-7 shadow-sm sm:px-8 lg:w-[800px]"
-		>
-			<div class="flex flex-wrap items-center gap-2.5">
-				<span class="rounded-full bg-bleuet-blue px-4 py-1.5 text-xs font-medium text-ocean-blue">
-					{category}
-				</span>
+<article class="rounded-2xl border border-bleuet-blue bg-white px-6 py-7 shadow-sm sm:px-8">
+	<div class="flex flex-wrap items-center gap-2.5">
+		<span class="rounded-full bg-bleuet-blue px-4 py-1.5 text-xs font-medium text-ocean-blue">
+			{category}
+		</span>
 
-				{#if exclusive}
-					<span
-						class="rounded-full bg-lighthouse-yellow px-4 py-1.5 text-xs font-medium text-ocean-blue"
-					>
-						Exclusif FYN
-					</span>
-				{:else if applyLink}
+		{#if exclusive}
+			<span
+				class="rounded-full bg-lighthouse-yellow px-4 py-1.5 text-xs font-medium text-ocean-blue"
+			>
+				Exclusif FYN
+			</span>
+		{:else if applyLink}
+			<a
+				class="rounded-full bg-lighthouse-yellow px-4 py-1.5 text-xs font-medium text-ocean-blue"
+				href={applyLink}
+				target="_blank"
+				rel="noreferrer"
+			>
+				Offre externe
+			</a>
+		{/if}
+	</div>
+
+	<header class="mt-5">
+		<h1 class="font-grift text-[26px] leading-tight font-bold text-ocean-blue sm:text-[28px]">
+			{title}
+		</h1>
+		<p class="mt-2 text-[16px] font-normal text-ecume-blue">
+			{companyName} ·
+			{#if hasCoordinates && job}
+				<City lat={job.lat} lng={job.lng} />
+			{:else}
+				{fallbackLocation}
+			{/if}
+		</p>
+	</header>
+
+	<div class="my-5 h-px bg-[#e4e9fb]"></div>
+
+	<div class="grid gap-x-8 gap-y-4 sm:grid-cols-3">
+		{#each offerMeta as meta}
+			<div
+				class="font-corps flex items-center gap-1.5 text-sm font-semibold whitespace-nowrap text-ocean-blue/80"
+			>
+				<span class="text-sm leading-none">{meta.icon}</span>
+				<span>
+					{#if meta.type === 'location' && hasCoordinates && job}
+						<City lat={job.lat} lng={job.lng} />
+					{:else}
+						{meta.label}
+					{/if}
+				</span>
+			</div>
+		{/each}
+	</div>
+
+	<div class="my-5 h-px bg-[#e4e9fb]"></div>
+
+	<section>
+		<h2 class="font-headings text-xl font-semibold text-ocean-blue">Description de l'offre</h2>
+		<div
+			class="prose prose-sm mt-3 max-w-none text-base leading-7 font-light text-[#5f6170] prose-headings:font-headings prose-headings:text-ocean-blue prose-li:marker:text-ocean-blue"
+		>
+			{@html description}
+		</div>
+	</section>
+
+	<div class="mt-7 flex flex-wrap gap-2.5">
+		{#each skills as skill}
+			<span class="rounded-full bg-bleuet-blue px-3.5 py-1.5 text-xs font-medium text-ocean-blue">
+				{skill}
+			</span>
+		{/each}
+	</div>
+	<section class="mt-8">
+		<h2 class="font-headings text-xl font-semibold text-ocean-blue">L'entreprise</h2>
+		<p class="mt-3 text-base text-[15px] leading-7 font-light text-[#5f6170]">
+			{companyDescription}
+		</p>
+
+		<div class="mt-6 flex flex-wrap gap-2.5">
+			{#each companyTags as tag}
+				{#if tag === 'Site web disponible' && companyWebsite}
 					<a
-						class="rounded-full bg-lighthouse-yellow px-4 py-1.5 text-xs font-medium text-ocean-blue"
-						href={applyLink}
+						class="rounded-full bg-[#f2f3f6] px-3.5 py-1.5 text-xs font-medium text-ecume-blue"
+						href={companyWebsite}
 						target="_blank"
 						rel="noreferrer"
 					>
-						Offre externe
+						{tag}
 					</a>
-				{/if}
-			</div>
-
-			<header class="mt-5">
-				<h1 class="font-grift text-[26px] leading-tight font-bold text-ocean-blue sm:text-[28px]">
-					{title}
-				</h1>
-				<p class="mt-2 text-[16px] font-normal text-ecume-blue">
-					{companyName} ·
-					{#if hasCoordinates && job}
-						<City lat={job.lat} lng={job.lng} />
-					{:else}
-						{fallbackLocation}
-					{/if}
-				</p>
-			</header>
-
-			<div class="my-5 h-px bg-[#e4e9fb]"></div>
-
-			<div class="grid gap-x-8 gap-y-4 sm:grid-cols-3">
-				{#each offerMeta as meta}
-					<div
-						class="font-corps flex items-center gap-1.5 text-sm font-semibold whitespace-nowrap text-ocean-blue/80"
-					>
-						<span class="text-sm leading-none">{meta.icon}</span>
-						<span>
-							{#if meta.type === 'location' && hasCoordinates && job}
-								<City lat={job.lat} lng={job.lng} />
-							{:else}
-								{meta.label}
-							{/if}
-						</span>
-					</div>
-				{/each}
-			</div>
-
-			<div class="my-5 h-px bg-[#e4e9fb]"></div>
-
-			<section>
-				<h2 class="font-headings text-xl font-semibold text-ocean-blue">Description de l'offre</h2>
-				<div
-					class="prose prose-sm mt-3 max-w-none text-base leading-7 font-light text-[#5f6170] prose-headings:font-headings prose-headings:text-ocean-blue prose-li:marker:text-ocean-blue"
-				>
-					{@html description}
-				</div>
-			</section>
-
-			<div class="mt-7 flex flex-wrap gap-2.5">
-				{#each skills as skill}
-					<span
-						class="rounded-full bg-bleuet-blue px-3.5 py-1.5 text-xs font-medium text-ocean-blue"
-					>
-						{skill}
+				{:else}
+					<span class="rounded-full bg-[#f2f3f6] px-3.5 py-1.5 text-xs font-medium text-ecume-blue">
+						{tag}
 					</span>
-				{/each}
-			</div>
-			<section class="mt-8">
-				<h2 class="font-headings text-xl font-semibold text-ocean-blue">L'entreprise</h2>
-				<p class="mt-3 text-base text-[15px] leading-7 font-light text-[#5f6170]">
-					{companyDescription}
-				</p>
-
-				<div class="mt-6 flex flex-wrap gap-2.5">
-					{#each companyTags as tag}
-						{#if tag === 'Site web disponible' && companyWebsite}
-							<a
-								class="rounded-full bg-[#f2f3f6] px-3.5 py-1.5 text-xs font-medium text-ecume-blue"
-								href={companyWebsite}
-								target="_blank"
-								rel="noreferrer"
-							>
-								{tag}
-							</a>
-						{:else}
-							<span
-								class="rounded-full bg-[#f2f3f6] px-3.5 py-1.5 text-xs font-medium text-ecume-blue"
-							>
-								{tag}
-							</span>
-						{/if}
-					{/each}
-					{#if hasCoordinates && job}
-						<span
-							class="rounded-full bg-[#f2f3f6] px-3.5 py-1.5 text-xs font-medium text-ecume-blue"
-						>
-							<City lat={job.lat} lng={job.lng} />
-						</span>
-					{/if}
-				</div>
-			</section>
-		</article>
-	</div>
-</section>
+				{/if}
+			{/each}
+			{#if hasCoordinates && job}
+				<span class="rounded-full bg-[#f2f3f6] px-3.5 py-1.5 text-xs font-medium text-ecume-blue">
+					<City lat={job.lat} lng={job.lng} />
+				</span>
+			{/if}
+		</div>
+	</section>
+</article>
