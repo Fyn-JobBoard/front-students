@@ -1,9 +1,12 @@
-name: Fyn - Developpement
+name: Fyn Students - Production
 
 services:
   app:
     build:
       context: .
       dockerfile: Dockerfile
+    env_file:
+      - path: .env.prod
+        required: false
     ports:
       - 3000:3000
