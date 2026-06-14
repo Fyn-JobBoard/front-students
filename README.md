@@ -59,7 +59,7 @@ The application consumes the [Fyn API](https://github.com/Fyn-JobBoard/api) thro
 
 ### Dependencies
 
-- **[fyn-api-sdk](https://github.com/Fyn-JobBoard/sdk)** (v0.1.3) - Official SDK for Fyn API interactions
+- **[fyn-api-sdk](https://github.com/Fyn-JobBoard/sdk)** (v1.0.0) - Official SDK for Fyn API interactions
 
 ---
 
