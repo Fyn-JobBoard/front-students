@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import type { Account, Job, Student } from 'fyn-api-sdk';
+	import { page } from '$app/state';
+	import type { Job, MeRouteAsStudentResponse } from 'fyn-api-sdk';
 	import Button from '../ui/button.svelte';
 	import Email from '../ui/forms/email.svelte';
 	import File from '../ui/forms/file.svelte';
@@ -11,7 +12,7 @@
 		student
 	}: {
 		job: Job;
-		student: Student & { account: Account };
+		student?: MeRouteAsStudentResponse;
 	} = $props();
 </script>
 
@@ -35,7 +36,7 @@
 		>
 			Accéder à l'offre
 		</Button>
-	{:else}
+	{:else if student}
 		<form action="/job/{job.id}/apply" method="post" use:enhance>
 			<File label="Ton CV" required name="cv" />
 			<br />
@@ -49,5 +50,14 @@
 			<br />
 			<Button action={{ type: 'submit' }} type="primary">Envoyer ma candidature</Button>
 		</form>
+	{:else}
+		<Button
+			type="primary"
+			action={{
+				url: `/login?redirect=${encodeURIComponent(page.url.toString())}`
+			}}
+		>
+			Connecte toi pour postuler
+		</Button>
 	{/if}
 </section>
