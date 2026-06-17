@@ -13,7 +13,7 @@
 		firstName?: string;
 		lastName?: string;
 		email?: string;
-		info: string;
+		info?: string;
 		size?: 'sm' | 'md' | 'lg';
 	} = $props();
 
@@ -28,10 +28,12 @@
 			<span class="font-semibold">Nom :</span>
 			<span class="font-grift font-extrabold text-ecume-blue">{name}</span>
 		</p>
-		<p class="m-0 font-just-sans text-base leading-6 text-ecume-blue">
-			<span class="font-semibold text-ocean-blue">Date de naissance :</span>
-			{info}
-		</p>
+		{#if info}
+			<p class="m-0 font-just-sans text-base leading-6 text-ecume-blue">
+				<span class="font-semibold text-ocean-blue">Date de naissance :</span>
+				{info}
+			</p>
+		{/if}
 		{#if email}
 			<p class="m-0 font-just-sans text-base leading-6 text-ecume-blue">
 				<span class="font-semibold text-ocean-blue">Adresse mail :</span>

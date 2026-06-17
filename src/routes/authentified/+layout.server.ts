@@ -1,6 +1,5 @@
 import { redirect } from '@sveltejs/kit';
 import { Account, AccountsApi, StudentsApi, type Student } from 'fyn-api-sdk';
-import { getAuthUserSession } from '$lib/server/auth/session';
 import { FynFetchClients, useApi } from '$lib/server/api/api';
 import type { LayoutServerLoad } from './$types';
 
@@ -55,20 +54,19 @@ export const load: LayoutServerLoad = async ({ cookies, fetch, url }) => {
 	}
 
 	const claims = decodeJwtClaims(jwt);
-	const session = getAuthUserSession(cookies);
 	const authenticatedFetch = FynFetchClients.from_cookies(cookies, undefined, fetch);
 	const accounts = useApi(AccountsApi, authenticatedFetch);
 	const students = useApi(StudentsApi, authenticatedFetch);
 
-	const accountId = session?.account.id ?? claims.account?.id ?? claims.sub ?? claims.id ?? claims.account_id;
-	const fallbackEmail = session?.account.email ?? claims.account?.email ?? claims.email;
+	const accountId = claims.account?.id ?? claims.sub ?? claims.id ?? claims.account_id;
+	const fallbackEmail = claims.account?.email ?? claims.email;
 
 	const account: Account | null = accountId
 		? await accounts.accountsControllerGetV1(accountId).catch(() => null)
 		: null;
 
 	const email = account?.email ?? fallbackEmail;
-	const accountType = account?.type ?? session?.account.type ?? claims.account?.type;
+	const accountType = account?.type ?? claims.account?.type;
 	const student: Student | null =
 		accountType === Account.TypeEnum.Student && accountId
 			? await students
@@ -83,10 +81,8 @@ export const load: LayoutServerLoad = async ({ cookies, fetch, url }) => {
 					)
 			: null;
 
-	const firstName =
-		student?.first_name ?? session?.student?.first_name ?? claims.first_name ?? claims.given_name;
-	const lastName =
-		student?.last_name ?? session?.student?.last_name ?? claims.last_name ?? claims.family_name;
+	const firstName = student?.first_name ?? claims.first_name ?? claims.given_name;
+	const lastName = student?.last_name ?? claims.last_name ?? claims.family_name;
 	const identifier = claims.name ?? email ?? 'Compte utilisateur';
 
 	return {
@@ -95,7 +91,7 @@ export const load: LayoutServerLoad = async ({ cookies, fetch, url }) => {
 			firstName,
 			lastName,
 			email,
-			info: formatBirthdate(student?.birthdate ?? session?.student?.birthdate)
+			info: formatBirthdate(student?.birthdate)
 		}
 	};
 };

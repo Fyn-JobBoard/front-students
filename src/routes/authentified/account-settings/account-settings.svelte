@@ -1,8 +1,37 @@
 <script lang="ts">
 	import type { ActivityDomain } from 'fyn-api-sdk';
 	import { SvelteSet } from 'svelte/reactivity';
+	import type { ActionData } from './$types';
 
-	let { activityDomains = [] }: { activityDomains?: ActivityDomain[] } = $props();
+	let {
+		activityDomains = [],
+		profile,
+		form = null
+	}: {
+		activityDomains?: ActivityDomain[];
+		profile: {
+			email: string;
+			firstName: string;
+			lastName: string;
+			birthdate: string;
+			bio: string;
+			links: {
+				github: string;
+				linkedin: string;
+				portfolio: string;
+			};
+			selectedActivityDomainIds: number[];
+		};
+		form?: ActionData | null;
+	} = $props();
+	let isPasswordModalOpen = $state(false);
+	let hasInitializedDomains = $state(false);
+
+	$effect(() => {
+		if (form?.passwordError) {
+			isPasswordModalOpen = true;
+		}
+	});
 
 	const selectedDomainIds = $state(new SvelteSet<number>());
 	const selectedDomains = $derived(
@@ -11,6 +40,18 @@
 	const availableDomains = $derived(
 		activityDomains.filter((domain) => !selectedDomainIds.has(domain.id))
 	);
+
+	$effect(() => {
+		if (hasInitializedDomains) {
+			return;
+		}
+
+		for (const id of profile.selectedActivityDomainIds) {
+			selectedDomainIds.add(id);
+		}
+
+		hasInitializedDomains = true;
+	});
 </script>
 
 <section class="min-h-screen bg-lighthouse-white px-6 pt-28 pb-16">
@@ -35,7 +76,25 @@
 			</p>
 		</div>
 
-		<form class="mt-8 grid gap-8">
+		<form method="POST" action="?/saveProfile" class="mt-8 grid gap-8">
+			{#if form?.profileError}
+				<p class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 font-just-sans text-sm text-red-700">
+					{form.profileError}
+				</p>
+			{/if}
+
+			{#if form?.profileSuccess}
+				<p class="rounded-xl border border-green-200 bg-green-50 px-4 py-3 font-just-sans text-sm text-green-700">
+					{form.profileSuccess}
+				</p>
+			{/if}
+
+			{#if form?.profileNotice}
+				<p class="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 font-just-sans text-sm text-amber-700">
+					{form.profileNotice}
+				</p>
+			{/if}
+
 			<div class="grid gap-5">
 				<div>
 					<label class="mb-2 block font-just-sans text-sm font-semibold text-ocean-blue" for="email">
@@ -44,7 +103,9 @@
 					<input
 						class="block w-full rounded-xl border border-ocean-blue/15 bg-lighthouse-white px-4 py-3 font-just-sans text-sm text-ocean-blue placeholder:text-ecume-blue focus:border-ocean-blue focus:ring-4 focus:ring-ocean-blue/10 focus:outline-none"
 						id="email"
+						name="email"
 						type="email"
+						value={profile.email}
 						placeholder="ton.email@fyn.local"
 						required
 					/>
@@ -55,9 +116,15 @@
 					<button
 						class="rounded-full border-2 border-ocean-blue bg-transparent px-4 py-2.5 font-just-sans text-sm font-semibold text-ocean-blue transition hover:bg-ocean-blue hover:text-white"
 						type="button"
+						onclick={() => (isPasswordModalOpen = true)}
 					>
 						Changer le mot de passe
 					</button>
+					{#if form?.passwordSuccess}
+						<p class="mt-2 font-just-sans text-sm font-medium text-green-700">
+							{form.passwordSuccess}
+						</p>
+					{/if}
 				</div>
 			</div>
 
@@ -74,7 +141,9 @@
 						<input
 							class="block w-full rounded-xl border border-ocean-blue/15 bg-lighthouse-white px-4 py-3 font-just-sans text-sm text-ocean-blue placeholder:text-ecume-blue focus:border-ocean-blue focus:ring-4 focus:ring-ocean-blue/10 focus:outline-none"
 							id="first-name"
+							name="first_name"
 							type="text"
+							value={profile.firstName}
 							required
 						/>
 					</div>
@@ -86,7 +155,9 @@
 						<input
 							class="block w-full rounded-xl border border-ocean-blue/15 bg-lighthouse-white px-4 py-3 font-just-sans text-sm text-ocean-blue placeholder:text-ecume-blue focus:border-ocean-blue focus:ring-4 focus:ring-ocean-blue/10 focus:outline-none"
 							id="last-name"
+							name="last_name"
 							type="text"
+							value={profile.lastName}
 							required
 						/>
 					</div>
@@ -99,7 +170,9 @@
 					<input
 						class="block w-full rounded-xl border border-ocean-blue/15 bg-lighthouse-white px-4 py-3 font-just-sans text-sm text-ocean-blue placeholder:text-ecume-blue focus:border-ocean-blue focus:ring-4 focus:ring-ocean-blue/10 focus:outline-none"
 						id="birthdate"
+						name="birthdate"
 						type="date"
+						value={profile.birthdate}
 						required
 					/>
 				</div>
@@ -107,12 +180,70 @@
 				<div>
 					<label class="mb-2 block font-just-sans text-sm font-semibold text-ocean-blue" for="bio">
 						Bio
+						<span class="font-normal text-ecume-blue">(optionnel)</span>
 					</label>
 					<textarea
 						class="min-h-28 block w-full resize-y rounded-xl border border-ocean-blue/15 bg-lighthouse-white px-4 py-3 font-just-sans text-sm leading-6 text-ocean-blue placeholder:text-ecume-blue focus:border-ocean-blue focus:ring-4 focus:ring-ocean-blue/10 focus:outline-none"
 						id="bio"
+						name="bio"
 						placeholder="Présente-toi en quelques mots"
-					></textarea>
+					>{profile.bio}</textarea>
+				</div>
+			</div>
+
+			<div class="grid gap-5 border-t border-ocean-blue/10 pt-8">
+				<div>
+					<h2 class="m-0 font-grift text-2xl font-extrabold text-ocean-blue">
+						Liens externes
+						<span class="font-just-sans text-base font-normal text-ecume-blue">(optionnel)</span>
+					</h2>
+					<p class="mt-2 font-just-sans text-sm leading-6 text-ecume-blue">
+						Ajoute tes liens publics pour compléter ton profil étudiant.
+					</p>
+				</div>
+
+				<div class="grid gap-5">
+					<div>
+						<label class="mb-2 block font-just-sans text-sm font-semibold text-ocean-blue" for="github-link">
+							GitHub
+						</label>
+						<input
+							class="block w-full rounded-xl border border-ocean-blue/15 bg-lighthouse-white px-4 py-3 font-just-sans text-sm text-ocean-blue placeholder:text-ecume-blue focus:border-ocean-blue focus:ring-4 focus:ring-ocean-blue/10 focus:outline-none"
+							id="github-link"
+							name="links"
+							type="url"
+							value={profile.links.github}
+							placeholder="https://github.com/ton-profil"
+						/>
+					</div>
+
+					<div>
+						<label class="mb-2 block font-just-sans text-sm font-semibold text-ocean-blue" for="linkedin-link">
+							LinkedIn
+						</label>
+						<input
+							class="block w-full rounded-xl border border-ocean-blue/15 bg-lighthouse-white px-4 py-3 font-just-sans text-sm text-ocean-blue placeholder:text-ecume-blue focus:border-ocean-blue focus:ring-4 focus:ring-ocean-blue/10 focus:outline-none"
+							id="linkedin-link"
+							name="links"
+							type="url"
+							value={profile.links.linkedin}
+							placeholder="https://www.linkedin.com/in/ton-profil"
+						/>
+					</div>
+
+					<div>
+						<label class="mb-2 block font-just-sans text-sm font-semibold text-ocean-blue" for="portfolio-link">
+							Portfolio
+						</label>
+						<input
+							class="block w-full rounded-xl border border-ocean-blue/15 bg-lighthouse-white px-4 py-3 font-just-sans text-sm text-ocean-blue placeholder:text-ecume-blue focus:border-ocean-blue focus:ring-4 focus:ring-ocean-blue/10 focus:outline-none"
+							id="portfolio-link"
+							name="links"
+							type="url"
+							value={profile.links.portfolio}
+							placeholder="https://ton-portfolio.fr"
+						/>
+					</div>
 				</div>
 			</div>
 
@@ -120,6 +251,7 @@
 				<div>
 					<h2 class="m-0 font-grift text-2xl font-extrabold text-ocean-blue">
 						Domaines d'activité
+						<span class="font-just-sans text-base font-normal text-ecume-blue">(optionnel)</span>
 					</h2>
 					<p class="mt-2 font-just-sans text-sm leading-6 text-ecume-blue">
 						Ajoute les domaines qui correspondent à tes recherches et retire ceux qui ne t'intéressent plus.
@@ -135,6 +267,7 @@
 						<ul class="flex flex-wrap gap-2">
 							{#each selectedDomains as domain (domain.id)}
 								<li>
+									<input type="hidden" name="activity_domain_ids" value={domain.id} />
 									<button
 										class="inline-flex items-center gap-2 rounded-full bg-ocean-blue px-4 py-2 font-just-sans text-sm font-semibold text-white transition hover:bg-ecume-blue"
 										type="button"
@@ -197,3 +330,111 @@
 		</form>
 	</div>
 </section>
+
+{#if isPasswordModalOpen}
+	<div
+		class="fixed inset-0 z-50 flex items-center justify-center bg-ocean-blue/25 px-6 backdrop-blur-xs"
+		role="presentation"
+		onclick={(event) => {
+			if (event.target === event.currentTarget) {
+				isPasswordModalOpen = false;
+			}
+		}}
+	>
+		<div class="w-full max-w-md rounded-2xl border border-ocean-blue/10 bg-white p-6 shadow-lg">
+			<div class="flex items-start justify-between gap-4">
+				<div>
+					<h2 class="m-0 font-grift text-2xl font-extrabold text-ocean-blue">
+						Changer le mot de passe
+					</h2>
+					<p class="mt-2 font-just-sans text-sm leading-6 text-ecume-blue">
+						Saisis ton mot de passe actuel puis choisis-en un nouveau.
+					</p>
+				</div>
+
+				<button
+					class="rounded-full border border-ocean-blue/15 px-3 py-1.5 font-just-sans text-sm font-semibold text-ocean-blue transition hover:bg-lighthouse-white"
+					type="button"
+					onclick={() => (isPasswordModalOpen = false)}
+				>
+					Fermer
+				</button>
+			</div>
+
+			<form method="POST" action="?/changePassword" class="mt-6 grid gap-4">
+				<div>
+					<label
+						class="mb-2 block font-just-sans text-sm font-semibold text-ocean-blue"
+						for="current-password"
+					>
+						Mot de passe actuel
+					</label>
+					<input
+						class="block w-full rounded-xl border border-ocean-blue/15 bg-lighthouse-white px-4 py-3 font-just-sans text-sm text-ocean-blue focus:border-ocean-blue focus:ring-4 focus:ring-ocean-blue/10 focus:outline-none"
+						id="current-password"
+						name="currentPassword"
+						type="password"
+						autocomplete="current-password"
+						required
+					/>
+				</div>
+
+				<div>
+					<label
+						class="mb-2 block font-just-sans text-sm font-semibold text-ocean-blue"
+						for="new-password"
+					>
+						Nouveau mot de passe
+					</label>
+					<input
+						class="block w-full rounded-xl border border-ocean-blue/15 bg-lighthouse-white px-4 py-3 font-just-sans text-sm text-ocean-blue focus:border-ocean-blue focus:ring-4 focus:ring-ocean-blue/10 focus:outline-none"
+						id="new-password"
+						name="newPassword"
+						type="password"
+						autocomplete="new-password"
+						required
+					/>
+				</div>
+
+				<div>
+					<label
+						class="mb-2 block font-just-sans text-sm font-semibold text-ocean-blue"
+						for="confirm-password"
+					>
+						Confirmer le nouveau mot de passe
+					</label>
+					<input
+						class="block w-full rounded-xl border border-ocean-blue/15 bg-lighthouse-white px-4 py-3 font-just-sans text-sm text-ocean-blue focus:border-ocean-blue focus:ring-4 focus:ring-ocean-blue/10 focus:outline-none"
+						id="confirm-password"
+						name="confirmPassword"
+						type="password"
+						autocomplete="new-password"
+						required
+					/>
+				</div>
+
+				{#if form?.passwordError}
+					<p class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 font-just-sans text-sm text-red-700">
+						{form.passwordError}
+					</p>
+				{/if}
+
+				<div class="mt-2 flex justify-end gap-3">
+					<button
+						class="rounded-full border-2 border-ocean-blue bg-transparent px-4 py-2.5 font-just-sans text-sm font-semibold text-ocean-blue transition hover:bg-ocean-blue hover:text-white"
+						type="button"
+						onclick={() => (isPasswordModalOpen = false)}
+					>
+						Annuler
+					</button>
+					<button
+						class="rounded-full bg-ocean-blue px-4 py-2.5 font-just-sans text-sm font-semibold text-white transition hover:bg-ecume-blue"
+						type="submit"
+					>
+						Enregistrer
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+{/if}

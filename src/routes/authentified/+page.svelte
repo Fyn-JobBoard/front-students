@@ -9,24 +9,44 @@
 </script>
 
 <section class="px-6 pt-28 pb-10">
-	<a
-		href="/authentified/account-settings"
-		class="block max-w-5xl rounded-2xl border border-ocean-blue/10 bg-white p-6 shadow-sm transition duration-200 hover:-translate-y-1 hover:border-ocean-blue/25 hover:shadow-lg focus:ring-2 focus:ring-ocean-blue/30 focus:ring-offset-4 focus:outline-none"
-		aria-label="Modifier les informations du compte"
-	>
-		<Profile
-			identifier={data.user.identifier}
-			firstName={data.user.firstName}
-			email={data.user.email}
-			info={data.user.info}
-			size="lg"
-		/>
-	</a>
+	<div class="grid w-full items-stretch gap-6 lg:grid-cols-2">
+    
+		<a
+			href="/authentified/account-settings"
+			class="block h-full rounded-2xl border border-ocean-blue/10 bg-white p-6 shadow-sm transition duration-200 hover:-translate-y-1 hover:border-ocean-blue/25 hover:shadow-lg focus:ring-2 focus:ring-ocean-blue/30 focus:ring-offset-4 focus:outline-none"
+			aria-label="Modifier les informations du compte"
+		>
+			<Profile
+				identifier={data.user.identifier}
+				firstName={data.user.firstName}
+				email={data.user.email}
+				size="lg"
+			/>
+		</a>
+
+		<a
+			href="/authentified/profile-job"
+			class="block h-full rounded-2xl transition duration-200 hover:-translate-y-1 hover:border-ocean-blue/25 hover:shadow-lg focus:ring-2 focus:ring-ocean-blue/30 focus:ring-offset-4 focus:outline-none"
+			aria-label="Voir le profil professionnel"
+		>
+			<Info />
+		</a>
+	</div>
 </section>
 
-<Kanban />
-<Info />
+<Kanban compact applications={data.applications} />
 
-<div class="mt-4">
-	<Button type="primary" size="default" action={{ url: '/logout' }}>Se déconnecter</Button>
-</div>
+<section class="px-6 pt-6 pb-16">
+	<div class="flex justify-end gap-3">
+		<div class="transition duration-200 hover:-translate-y-0.5 hover:shadow-lg">
+			<Button type="neutral" size="default" action={{ url: '/logout' }}>
+				Se déconnecter
+			</Button>
+		</div>
+		<div class="transition duration-200 hover:-translate-y-0.5 hover:shadow-lg">
+			<Button type="danger" size="default" action={{ url: '/delete-account' }}>
+				Supprimer le compte
+			</Button>
+		</div>
+	</div>
+</section>
