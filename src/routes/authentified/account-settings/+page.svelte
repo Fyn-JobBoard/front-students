@@ -2,7 +2,7 @@
 	import type { PageProps } from './$types';
 	import AccountSettings from './account-settings.svelte';
 
-	const { data }: PageProps = $props();
+	const { data, form }: PageProps = $props();
 </script>
 
-<AccountSettings activityDomains={data.activityDomains} />
+<AccountSettings activityDomains={data.activityDomains} profile={data.profile} form={form} />

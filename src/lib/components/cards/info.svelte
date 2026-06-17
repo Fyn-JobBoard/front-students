@@ -1,16 +1,12 @@
-<div class="max-w-sm rounded-2xl bg-white shadow-lg overflow-hidden border border-gray-200">
+<div class="h-full w-full overflow-hidden rounded-2xl border border-ocean-blue/10 bg-white shadow-sm">
 
-  <div class="p-5">
-    <h2 class="text-xl font-bold text-gray-900">
-      Titre de la carte
+  <div class="p-6">
+    <h2 class="font-grift text-xl font-extrabold text-ocean-blue">
+      Profil professionnel
     </h2>
 
-    <p class="mt-2 text-gray-600">
-      Petite description de la carte avec quelques informations importantes.
+    <p class="mt-3 font-just-sans text-base leading-6 text-ecume-blue">
+      Gérez votre parcours professionnel en ajoutant et en mettant à jour vos formations, expériences et compétences afin de valoriser votre profil auprès des recruteurs.
     </p>
-
-    <button class="mt-4 rounded-lg bg-blue-600 px-4 py-2 text-white font-medium hover:bg-blue-700 transition">
-      Voir plus
-    </button>
   </div>
 </div>
