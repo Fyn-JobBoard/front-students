@@ -6,12 +6,16 @@
 	let { data }: { data: PageData } = $props();
 </script>
 
-<div class="mx-auto mt-32 mb-8 flex max-w-400 justify-center gap-8">
-	<section class="max-w-200">
-		<OfferDetails job={data.job} />
-	</section>
+<div class="mt-32 px-12">
+	<a href="/jobs" class="hover:underline">← Revenir à la liste des offres</a>
 
-	<section class="sticky top-18 h-fit">
-		<Apply job={data.job} />
-	</section>
+	<div class="mx-auto mt-4 mb-8 flex max-w-400 justify-center gap-8 max-md:flex-col">
+		<section class="max-w-200">
+			<OfferDetails job={data.job} />
+		</section>
+
+		<section class="sticky top-18 h-fit w-fit text-nowrap max-md:w-full">
+			<Apply job={data.job} />
+		</section>
+	</div>
 </div>

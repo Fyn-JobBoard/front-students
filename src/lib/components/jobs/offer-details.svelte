@@ -58,7 +58,7 @@
 	const category = $derived(job.activity_domain?.name ?? 'Offre');
 	const title = $derived(job.title);
 	const companyName = $derived(job.company?.name ?? 'Entreprise');
-	const fallbackLocation = 'Localisation non déterminée';
+	const fallbackLocation = 'Inconnu';
 	const exclusive = $derived(!job.scrapped_from);
 	const applyLink = $derived(job.apply_link);
 	const description = $derived(job.description);
@@ -139,9 +139,9 @@
 
 	<div class="my-5 h-px bg-[#e4e9fb]"></div>
 
-	<div class="grid gap-x-8 gap-y-4 sm:grid-cols-3">
+	<ul class="grid gap-x-8 gap-y-4 sm:grid-cols-3">
 		{#each offerMeta as meta}
-			<div
+			<li
 				class="font-corps flex items-center gap-1.5 text-sm font-semibold whitespace-nowrap text-ocean-blue/80"
 			>
 				<span class="text-sm leading-none">{meta.icon}</span>
@@ -152,9 +152,9 @@
 						{meta.label}
 					{/if}
 				</span>
-			</div>
+			</li>
 		{/each}
-	</div>
+	</ul>
 
 	<div class="my-5 h-px bg-[#e4e9fb]"></div>
 
