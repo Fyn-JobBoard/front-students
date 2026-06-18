@@ -10,7 +10,6 @@ export const load: PageServerLoad = async ({ cookies, fetch }) => {
 
 	const domains: ActivityDomain[] = await jobs
 		.activityDomainsControllerFindAllV1()
-		// todo -> change to r.list (according to the next version of the api)
 		.then((r) => r.list)
 		.catch((r) => {
 			console.error(r);
