@@ -22,7 +22,7 @@
 			id="email"
 			name="email"
 			type="email"
-			value={profile.email}
+			value={profile.account.email}
 			placeholder="ton.email@fyn.local"
 			required
 		/>

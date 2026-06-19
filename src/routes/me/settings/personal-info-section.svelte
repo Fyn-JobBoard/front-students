@@ -19,7 +19,7 @@
 				id="first-name"
 				name="first_name"
 				type="text"
-				value={profile.firstName}
+				value={profile.first_name}
 				required
 			/>
 		</div>
@@ -33,7 +33,7 @@
 				id="last-name"
 				name="last_name"
 				type="text"
-				value={profile.lastName}
+				value={profile.last_name}
 				required
 			/>
 		</div>

@@ -15,12 +15,7 @@
 			class="block h-full rounded-2xl border border-ocean-blue/10 bg-white p-6 shadow-sm transition duration-200 hover:-translate-y-1 hover:border-ocean-blue/25 hover:shadow-lg focus:ring-2 focus:ring-ocean-blue/30 focus:ring-offset-4 focus:outline-none"
 			aria-label="Modifier les informations du compte"
 		>
-			<Profile
-				identifier={data.user.identifier}
-				account={data.account}
-				student={data.student}
-				size="lg"
-			/>
+			<Profile student={data.student} size="lg" />
 		</a>
 
 		<a
