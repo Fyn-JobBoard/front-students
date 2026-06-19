@@ -30,6 +30,11 @@
 	</p>
 
 	<div class="mt-auto flex items-center gap-5">
-		<Profile firstName={reviewer.first_name} lastName={reviewer.last_name} info={reviewer.status} />
+		<Profile
+			firstName={reviewer.first_name}
+			lastName={reviewer.last_name}
+			metaLabel="Statut"
+			metaValue={reviewer.status}
+		/>
 	</div>
 </article>

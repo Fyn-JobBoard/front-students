@@ -84,11 +84,8 @@ const getAccountIdFromJwt = (cookies: Cookies) => {
 };
 
 export const load: PageServerLoad = async ({ cookies, fetch }) => {
-	const authenticatedFetch = FynFetchClients.from_cookies(cookies, FynFetchClients.guest(undefined, fetch), fetch);
-	const activityDomainsApi = useApi(
-		ActivityDomainsApi,
-		authenticatedFetch
-	);
+	const authenticatedFetch = FynFetchClients.from_cookies(cookies, undefined, fetch);
+	const activityDomainsApi = useApi(ActivityDomainsApi, authenticatedFetch);
 	const formationsApi = useApi(FormationsApi, authenticatedFetch);
 	const experiencesApi = useApi(ExperiencesApi, authenticatedFetch);
 	const studentsApi = useApi(StudentsApi, authenticatedFetch);
@@ -146,7 +143,7 @@ export const actions: Actions = {
 
 		const authenticatedFetch = FynFetchClients.from_cookies(
 			cookies,
-			FynFetchClients.guest(undefined, fetch),
+			undefined,
 			fetch
 		);
 		const formationsApi = useApi(FormationsApi, authenticatedFetch);

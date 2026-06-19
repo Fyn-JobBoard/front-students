@@ -1,0 +1,61 @@
+<script lang="ts">
+	import type { AccountSettingsProfile } from './account-settings.types';
+
+	let { profile }: { profile: AccountSettingsProfile } = $props();
+</script>
+
+<section class="grid gap-5 border-t border-ocean-blue/10 pt-8">
+	<div>
+		<h2 class="m-0 font-grift text-2xl font-extrabold text-ocean-blue">
+			Liens externes
+			<span class="font-just-sans text-base font-normal text-ecume-blue">(optionnel)</span>
+		</h2>
+		<p class="mt-2 font-just-sans text-sm leading-6 text-ecume-blue">
+			Ajoute tes liens publics pour compléter ton profil étudiant.
+		</p>
+	</div>
+
+	<div class="grid gap-5">
+		<div>
+			<label class="mb-2 block font-just-sans text-sm font-semibold text-ocean-blue" for="github-link">
+				GitHub
+			</label>
+			<input
+				class="block w-full rounded-xl border border-ocean-blue/15 bg-lighthouse-white px-4 py-3 font-just-sans text-sm text-ocean-blue placeholder:text-ecume-blue focus:border-ocean-blue focus:ring-4 focus:ring-ocean-blue/10 focus:outline-none"
+				id="github-link"
+				name="links"
+				type="url"
+				value={profile.links.github}
+				placeholder="https://github.com/ton-profil"
+			/>
+		</div>
+
+		<div>
+			<label class="mb-2 block font-just-sans text-sm font-semibold text-ocean-blue" for="linkedin-link">
+				LinkedIn
+			</label>
+			<input
+				class="block w-full rounded-xl border border-ocean-blue/15 bg-lighthouse-white px-4 py-3 font-just-sans text-sm text-ocean-blue placeholder:text-ecume-blue focus:border-ocean-blue focus:ring-4 focus:ring-ocean-blue/10 focus:outline-none"
+				id="linkedin-link"
+				name="links"
+				type="url"
+				value={profile.links.linkedin}
+				placeholder="https://www.linkedin.com/in/ton-profil"
+			/>
+		</div>
+
+		<div>
+			<label class="mb-2 block font-just-sans text-sm font-semibold text-ocean-blue" for="portfolio-link">
+				Portfolio
+			</label>
+			<input
+				class="block w-full rounded-xl border border-ocean-blue/15 bg-lighthouse-white px-4 py-3 font-just-sans text-sm text-ocean-blue placeholder:text-ecume-blue focus:border-ocean-blue focus:ring-4 focus:ring-ocean-blue/10 focus:outline-none"
+				id="portfolio-link"
+				name="links"
+				type="url"
+				value={profile.links.portfolio}
+				placeholder="https://ton-portfolio.fr"
+			/>
+		</div>
+	</div>
+</section>

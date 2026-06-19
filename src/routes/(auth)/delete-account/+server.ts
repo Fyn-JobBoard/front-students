@@ -3,53 +3,51 @@ import { AccountsApi } from 'fyn-api-sdk';
 import { FynFetchClients, useApi } from '$lib/server/api/api';
 import type { RequestHandler } from './$types';
 
-type JwtClaims = {
-	sub?: string;
+type MeResponse = {
 	id?: string;
-	account_id?: string;
-	account?: {
-		id?: string;
-	};
-};
-
-const decodeJwtClaims = (jwt: string): JwtClaims => {
-	const [, payload] = jwt.split('.');
-
-	if (!payload) {
-		return {};
-	}
-
-	try {
-		return JSON.parse(Buffer.from(payload, 'base64url').toString('utf-8'));
-	} catch {
-		return {};
-	}
 };
 
 export const GET: RequestHandler = async ({ cookies, fetch }) => {
 	const jwt = cookies.get(import.meta.env.APP_AUTH_COOKIE);
+	let accountDeleted = false;
 
 	if (!jwt) {
 		throw redirect(303, '/login');
 	}
 
-	const claims = decodeJwtClaims(jwt);
-	const accountId = claims.account?.id ?? claims.sub ?? claims.id ?? claims.account_id;
+	const authenticatedFetch = FynFetchClients.from_cookies(cookies, undefined, fetch);
+	const accountId = await authenticatedFetch(`${import.meta.env.API_ENDPOINT}/v1/accounts/me`, {
+		method: 'GET'
+	})
+		.then(async (response) => {
+			if (!response.ok) {
+				throw new Error(`Failed to load current account: ${response.status}`);
+			}
+
+			const account = (await response.json()) as MeResponse;
+			return account.id;
+		})
+		.catch((reason) => {
+			console.error(reason);
+			return undefined;
+		});
 
 	if (accountId) {
-		const accountsApi = useApi(
-			AccountsApi,
-			FynFetchClients.from_cookies(cookies, undefined, fetch)
-		);
+		const accountsApi = useApi(AccountsApi, authenticatedFetch);
 
-		await accountsApi.accountsControllerDeleteV1(accountId).catch((reason) => {
+		try {
+			await accountsApi.accountsControllerDeleteV1(accountId);
+			accountDeleted = true;
+		} catch (reason) {
 			console.error(reason);
-		});
+		}
 	}
 
-	cookies.delete(import.meta.env.APP_AUTH_COOKIE, {
-		path: '/'
-	});
+	if (accountDeleted) {
+		cookies.delete(import.meta.env.APP_AUTH_COOKIE, {
+			path: '/'
+		});
+	}
 
 	throw redirect(303, '/');
 };

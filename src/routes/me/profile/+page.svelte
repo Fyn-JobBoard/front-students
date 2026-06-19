@@ -6,9 +6,6 @@
 </script>
 
 <ProfileJob
-	activityDomains={data.activityDomains}
-	formations={data.formations}
-	experiences={data.experiences}
-	skills={data.skills}
+	{...data}
 	form={form}
 />

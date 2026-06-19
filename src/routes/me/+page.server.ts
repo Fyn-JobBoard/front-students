@@ -29,7 +29,7 @@ export const load: PageServerLoad = async ({ cookies, fetch }) => {
 		.applicationsControllerFindMineV1()
 		.then((response) => {
 			const list = toApplicationList(response as ApplicationsResponse);
-			console.info('[authentified] applications loaded', {
+			console.info('[me] applications loaded', {
 				responseType: Array.isArray(response) ? 'array' : typeof response,
 				keys: response && typeof response === 'object' ? Object.keys(response) : [],
 				count: list.length
