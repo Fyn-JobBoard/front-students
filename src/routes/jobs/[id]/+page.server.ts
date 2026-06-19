@@ -15,7 +15,7 @@ export const load: PageServerLoad = async ({ cookies, fetch, params }) => {
 	});
 
 	const similarJobs = await jobs
-		.jobsControllerFindAllV1(1, undefined, job.activity_domain?.name)
+		.jobsControllerFindAllV1(1, 3, job.activity_domain?.name)
 		.then((r) => r.list.filter((j: Job) => j.id !== job.id).slice(0, 3))
 		.catch((reason) => {
 			console.error(reason);
