@@ -57,16 +57,10 @@ const pickLinks = (links: string[] = []) => {
 	return { github, linkedin, portfolio };
 };
 
-export const load: PageServerLoad = async ({ cookies, fetch }) => {
-	const jwt = cookies.get(import.meta.env.APP_AUTH_COOKIE);
-	const claims = jwt ? decodeJwtClaims(jwt) : {};
-	const authenticatedFetch = FynFetchClients.from_cookies(cookies, FynFetchClients.guest(undefined, fetch), fetch);
-	const activityDomainsApi = useApi(
-		ActivityDomainsApi,
-		authenticatedFetch
-	);
-	const accounts = useApi(AccountsApi, authenticatedFetch);
-	const students = useApi(StudentsApi, authenticatedFetch);
+export const load: PageServerLoad = async ({ cookies, fetch, parent }) => {
+	const { account, student } = await parent();
+	const authenticatedFetch = FynFetchClients.from_cookies(cookies, undefined, fetch);
+	const activityDomainsApi = useApi(ActivityDomainsApi, authenticatedFetch);
 
 	const activityDomains = await activityDomainsApi
 		.activityDomainsControllerFindAllV1()
@@ -76,43 +70,19 @@ export const load: PageServerLoad = async ({ cookies, fetch }) => {
 			return [];
 		});
 
-	const accountId = claims.account?.id ?? claims.sub ?? claims.id ?? claims.account_id;
-	const fallbackEmail = claims.account?.email ?? claims.email;
-
-	const account =
-		accountId
-			? await accounts.accountsControllerGetV1(accountId).catch(() => null)
-			: null;
-
-	const email = account?.email ?? fallbackEmail ?? '';
-	const accountType = account?.type ?? claims.account?.type;
-	const student: StudentWithExtras | null =
-		accountType === Account.TypeEnum.Student && accountId
-			? await students
-					.studentsControllerGetV1(accountId)
-					.then((response) => response as StudentWithExtras)
-					.catch(async () =>
-						email
-							? students
-									.studentsControllerListV1(undefined, 1, email)
-									.then((response) => (response.list[0] as StudentWithExtras | undefined) ?? null)
-									.catch(() => null)
-							: null
-					)
-			: null;
-
-	const links = pickLinks(student?.links ?? []);
+	const profileStudent = student as StudentWithExtras | null;
+	const links = pickLinks(profileStudent?.links ?? []);
 
 	return {
 		activityDomains,
 		profile: {
-			email,
-			firstName: student?.first_name ?? '',
-			lastName: student?.last_name ?? '',
-			birthdate: student?.birthdate ?? '',
-			bio: student?.bio ?? '',
+			email: account?.email ?? '',
+			firstName: profileStudent?.first_name ?? '',
+			lastName: profileStudent?.last_name ?? '',
+			birthdate: profileStudent?.birthdate ?? '',
+			bio: profileStudent?.bio ?? '',
 			links,
-			selectedActivityDomainIds: (student?.activity_domains ?? []).map((domain) => domain.id)
+			selectedActivityDomainIds: (profileStudent?.activity_domains ?? []).map((domain) => domain.id)
 		}
 	};
 };
@@ -148,7 +118,7 @@ export const actions: Actions = {
 
 		const authenticatedFetch = FynFetchClients.from_cookies(
 			cookies,
-			FynFetchClients.guest(undefined, fetch),
+			undefined,
 			fetch
 		);
 		const accounts = useApi(AccountsApi, authenticatedFetch);
@@ -244,7 +214,7 @@ export const actions: Actions = {
 		if (!email && accountId) {
 			const accounts = useApi(
 				AccountsApi,
-				FynFetchClients.from_cookies(cookies, FynFetchClients.guest(undefined, fetch), fetch)
+				FynFetchClients.from_cookies(cookies, undefined, fetch)
 			);
 			email = await accounts
 				.accountsControllerGetV1(accountId)
@@ -272,7 +242,7 @@ export const actions: Actions = {
 
 		const accounts = useApi(
 			AccountsApi,
-			FynFetchClients.from_cookies(cookies, FynFetchClients.guest(undefined, fetch), fetch)
+			FynFetchClients.from_cookies(cookies, undefined, fetch)
 		);
 
 		const updateResult = await accounts

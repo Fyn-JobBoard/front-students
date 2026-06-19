@@ -1,9 +1,12 @@
 <script lang="ts">
 	import type { TableProps } from '$lib/components/kanban/table.svelte';
 	import Table from '$lib/components/kanban/table.svelte';
-	import type { Application as ApplicationModel } from 'fyn-api-sdk';
+	import { Application as ApplicationModel } from 'fyn-api-sdk';
 
-	type ApplicationStatus = 'draft' | 'sent' | 'accepted' | 'refused';
+	ApplicationModel.StatusEnum.Draft;
+	ApplicationModel.StatusEnum.Refused;
+	ApplicationModel.StatusEnum.Sent;
+	ApplicationModel.StatusEnum.Accepted;
 
 	let {
 		applications,
@@ -84,28 +87,28 @@
 		}
 	];
 
-	const statusColumns: Record<ApplicationStatus, Omit<TableProps, 'tasks'>> = {
-		draft: {
+	const statusColumns: Record<ApplicationModel.StatusEnum, Omit<TableProps, 'tasks'>> = {
+		[ApplicationModel.StatusEnum.Draft]: {
 			title: 'Brouillons',
 			theme: {
 				color: 'var(--color-lighthouse-yellow)'
 			}
 		},
-		sent: {
+		[ApplicationModel.StatusEnum.Sent]: {
 			title: 'Envoyées',
 			theme: {
 				color: 'var(--color-ocean-blue)',
 				isDarkColor: true
 			}
 		},
-		accepted: {
+		[ApplicationModel.StatusEnum.Accepted]: {
 			title: 'Acceptées',
 			theme: {
 				color: '#10965B',
 				isDarkColor: true
 			}
 		},
-		refused: {
+		[ApplicationModel.StatusEnum.Refused]: {
 			title: 'Refusées',
 			theme: {
 				color: '#D13838',
@@ -113,7 +116,12 @@
 			}
 		}
 	};
-	const statusOrder = ['draft', 'sent', 'accepted', 'refused'] as ApplicationStatus[];
+	const statusOrder = [
+		ApplicationModel.StatusEnum.Draft,
+		ApplicationModel.StatusEnum.Sent,
+		ApplicationModel.StatusEnum.Accepted,
+		ApplicationModel.StatusEnum.Refused
+	];
 
 	const applicationTables = $derived.by<TableProps[]>(() => {
 		if (!applications) {
@@ -122,10 +130,10 @@
 
 		const applicationList = Array.isArray(applications) ? applications : [];
 
-		return statusOrder.map((status) => ({
+	return statusOrder.map((status) => ({
 			...statusColumns[status],
 			tasks: applicationList
-				.filter((application) => String(application.status) === status)
+				.filter((application) => application.status != null && application.status === status)
 				.map((application) => ({
 					title: application.job?.company?.name ?? application.job?.title ?? 'Candidature',
 					description: application.job?.title ?? application.message
@@ -136,7 +144,7 @@
 
 <section
 	class={compact
-		? 'mx-20 overflow-hidden rounded-[2rem] bg-bleuet-blue px-6 py-5 lg:mx-28'
+		? 'mx-6 overflow-hidden rounded-[2rem] bg-bleuet-blue px-6 py-5 lg:mx-20 xl:mx-28'
 		: 'bg-bleuet-blue p-20 max-md:px-6'}
 >
 	<div class="text-center">
