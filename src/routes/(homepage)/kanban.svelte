@@ -3,11 +3,6 @@
 	import Table from '$lib/components/kanban/table.svelte';
 	import { Application as ApplicationModel } from 'fyn-api-sdk';
 
-	ApplicationModel.StatusEnum.Draft;
-	ApplicationModel.StatusEnum.Refused;
-	ApplicationModel.StatusEnum.Sent;
-	ApplicationModel.StatusEnum.Accepted;
-
 	let {
 		applications,
 		compact = false

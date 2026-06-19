@@ -1,6 +1,7 @@
 import { FynFetchClients, useApi } from '$lib/server/api/api';
-import { fail, type Actions, type Cookies } from '@sveltejs/kit';
+import { fail, type Actions } from '@sveltejs/kit';
 import {
+	AccountsApi,
 	ActivityDomainsApi,
 	CreateSkillDto,
 	ExperiencesApi,
@@ -10,6 +11,7 @@ import {
 	type ActivityDomain,
 	type Experience,
 	type Formation,
+	type MeRouteAsStudentResponse,
 	type Skill,
 	type Student
 } from 'fyn-api-sdk';
@@ -18,14 +20,6 @@ import type { PageServerLoad } from './$types';
 type ActivityDomainsResponse = ActivityDomain[] | { list?: ActivityDomain[] };
 type StudentWithSkills = Student & {
 	skills?: Skill[];
-};
-type JwtClaims = {
-	sub?: string;
-	id?: string;
-	account_id?: string;
-	account?: {
-		id?: string;
-	};
 };
 
 const toDomainList = (response: ActivityDomainsResponse): ActivityDomain[] => {
@@ -62,28 +56,7 @@ const parseIndexedRecords = (formData: FormData, prefix: string) => {
 const isBlankRecord = (record: Record<string, string>, ignoredFields: string[] = ['id']) =>
 	Object.entries(record).every(([key, value]) => ignoredFields.includes(key) || !value);
 
-const decodeJwtClaims = (jwt: string): JwtClaims => {
-	const [, payload] = jwt.split('.');
-
-	if (!payload) {
-		return {};
-	}
-
-	try {
-		return JSON.parse(Buffer.from(payload, 'base64url').toString('utf-8'));
-	} catch {
-		return {};
-	}
-};
-
-const getAccountIdFromJwt = (cookies: Cookies) => {
-	const jwt = cookies.get(import.meta.env.APP_AUTH_COOKIE);
-	const claims = jwt ? decodeJwtClaims(jwt) : {};
-
-	return claims.account?.id ?? claims.sub ?? claims.id ?? claims.account_id;
-};
-
-export const load: PageServerLoad = async ({ cookies, fetch }) => {
+export const load: PageServerLoad = async ({ cookies, fetch, parent }) => {
 	const authenticatedFetch = FynFetchClients.from_cookies(cookies, undefined, fetch);
 	const activityDomainsApi = useApi(ActivityDomainsApi, authenticatedFetch);
 	const formationsApi = useApi(FormationsApi, authenticatedFetch);
@@ -114,26 +87,28 @@ export const load: PageServerLoad = async ({ cookies, fetch }) => {
 			return [] as Experience[];
 		});
 
-	const studentId = getAccountIdFromJwt(cookies);
-
-	const student = studentId
-		? await studentsApi
-				.studentsControllerGetV1(studentId)
-				.then((response) => response as StudentWithSkills)
-				.catch(() => null)
-		: null;
+	const { student } = await parent();
+	const profileStudent = await studentsApi
+		.studentsControllerGetV1(student.id)
+		.then((response) => response as StudentWithSkills)
+		.catch(() => null);
 
 	return {
 		activityDomains,
 		formations,
 		experiences,
-		skills: student?.skills ?? []
+		skills: profileStudent?.skills ?? []
 	};
 };
 
 export const actions: Actions = {
 	saveProfileJob: async ({ cookies, fetch, request }) => {
-		const studentId = getAccountIdFromJwt(cookies);
+		const authenticatedFetch = FynFetchClients.from_cookies(cookies, undefined, fetch);
+		const accountsApi = useApi(AccountsApi, authenticatedFetch);
+		const studentId = await accountsApi
+			.accountsControllerGetMeV1()
+			.then((student) => (student as MeRouteAsStudentResponse).id)
+			.catch(() => undefined);
 
 		if (!studentId) {
 			return fail(401, {
@@ -141,11 +116,6 @@ export const actions: Actions = {
 			});
 		}
 
-		const authenticatedFetch = FynFetchClients.from_cookies(
-			cookies,
-			undefined,
-			fetch
-		);
 		const formationsApi = useApi(FormationsApi, authenticatedFetch);
 		const experiencesApi = useApi(ExperiencesApi, authenticatedFetch);
 		const skillsApi = useApi(SkillsApi, authenticatedFetch);
@@ -185,7 +155,7 @@ export const actions: Actions = {
 			}
 		}
 
-		const [existingFormations, existingExperiences, student] = await Promise.all([
+		const [existingFormations, existingExperiences, existingStudent] = await Promise.all([
 			formationsApi.formationsControllerListV1(1, 100).then((response) => response.list ?? []),
 			experiencesApi.experiencesControllerListV1(1, 100).then((response) => response.list ?? []),
 			studentsApi
@@ -196,7 +166,7 @@ export const actions: Actions = {
 
 		const existingFormationIds = new Set(existingFormations.map((formation) => formation.id));
 		const existingExperienceIds = new Set(existingExperiences.map((experience) => experience.id));
-		const existingSkills = student?.skills ?? [];
+		const existingSkills = existingStudent?.skills ?? [];
 		const existingSkillIds = new Set(existingSkills.map((skill) => skill.id));
 
 		try {

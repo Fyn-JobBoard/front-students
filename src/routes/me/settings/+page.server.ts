@@ -7,22 +7,12 @@ import {
 	AuthApi,
 	StudentsApi,
 	type ActivityDomain,
+	type MeRouteAsStudentResponse,
 	type Student
 } from 'fyn-api-sdk';
 import type { PageServerLoad } from './$types';
 
 type ActivityDomainsResponse = ActivityDomain[] | { list?: ActivityDomain[] };
-type JwtClaims = {
-	sub?: string;
-	id?: string;
-	account_id?: string;
-	email?: string;
-	account?: {
-		id?: string;
-		email?: string;
-		type?: Account.TypeEnum;
-	};
-};
 type StudentWithExtras = Student & {
 	activity_domains?: ActivityDomain[];
 };
@@ -35,19 +25,6 @@ const toDomainList = (response: ActivityDomainsResponse): ActivityDomain[] => {
 	return response.list ?? [];
 };
 
-const decodeJwtClaims = (jwt: string): JwtClaims => {
-	const [, payload] = jwt.split('.');
-
-	if (!payload) {
-		return {};
-	}
-
-	try {
-		return JSON.parse(Buffer.from(payload, 'base64url').toString('utf-8')) as JwtClaims;
-	} catch {
-		return {};
-	}
-};
 
 const pickLinks = (links: string[] = []) => {
 	const github = links.find((link) => link.includes('github.com')) ?? '';
@@ -58,7 +35,7 @@ const pickLinks = (links: string[] = []) => {
 };
 
 export const load: PageServerLoad = async ({ cookies, fetch, parent }) => {
-	const { account, student } = await parent();
+	const { student } = await parent();
 	const authenticatedFetch = FynFetchClients.from_cookies(cookies, undefined, fetch);
 	const activityDomainsApi = useApi(ActivityDomainsApi, authenticatedFetch);
 
@@ -68,21 +45,17 @@ export const load: PageServerLoad = async ({ cookies, fetch, parent }) => {
 		.catch((reason) => {
 			console.error(reason);
 			return [];
-		});
+	});
 
-	const profileStudent = student as StudentWithExtras | null;
-	const links = pickLinks(profileStudent?.links ?? []);
+	const profileStudent = student as StudentWithExtras;
+	const profileBase = profileStudent as MeRouteAsStudentResponse;
+	const links = pickLinks(profileStudent.links ?? []);
 
 	return {
 		activityDomains,
 		profile: {
-			email: account?.email ?? '',
-			firstName: profileStudent?.first_name ?? '',
-			lastName: profileStudent?.last_name ?? '',
-			birthdate: profileStudent?.birthdate ?? '',
-			bio: profileStudent?.bio ?? '',
-			links,
-			selectedActivityDomainIds: (profileStudent?.activity_domains ?? []).map((domain) => domain.id)
+			...profileBase,
+			splitLinks: links
 		}
 	};
 };
@@ -124,7 +97,9 @@ export const actions: Actions = {
 		const accounts = useApi(AccountsApi, authenticatedFetch);
 		const students = useApi(StudentsApi, authenticatedFetch);
 
-		const account = await accounts.accountsControllerUpdateMeV1({ email }).catch(async (error: unknown) => {
+		try {
+			await accounts.accountsControllerUpdateMeV1({ email });
+		} catch (error: unknown) {
 			if (error instanceof Response) {
 				const payload = await error.json().catch(() => null);
 				return fail(error.status, {
@@ -141,41 +116,33 @@ export const actions: Actions = {
 			return fail(500, {
 				profileError: 'Impossible de mettre à jour le compte.'
 			});
-		});
-
-		if ('status' in account) {
-			return account;
 		}
 
-		const student = await students
-			.studentsControllerUpdateMeV1({
+		try {
+			await students.studentsControllerUpdateMeV1({
 				first_name,
 				last_name,
 				birthdate,
 				bio: bio || undefined,
 				links
-			})
-			.catch(async (error: unknown) => {
-				if (error instanceof Response) {
-					const payload = await error.json().catch(() => null);
-					return fail(error.status, {
-						profileError:
-							typeof payload === 'object' &&
-							payload &&
-							'message' in payload &&
-							typeof payload.message === 'string'
-								? payload.message
-								: 'Impossible de mettre à jour le profil étudiant.'
-					});
-				}
-
-				return fail(500, {
-					profileError: 'Impossible de mettre à jour le profil étudiant.'
-				});
 			});
+		} catch (error: unknown) {
+			if (error instanceof Response) {
+				const payload = await error.json().catch(() => null);
+				return fail(error.status, {
+					profileError:
+						typeof payload === 'object' &&
+						payload &&
+						'message' in payload &&
+						typeof payload.message === 'string'
+							? payload.message
+							: 'Impossible de mettre à jour le profil étudiant.'
+				});
+			}
 
-		if ('status' in student) {
-			return student;
+			return fail(500, {
+				profileError: 'Impossible de mettre à jour le profil étudiant.'
+			});
 		}
 
 		return {
@@ -206,21 +173,12 @@ export const actions: Actions = {
 			});
 		}
 
-		const jwt = cookies.get(import.meta.env.APP_AUTH_COOKIE);
-		const claims = jwt ? decodeJwtClaims(jwt) : {};
-		const accountId = claims.account?.id ?? claims.sub ?? claims.id ?? claims.account_id;
-		let email = claims.account?.email ?? claims.email;
-
-		if (!email && accountId) {
-			const accounts = useApi(
-				AccountsApi,
-				FynFetchClients.from_cookies(cookies, undefined, fetch)
-			);
-			email = await accounts
-				.accountsControllerGetV1(accountId)
-				.then((account) => account.email)
-				.catch(() => undefined);
-		}
+		const authenticatedFetch = FynFetchClients.from_cookies(cookies, undefined, fetch);
+		const accounts = useApi(AccountsApi, authenticatedFetch);
+		const email = await accounts
+			.accountsControllerGetMeV1()
+			.then((account) => (account as MeRouteAsStudentResponse).account.email)
+			.catch(() => undefined);
 
 		if (!email) {
 			return fail(401, {
@@ -239,11 +197,6 @@ export const actions: Actions = {
 				passwordError: 'Le mot de passe actuel est incorrect.'
 			});
 		}
-
-		const accounts = useApi(
-			AccountsApi,
-			FynFetchClients.from_cookies(cookies, undefined, fetch)
-		);
 
 		const updateResult = await accounts
 			.accountsControllerUpdateMeV1({

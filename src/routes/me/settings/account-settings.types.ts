@@ -1,17 +1,12 @@
+import type { ActivityDomain, MeRouteAsStudentResponse } from 'fyn-api-sdk';
 import type { ActionData } from './$types';
 
-export type AccountSettingsProfile = {
-	email: string;
-	firstName: string;
-	lastName: string;
-	birthdate: string;
-	bio: string;
-	links: {
+export type AccountSettingsProfile = MeRouteAsStudentResponse & {
+	activity_domains?: ActivityDomain[];
+	splitLinks: {
 		github: string;
 		linkedin: string;
 		portfolio: string;
 	};
-	selectedActivityDomainIds: number[];
 };
-
 export type AccountSettingsForm = ActionData | null;

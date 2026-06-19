@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { ActivityDomain } from 'fyn-api-sdk';
-	import { SvelteSet } from 'svelte/reactivity';
 	import AccountAccessSection from './account-access-section.svelte';
 	import ActivityDomainsSection from './activity-domains-section.svelte';
 	import AccountSettingsHeader from './account-settings-header.svelte';
@@ -19,32 +18,12 @@
 		form?: AccountSettingsForm;
 	} = $props();
 	let isPasswordModalOpen = $state(false);
-	let hasInitializedDomains = $state(false);
+	let selectedDomainIds = $state<number[]>(profile.activity_domains?.map((domain) => domain.id) ?? []);
 
 	$effect(() => {
 		if (form?.passwordError) {
 			isPasswordModalOpen = true;
 		}
-	});
-
-	const selectedDomainIds = $state(new SvelteSet<number>());
-	const selectedDomains = $derived(
-		activityDomains.filter((domain) => selectedDomainIds.has(domain.id))
-	);
-	const availableDomains = $derived(
-		activityDomains.filter((domain) => !selectedDomainIds.has(domain.id))
-	);
-
-	$effect(() => {
-		if (hasInitializedDomains) {
-			return;
-		}
-
-		for (const id of profile.selectedActivityDomainIds) {
-			selectedDomainIds.add(id);
-		}
-
-		hasInitializedDomains = true;
 	});
 
 	const openPasswordModal = () => {
@@ -53,14 +32,6 @@
 
 	const closePasswordModal = () => {
 		isPasswordModalOpen = false;
-	};
-
-	const addDomain = (domainId: number) => {
-		selectedDomainIds.add(domainId);
-	};
-
-	const removeDomain = (domainId: number) => {
-		selectedDomainIds.delete(domainId);
 	};
 </script>
 
@@ -103,10 +74,7 @@
 
 			<ActivityDomainsSection
 				{activityDomains}
-				{selectedDomains}
-				{availableDomains}
-				onAddDomain={addDomain}
-				onRemoveDomain={removeDomain}
+				bind:selectedDomainIds
 			/>
 
 			<div class="flex justify-end border-t border-ocean-blue/10 pt-6">

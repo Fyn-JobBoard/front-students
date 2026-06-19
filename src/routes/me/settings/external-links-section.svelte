@@ -25,7 +25,7 @@
 				id="github-link"
 				name="links"
 				type="url"
-				value={profile.links.github}
+				value={profile.splitLinks.github}
 				placeholder="https://github.com/ton-profil"
 			/>
 		</div>
@@ -39,7 +39,7 @@
 				id="linkedin-link"
 				name="links"
 				type="url"
-				value={profile.links.linkedin}
+				value={profile.splitLinks.linkedin}
 				placeholder="https://www.linkedin.com/in/ton-profil"
 			/>
 		</div>
@@ -53,7 +53,7 @@
 				id="portfolio-link"
 				name="links"
 				type="url"
-				value={profile.links.portfolio}
+				value={profile.splitLinks.portfolio}
 				placeholder="https://ton-portfolio.fr"
 			/>
 		</div>
