@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Apply from '$lib/components/forms/apply.svelte';
 	import OfferDetails from '$lib/components/jobs/offer-details.svelte';
+	import SimilarOffers from '$lib/components/jobs/similar-offers.svelte';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -18,4 +19,6 @@
 			<Apply job={data.job} />
 		</section>
 	</div>
+
+	<SimilarOffers jobs={data.similarJobs} />
 </div>
