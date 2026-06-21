@@ -1,33 +1,74 @@
 import { FynFetchClients, useApi } from '$lib/server/api/api';
 import { fail, type Actions } from '@sveltejs/kit';
 import {
+	Account,
 	AccountsApi,
 	ActivityDomainsApi,
 	CreateSkillDto,
 	ExperiencesApi,
 	FormationsApi,
+	Skill,
 	SkillsApi,
 	StudentsApi,
 	type ActivityDomain,
+	type CreateExperienceDto,
+	type CreateFormationDto,
 	type Experience,
 	type Formation,
 	type MeRouteAsStudentResponse,
-	type Skill,
 	type Student
 } from 'fyn-api-sdk';
 import type { PageServerLoad } from './$types';
 
-type ActivityDomainsResponse = ActivityDomain[] | { list?: ActivityDomain[] };
 type StudentWithSkills = Student & {
 	skills?: Skill[];
 };
 
-const toDomainList = (response: ActivityDomainsResponse): ActivityDomain[] => {
-	if (Array.isArray(response)) {
-		return response;
-	}
+export const load: PageServerLoad = async ({ cookies, fetch, parent }) => {
+	const authenticatedFetch = FynFetchClients.from_cookies(cookies, undefined, fetch);
+	const activityDomainsApi = useApi(ActivityDomainsApi, authenticatedFetch);
+	const formationsApi = useApi(FormationsApi, authenticatedFetch);
+	const experiencesApi = useApi(ExperiencesApi, authenticatedFetch);
+	const skillsApi = useApi(SkillsApi, authenticatedFetch);
 
-	return response.list ?? [];
+	const activityDomains: ActivityDomain[] = await activityDomainsApi
+		.activityDomainsControllerFindAllV1()
+		.then((response) => response.list)
+		.catch((reason) => {
+			console.error(reason);
+			return [];
+		});
+
+	const formations: Formation[] = await formationsApi
+		.formationsControllerListV1(1, 100)
+		.then((response) => response.list)
+		.catch((reason) => {
+			console.error(reason);
+			return [];
+		});
+
+	const experiences: Experience[] = await experiencesApi
+		.experiencesControllerListV1(1, 100)
+		.then((response) => response.list)
+		.catch((reason) => {
+			console.error(reason);
+			return [];
+		});
+
+	const skills: Skill[] = await skillsApi
+		.skillsControllerGetV1(undefined, undefined, undefined, (await parent()).me.id)
+		.then((response) => response.list)
+		.catch((reason) => {
+			console.error(reason);
+			return [];
+		});
+
+	return {
+		activityDomains,
+		formations,
+		experiences,
+		skills
+	};
 };
 
 const parseIndexedRecords = (formData: FormData, prefix: string) => {
@@ -35,200 +76,181 @@ const parseIndexedRecords = (formData: FormData, prefix: string) => {
 	const records = new Map<number, Record<string, string>>();
 
 	for (const [key, value] of formData.entries()) {
-		const match = key.match(pattern);
-
+		const match = pattern.exec(key);
 		if (!match) {
 			continue;
 		}
 
-		const index = Number(match[1]);
+		const index = parseInt(match[1]);
 		const field = match[2];
 		const current = records.get(index) ?? {};
 		current[field] = value.toString().trim();
 		records.set(index, current);
 	}
 
-	return [...records.entries()]
-		.sort(([left], [right]) => left - right)
-		.map(([, record]) => record);
-};
-
-const isBlankRecord = (record: Record<string, string>, ignoredFields: string[] = ['id']) =>
-	Object.entries(record).every(([key, value]) => ignoredFields.includes(key) || !value);
-
-export const load: PageServerLoad = async ({ cookies, fetch, parent }) => {
-	const authenticatedFetch = FynFetchClients.from_cookies(cookies, undefined, fetch);
-	const activityDomainsApi = useApi(ActivityDomainsApi, authenticatedFetch);
-	const formationsApi = useApi(FormationsApi, authenticatedFetch);
-	const experiencesApi = useApi(ExperiencesApi, authenticatedFetch);
-	const studentsApi = useApi(StudentsApi, authenticatedFetch);
-
-	const activityDomains = await activityDomainsApi
-		.activityDomainsControllerFindAllV1()
-		.then((response) => toDomainList(response as ActivityDomainsResponse))
-		.catch((reason) => {
-			console.error(reason);
-			return [];
-		});
-
-	const formations = await formationsApi
-		.formationsControllerListV1(1, 100)
-		.then((response) => response.list ?? [])
-		.catch((reason) => {
-			console.error(reason);
-			return [] as Formation[];
-		});
-
-	const experiences = await experiencesApi
-		.experiencesControllerListV1(1, 100)
-		.then((response) => response.list ?? [])
-		.catch((reason) => {
-			console.error(reason);
-			return [] as Experience[];
-		});
-
-	const { student } = await parent();
-	const profileStudent = await studentsApi
-		.studentsControllerGetV1(student.id)
-		.then((response) => response as StudentWithSkills)
-		.catch(() => null);
-
-	return {
-		activityDomains,
-		formations,
-		experiences,
-		skills: profileStudent?.skills ?? []
-	};
+	// Sort the records by their index
+	return [...records.entries()].sort(([left], [right]) => left - right).map(([, record]) => record);
 };
 
 export const actions: Actions = {
 	saveProfileJob: async ({ cookies, fetch, request }) => {
 		const authenticatedFetch = FynFetchClients.from_cookies(cookies, undefined, fetch);
-		const accountsApi = useApi(AccountsApi, authenticatedFetch);
-		const studentId = await accountsApi
-			.accountsControllerGetMeV1()
-			.then((student) => (student as MeRouteAsStudentResponse).id)
-			.catch(() => undefined);
 
-		if (!studentId) {
+		// Pas accès aux data de +layout.server.ts -> Re-récupération du compte étudiant
+		const accountsApi = useApi(AccountsApi, authenticatedFetch);
+		const student = (await accountsApi
+			.accountsControllerGetMeV1()
+			.catch(() => null)) as MeRouteAsStudentResponse | null;
+
+		if (student?.account.type !== Account.TypeEnum.Student) {
 			return fail(401, {
 				profileJobError: "Impossible d'identifier l'étudiant connecté."
+			});
+		}
+
+		const data = await request.formData();
+		const errorBag: string[] = [];
+
+		// Parse entries as records
+		const formations: Record<string, string | number>[] = parseIndexedRecords(data, 'formations');
+		const experiences: Record<string, string | number>[] = parseIndexedRecords(data, 'experiences');
+		const skills: Record<string, string | number>[] = parseIndexedRecords(data, 'skills');
+
+		// Verify for missing fields
+		// and cast some fields to integer
+
+		/**
+		 * Convert the field in the record as integer and return if it as been possible or not
+		 */
+		const asInt = (record: Record<string, string | number>, field: string) => {
+			if (record[field]) {
+				const int = parseInt(record[field] as string);
+				if (isNaN(int)) {
+					return false;
+				}
+				record[field] = parseInt(record[field] as string);
+			}
+
+			return true;
+		};
+
+		for (const formation of formations) {
+			if (!(formation.title && formation.description)) {
+				errorBag.push('Chaque formation doit avoir un titre et une durée.');
+				break;
+			}
+			if (!asInt(formation, 'id')) {
+				errorBag.push("Une formation n'a pas pu être validée.");
+				break;
+			}
+
+			if (!asInt(formation, 'activity_domain_id')) {
+				errorBag.push("Le domaine d'activité d'une formation n'est pas valide.");
+				break;
+			}
+			if (!asInt(formation, 'duration')) {
+				errorBag.push("La durée d'une la formation n'est pas valide.");
+				break;
+			}
+		}
+
+		for (const experience of experiences) {
+			if (!(experience.title && experience.description && experience.begin_date)) {
+				errorBag.push(
+					'Chaque expérience doit avoir un titre, une description et une date de début.'
+				);
+				break;
+			}
+			if (!asInt(experience, 'id')) {
+				errorBag.push("Une experience n'a pas pu être validée.");
+				break;
+			}
+		}
+
+		for (const skill of skills) {
+			if (!(skill.name && skill.type)) {
+				errorBag.push('Chaque compétence doit avoir un nom et un type.');
+				break;
+			}
+			if ([Skill.TypeEnum.Soft, Skill.TypeEnum.Hard].includes(skill.type as Skill.TypeEnum)) {
+				errorBag.push(
+					`Le type d'un skill doit être soit '${Skill.TypeEnum.Soft}', soit '${Skill.TypeEnum.Hard}'.`
+				);
+				break;
+			}
+
+			if (!asInt(skill, 'id')) {
+				errorBag.push("Un skill n'a pas pu être validée.");
+				break;
+			}
+		}
+
+		if (errorBag.length) {
+			return fail(400, {
+				errors: errorBag
 			});
 		}
 
 		const formationsApi = useApi(FormationsApi, authenticatedFetch);
 		const experiencesApi = useApi(ExperiencesApi, authenticatedFetch);
 		const skillsApi = useApi(SkillsApi, authenticatedFetch);
-		const studentsApi = useApi(StudentsApi, authenticatedFetch);
-		const formData = await request.formData();
 
-		const formationRecords = parseIndexedRecords(formData, 'formations');
-		const experienceRecords = parseIndexedRecords(formData, 'experiences');
-		const skillRecords = parseIndexedRecords(formData, 'skills');
-
-		const formations = formationRecords.filter((record) => !isBlankRecord(record));
-		const experiences = experienceRecords.filter((record) => !isBlankRecord(record));
-		const skills = skillRecords.filter((record) => !isBlankRecord(record));
-
-		for (const formation of formations) {
-			if (!formation.title || !formation.duration) {
-				return fail(400, {
-					profileJobError: 'Chaque formation doit avoir un titre et une durée.'
-				});
-			}
-		}
-
-		for (const experience of experiences) {
-			if (!experience.title || !experience.description || !experience.begin_date) {
-				return fail(400, {
-					profileJobError:
-						'Chaque expérience doit avoir un titre, une description et une date de début.'
-				});
-			}
-		}
-
-		for (const skill of skills) {
-			if (!skill.name || !skill.type) {
-				return fail(400, {
-					profileJobError: 'Chaque compétence doit avoir un nom et un type.'
-				});
-			}
-		}
-
-		const [existingFormations, existingExperiences, existingStudent] = await Promise.all([
-			formationsApi.formationsControllerListV1(1, 100).then((response) => response.list ?? []),
-			experiencesApi.experiencesControllerListV1(1, 100).then((response) => response.list ?? []),
-			studentsApi
-				.studentsControllerGetV1(studentId)
-				.then((response) => response as StudentWithSkills)
-				.catch(() => null)
-		]).catch(() => [[], [], null] as const);
+		// Get existing entries to know which was removed or needs to be inserted
+		const [existingFormations, existingExperiences, existingSkills] = await Promise.all([
+			formationsApi.formationsControllerListV1(1, 100).then((response) => response.list),
+			experiencesApi.experiencesControllerListV1(1, 100).then((response) => response.list),
+			skillsApi
+				.skillsControllerGetV1(undefined, undefined, undefined, student.id)
+				.then((response) => response.list)
+		]).catch(() => [[], [], []]);
 
 		const existingFormationIds = new Set(existingFormations.map((formation) => formation.id));
 		const existingExperienceIds = new Set(existingExperiences.map((experience) => experience.id));
-		const existingSkills = existingStudent?.skills ?? [];
 		const existingSkillIds = new Set(existingSkills.map((skill) => skill.id));
 
 		try {
 			const submittedFormationIds = new Set<number>();
 			for (const formation of formations) {
-				const formationId = Number(formation.id);
-				const payload = {
-					title: formation.title,
-					info_url: formation.info_url || undefined,
-					description: formation.description || undefined,
-					obtention_date: formation.obtention_date || undefined,
-					duration: Number(formation.duration),
-					activity_domain_id: formation.activity_domain_id
-						? Number(formation.activity_domain_id)
-						: undefined
-				};
+				const formationId = formation.id as number;
 
 				if (existingFormationIds.has(formationId)) {
+					await formationsApi.formationsControllerUpdateV1(formation, formationId);
 					submittedFormationIds.add(formationId);
-					await formationsApi.formationsControllerUpdateV1(payload, formationId);
 				} else {
-					await formationsApi.formationsControllerCreateV1(payload);
+					await formationsApi.formationsControllerCreateV1(
+						formation as unknown as CreateFormationDto
+					);
 				}
 			}
 
 			const submittedExperienceIds = new Set<number>();
 			for (const experience of experiences) {
-				const experienceId = Number(experience.id);
-				const payload = {
-					title: experience.title,
-					description: experience.description,
-					begin_date: experience.begin_date,
-					end_date: experience.end_date || undefined,
-					company_fallback_name: experience.company_fallback_name || undefined
-				};
+				const experienceId = experience.id as number;
 
 				if (existingExperienceIds.has(experienceId)) {
+					await experiencesApi.experiencesControllerUpdateV1(experience, experienceId);
 					submittedExperienceIds.add(experienceId);
-					await experiencesApi.experiencesControllerUpdateV1(payload, experienceId);
 				} else {
-					await experiencesApi.experiencesControllerCreateV1(payload);
+					await experiencesApi.experiencesControllerCreateV1(
+						experience as unknown as CreateExperienceDto
+					);
 				}
 			}
 
 			const submittedSkillIds = new Set<number>();
 			for (const skill of skills) {
-				const skillId = Number(skill.id);
-				const payload = {
-					name: skill.name,
-					type:
-						skill.type === 'soft' ? CreateSkillDto.TypeEnum.Soft : CreateSkillDto.TypeEnum.Hard
-				};
+				const skillId = skill.id as number;
 
-				await skillsApi.skillsControllerUpsertV1(payload, studentId);
+				await skillsApi.skillsControllerUpsertV1(skill as CreateSkillDto, student.id);
 				if (existingSkillIds.has(skillId)) {
 					submittedSkillIds.add(skillId);
 				}
 			}
 
+			// Deleting skills
 			for (const skill of existingSkills) {
 				if (!submittedSkillIds.has(skill.id)) {
-					await skillsApi.skillsControllerRemoveV1(skill.id, studentId).catch(() => null);
+					await skillsApi.skillsControllerRemoveV1(skill.id, student.id).catch(() => null);
 				}
 			}
 

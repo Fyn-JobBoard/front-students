@@ -21,11 +21,11 @@
 	} = {
 		'Modifier mon profile': {
 			icon: 'icon-[mdi--account-edit]',
-			url: './profile'
+			url: '/me/profile'
 		},
 		'Modifier mon compte': {
 			icon: 'icon-[mdi--gear]',
-			url: './settings'
+			url: '/me/settings'
 		}
 	};
 </script>

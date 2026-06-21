@@ -1,9 +1,9 @@
 <script lang="ts">
 	import type { ActivityDomain, Experience, Formation, Skill } from 'fyn-api-sdk';
-	import ProfileJobExperiences from './profile-job-experiences.svelte';
-	import ProfileJobFormations from './profile-job-formations.svelte';
-	import ProfileJobHeader from './profile-job-header.svelte';
-	import ProfileJobSkills from './profile-job-skills.svelte';
+	import ProfileJobExperiences from './experiences.svelte';
+	import ProfileJobFormations from './formations.svelte';
+	import ProfileJobHeader from './header.svelte';
+	import ProfileJobSkills from './skills.svelte';
 	import type {
 		ExperienceForm,
 		FormationForm,
