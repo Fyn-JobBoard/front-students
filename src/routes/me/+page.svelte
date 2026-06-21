@@ -1,8 +1,8 @@
 <script lang="ts">
 	import Info from '$lib/components/cards/info.svelte';
+	import Kanban from '$lib/components/kanban/applications.svelte';
 	import Profile from '$lib/components/profile/profile.svelte';
 	import Button from '$lib/components/ui/button.svelte';
-	import Kanban from '../(homepage)/kanban.svelte';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -28,7 +28,7 @@
 	</div>
 </section>
 
-<Kanban compact applications={data.applications} />
+<Kanban applications={data.applications} />
 
 <section class="px-6 pt-6 pb-16 lg:px-20 xl:px-28">
 	<div class="flex justify-end gap-3">

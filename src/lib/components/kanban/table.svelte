@@ -8,22 +8,21 @@
 			color: string;
 			isDarkColor?: boolean;
 		};
-		compact?: boolean;
 	}
 </script>
 
 <script lang="ts">
 	import Task from './task.svelte';
-	const { title, tasks, theme, compact = false }: TableProps = $props();
+	const { title, tasks, theme }: TableProps = $props();
 </script>
 
-<section class={compact ? 'rounded-2xl bg-white p-2.5' : 'rounded-2xl bg-white p-4'}>
-	<header class={compact ? 'flex items-center justify-center gap-2 text-sm font-semibold' : 'flex items-center justify-center gap-2 font-semibold'}>
+<section class="rounded-2xl bg-white p-4">
+	<header class="flex items-center justify-center gap-2 font-semibold">
 		<h3>{title}</h3>
 		<div
 			style:background-color={theme.color}
 			aria-label="Nombre de tâche présente dans ce tableau"
-			class={['relative rounded-full', compact ? 'size-[1.35em]' : 'size-[1.5em]', theme.isDarkColor && 'text-white']}
+			class="relative size-[1.5em] rounded-full {theme.isDarkColor && 'text-white'}"
 		>
 			<span class="absolute top-1/2 left-1/2 -translate-1/2 text-[1em]">
 				{tasks.length}
@@ -31,11 +30,11 @@
 		</div>
 	</header>
 
-	<main class={compact ? 'mt-3' : 'mt-6'}>
-		<ul class={compact ? 'grid gap-2.5' : 'grid gap-4'}>
+	<main class="mt-6">
+		<ul class="grid gap-4">
 			{#each tasks as task}
 				<li>
-					<Task {...task} themeColor={theme.color} {compact} />
+					<Task {...task} themeColor={theme.color} />
 				</li>
 			{/each}
 		</ul>
