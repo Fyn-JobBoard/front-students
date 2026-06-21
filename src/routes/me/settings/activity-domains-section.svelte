@@ -3,7 +3,7 @@
 
 	let {
 		activityDomains = [],
-		selectedDomainIds = []
+		selectedDomainIds = $bindable([])
 	}: {
 		activityDomains?: ActivityDomain[];
 		selectedDomainIds?: number[];
@@ -24,7 +24,8 @@
 			<span class="font-just-sans text-base font-normal text-ecume-blue">(optionnel)</span>
 		</h2>
 		<p class="mt-2 font-just-sans text-sm leading-6 text-ecume-blue">
-			Ajoute les domaines qui correspondent à tes recherches et retire ceux qui ne t'intéressent plus.
+			Ajoute les domaines qui correspondent à tes recherches et retire ceux qui ne t'intéressent
+			plus.
 		</p>
 	</div>
 
@@ -53,7 +54,9 @@
 				{/each}
 			</ul>
 			{#if !selectedDomains.length}
-				<p class="m-0 rounded-xl border border-dashed border-ocean-blue/20 bg-lighthouse-white px-4 py-3 font-just-sans text-sm text-ecume-blue">
+				<p
+					class="m-0 rounded-xl border border-dashed border-ocean-blue/20 bg-lighthouse-white px-4 py-3 font-just-sans text-sm text-ecume-blue"
+				>
 					Aucun domaine sélectionné.
 				</p>
 			{/if}
@@ -63,7 +66,9 @@
 				</p>
 			{/if}
 		{:else}
-			<p class="m-0 rounded-xl border border-dashed border-ocean-blue/20 bg-lighthouse-white px-4 py-3 font-just-sans text-sm text-ecume-blue">
+			<p
+				class="m-0 rounded-xl border border-dashed border-ocean-blue/20 bg-lighthouse-white px-4 py-3 font-just-sans text-sm text-ecume-blue"
+			>
 				Aucun domaine d'activité disponible pour le moment.
 			</p>
 		{/if}

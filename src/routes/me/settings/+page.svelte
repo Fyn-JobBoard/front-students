@@ -5,4 +5,4 @@
 	const { data, form }: PageProps = $props();
 </script>
 
-<AccountSettings activityDomains={data.activityDomains} profile={data.profile} form={form} />
+<AccountSettings activityDomains={data.activityDomains} profile={data.me} {form} />

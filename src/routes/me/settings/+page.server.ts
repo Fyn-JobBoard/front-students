@@ -1,7 +1,6 @@
 import { FynFetchClients, useApi } from '$lib/server/api/api';
 import { fail, type Actions, type RequestEvent } from '@sveltejs/kit';
 import {
-	Account,
 	AccountsApi,
 	ActivityDomainsApi,
 	AuthApi,
@@ -12,19 +11,27 @@ import {
 } from 'fyn-api-sdk';
 import type { PageServerLoad } from './$types';
 
+export const load: PageServerLoad = async ({ cookies, fetch }) => {
+	const authenticatedFetch = FynFetchClients.from_cookies(cookies, undefined, fetch);
+	const activityDomainsApi = useApi(ActivityDomainsApi, authenticatedFetch);
+
+	const activityDomains = await activityDomainsApi
+		.activityDomainsControllerFindAllV1()
+		.then((response) => response.list)
+		.catch((reason) => {
+			console.error(reason);
+			return [];
+		});
+
+	return {
+		activityDomains
+	};
+};
+
 type ActivityDomainsResponse = ActivityDomain[] | { list?: ActivityDomain[] };
 type StudentWithExtras = Student & {
 	activity_domains?: ActivityDomain[];
 };
-
-const toDomainList = (response: ActivityDomainsResponse): ActivityDomain[] => {
-	if (Array.isArray(response)) {
-		return response;
-	}
-
-	return response.list ?? [];
-};
-
 
 const pickLinks = (links: string[] = []) => {
 	const github = links.find((link) => link.includes('github.com')) ?? '';
@@ -32,32 +39,6 @@ const pickLinks = (links: string[] = []) => {
 	const portfolio = links.find((link) => link !== github && link !== linkedin) ?? '';
 
 	return { github, linkedin, portfolio };
-};
-
-export const load: PageServerLoad = async ({ cookies, fetch, parent }) => {
-	const { student } = await parent();
-	const authenticatedFetch = FynFetchClients.from_cookies(cookies, undefined, fetch);
-	const activityDomainsApi = useApi(ActivityDomainsApi, authenticatedFetch);
-
-	const activityDomains = await activityDomainsApi
-		.activityDomainsControllerFindAllV1()
-		.then((response) => toDomainList(response as ActivityDomainsResponse))
-		.catch((reason) => {
-			console.error(reason);
-			return [];
-	});
-
-	const profileStudent = student as StudentWithExtras;
-	const profileBase = profileStudent as MeRouteAsStudentResponse;
-	const links = pickLinks(profileStudent.links ?? []);
-
-	return {
-		activityDomains,
-		profile: {
-			...profileBase,
-			splitLinks: links
-		}
-	};
 };
 
 const getPasswordFields = async ({ request }: RequestEvent) => {
@@ -89,11 +70,7 @@ export const actions: Actions = {
 			});
 		}
 
-		const authenticatedFetch = FynFetchClients.from_cookies(
-			cookies,
-			undefined,
-			fetch
-		);
+		const authenticatedFetch = FynFetchClients.from_cookies(cookies, undefined, fetch);
 		const accounts = useApi(AccountsApi, authenticatedFetch);
 		const students = useApi(StudentsApi, authenticatedFetch);
 

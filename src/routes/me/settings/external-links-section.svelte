@@ -15,8 +15,25 @@
 		</p>
 	</div>
 
-	<div class="grid gap-5">
-		<div>
+	<ul class="grid gap-5">
+		{#each profile.links as link, index}
+			<li>
+				<label
+					class="mb-2 block font-just-sans text-sm font-semibold text-ocean-blue"
+					for="link-{index}"
+				>
+					<input
+						class="block w-full rounded-xl border border-ocean-blue/15 bg-lighthouse-white px-4 py-3 font-just-sans text-sm text-ocean-blue placeholder:text-ecume-blue focus:border-ocean-blue focus:ring-4 focus:ring-ocean-blue/10 focus:outline-none"
+						id="github-link"
+						name="links[{index}]"
+						type="url"
+						value={link}
+						placeholder="https://exemple.com"
+					/>
+				</label>
+			</li>
+		{/each}
+		<!-- <div>
 			<label class="mb-2 block font-just-sans text-sm font-semibold text-ocean-blue" for="github-link">
 				GitHub
 			</label>
@@ -56,6 +73,6 @@
 				value={profile.splitLinks.portfolio}
 				placeholder="https://ton-portfolio.fr"
 			/>
-		</div>
-	</div>
+		</div> -->
+	</ul>
 </section>

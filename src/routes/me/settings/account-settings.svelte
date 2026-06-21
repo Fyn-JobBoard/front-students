@@ -1,12 +1,12 @@
 <script lang="ts">
 	import type { ActivityDomain } from 'fyn-api-sdk';
 	import AccountAccessSection from './account-access-section.svelte';
-	import ActivityDomainsSection from './activity-domains-section.svelte';
 	import AccountSettingsHeader from './account-settings-header.svelte';
+	import type { AccountSettingsForm, AccountSettingsProfile } from './account-settings.types';
+	import ActivityDomainsSection from './activity-domains-section.svelte';
 	import ExternalLinksSection from './external-links-section.svelte';
 	import PasswordModal from './password-modal.svelte';
 	import PersonalInfoSection from './personal-info-section.svelte';
-	import type { AccountSettingsForm, AccountSettingsProfile } from './account-settings.types';
 
 	let {
 		activityDomains = [],
@@ -18,7 +18,9 @@
 		form?: AccountSettingsForm;
 	} = $props();
 	let isPasswordModalOpen = $state(false);
-	let selectedDomainIds = $state<number[]>(profile.activity_domains?.map((domain) => domain.id) ?? []);
+	let selectedDomainIds = $derived<number[]>(
+		profile.activity_domains?.map((domain) => domain.id) ?? []
+	);
 
 	$effect(() => {
 		if (form?.passwordError) {
@@ -49,19 +51,25 @@
 
 		<form method="POST" action="?/saveProfile" class="mt-8 grid gap-8">
 			{#if form?.profileError}
-				<p class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 font-just-sans text-sm text-red-700">
+				<p
+					class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 font-just-sans text-sm text-red-700"
+				>
 					{form.profileError}
 				</p>
 			{/if}
 
 			{#if form?.profileSuccess}
-				<p class="rounded-xl border border-green-200 bg-green-50 px-4 py-3 font-just-sans text-sm text-green-700">
+				<p
+					class="rounded-xl border border-green-200 bg-green-50 px-4 py-3 font-just-sans text-sm text-green-700"
+				>
 					{form.profileSuccess}
 				</p>
 			{/if}
 
 			{#if form?.profileNotice}
-				<p class="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 font-just-sans text-sm text-amber-700">
+				<p
+					class="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 font-just-sans text-sm text-amber-700"
+				>
 					{form.profileNotice}
 				</p>
 			{/if}
@@ -72,10 +80,7 @@
 
 			<ExternalLinksSection {profile} />
 
-			<ActivityDomainsSection
-				{activityDomains}
-				bind:selectedDomainIds
-			/>
+			<ActivityDomainsSection {activityDomains} bind:selectedDomainIds />
 
 			<div class="flex justify-end border-t border-ocean-blue/10 pt-6">
 				<button
