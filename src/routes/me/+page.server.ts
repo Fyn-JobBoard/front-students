@@ -8,7 +8,11 @@ export const load: PageServerLoad = async ({ cookies, fetch }) => {
 		FynFetchClients.from_cookies(cookies, undefined, fetch)
 	);
 
-	const applications = await applicationsApi.applicationsControllerFindMineV1().catch((reason) => {
+	const applications = await applicationsApi.applicationsControllerFindMineV1()
+	.then((response) => {
+		return response.list
+	})
+	.catch((reason) => {
 		console.error(reason);
 		return [] as Application[];
 	});

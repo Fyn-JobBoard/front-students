@@ -30,15 +30,18 @@
 
 <Kanban applications={data.applications} />
 
-<section class="px-6 pt-6 pb-16 lg:px-20 xl:px-28">
-	<div class="flex justify-end gap-3">
-		<div class="transition duration-200 hover:-translate-y-0.5 hover:shadow-lg">
-			<Button type="neutral" size="default" action={{ url: '/logout' }}>Se déconnecter</Button>
-		</div>
-		<div class="transition duration-200 hover:-translate-y-0.5 hover:shadow-lg">
-			<Button type="danger" size="default" action={{ url: '/delete-account' }}>
-				Supprimer le compte
-			</Button>
-		</div>
-	</div>
+<section class="flex items-center justify-end gap-4 px-6 pt-6 pb-16 lg:px-20 xl:px-28">
+	<Button type="neutral" size="default" action={{ url: '/logout' }}>Se déconnecter</Button>
+	<Button
+		type="danger"
+		size="default"
+		action={{
+			onclick() {
+				confirm('Es-tu sûr de vouloir supprimer ton compte ? Ceci est irreversible.');
+			},
+			type: 'button'
+		}}
+	>
+		Supprimer le compte
+	</Button>
 </section>
