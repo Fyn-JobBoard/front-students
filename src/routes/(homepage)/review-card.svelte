@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Profile from '$lib/components/Profile/profile.svelte';
+	import Profile from '$lib/components/profile/profile.svelte';
 
 	const STAR_COUNT = 5;
 
