@@ -8,10 +8,9 @@
 		'A propos': '/fyn',
 		Contact: '/contact'
 	};
-	export const NAVIGATION_CTAS: {
+	export const NAVIGATION_BASE_CTAS: {
 		[key: string]: { url: string; type: ComponentProps<typeof Button>['type'] };
 	} = {
-		'Se connecter': { url: '/login', type: 'primary' },
 		'Je recrute': { url: 'https://hire.fyn.com', type: 'secondary' }
 	};
 </script>
@@ -20,11 +19,22 @@
 	import { page } from '$app/state';
 	import Logo from '$lib/assets/brand/logo-blue.svg';
 	import Button from './ui/button.svelte';
+
+	const {
+		loginStatus
+	}: {
+		/**
+		 * - `undefined` -> Do not show account-related button
+		 * - `true` -> The user is logged-in -> Display the `/me` button
+		 * - `false` -> The user is not logged-in -> Display the `/login` button
+		 */
+		loginStatus?: boolean;
+	} = $props();
 </script>
 
 <header
 	class={[
-		'group/header fixed top-0 left-0 z-100 grid grid-cols-[1fr_auto_1fr] w-full justify-between px-8 lg:items-center lg:py-4',
+		'group/header fixed top-0 left-0 z-100 grid w-full grid-cols-[1fr_auto_1fr] justify-between px-8 lg:items-center lg:py-4',
 
 		// mobile version
 		'max-lg:h-full max-lg:not-has-checked:pointer-events-none',
@@ -83,11 +93,17 @@
 	<nav
 		class="transition-transform max-lg:py-4 max-lg:group-not-has-checked/header:translate-y-full"
 	>
-		<ul class="flex justify-end items-center gap-2 max-lg:justify-center max-lg:gap-8">
-			{#each Object.entries(NAVIGATION_CTAS) as [label, { url: url_str, type }]}
+		<ul class="flex items-center justify-end gap-2 max-lg:justify-center max-lg:gap-8">
+			{#each Object.entries(NAVIGATION_BASE_CTAS) as [label, { url: url_str, type }]}
 				{@const url = new URL(url_str, page.url)}
 				{@const is_local = url.host === page.url.host}
-
+				{#if typeof loginStatus === 'boolean'}
+					<li>
+						<Button type="primary" action={{ url: loginStatus ? '/me' : '/login' }}>
+							{loginStatus ? 'Mon compte' : 'Me connecter'}
+						</Button>
+					</li>
+				{/if}
 				<li>
 					<Button
 						action={{
