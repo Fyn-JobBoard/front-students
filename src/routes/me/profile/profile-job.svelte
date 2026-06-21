@@ -4,12 +4,7 @@
 	import ProfileJobFormations from './formations.svelte';
 	import ProfileJobHeader from './header.svelte';
 	import ProfileJobSkills from './skills.svelte';
-	import type {
-		ExperienceForm,
-		FormationForm,
-		ProfileJobForm,
-		SkillForm
-	} from './profile-job.types';
+	import type { ExperienceForm, FormationForm, ProfileJobForm, SkillForm } from './utils.d';
 
 	let {
 		activityDomains = [],
@@ -145,19 +140,25 @@
 
 		<form method="POST" action="?/saveProfileJob" class="mt-8 grid gap-8">
 			{#if form?.profileJobError}
-				<p class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 font-just-sans text-sm text-red-700">
+				<p
+					class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 font-just-sans text-sm text-red-700"
+				>
 					{form.profileJobError}
 				</p>
 			{/if}
 
 			{#if form?.profileJobSuccess}
-				<p class="rounded-xl border border-green-200 bg-green-50 px-4 py-3 font-just-sans text-sm text-green-700">
+				<p
+					class="rounded-xl border border-green-200 bg-green-50 px-4 py-3 font-just-sans text-sm text-green-700"
+				>
 					{form.profileJobSuccess}
 				</p>
 			{/if}
 
 			{#if form?.profileJobNotice}
-				<p class="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 font-just-sans text-sm text-amber-700">
+				<p
+					class="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 font-just-sans text-sm text-amber-700"
+				>
 					{form.profileJobNotice}
 				</p>
 			{/if}
@@ -175,11 +176,7 @@
 				onRemoveExperience={removeExperience}
 			/>
 
-			<ProfileJobSkills
-				{skills}
-				onAddSkill={addSkill}
-				onRemoveSkill={removeSkill}
-			/>
+			<ProfileJobSkills {skills} onAddSkill={addSkill} onRemoveSkill={removeSkill} />
 
 			<div class="flex justify-end border-t border-ocean-blue/10 pt-6">
 				<button

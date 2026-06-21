@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { ActivityDomain } from 'fyn-api-sdk';
-	import type { FormationForm } from './profile-job.types';
+	import type { FormationForm } from './utils.d';
 
 	let {
 		activityDomains = [],

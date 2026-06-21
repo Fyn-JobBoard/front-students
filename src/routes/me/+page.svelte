@@ -19,7 +19,7 @@
 			url: string;
 		};
 	} = {
-		'Modifier mon profile': {
+		'Modifier mon profil': {
 			icon: 'icon-[mdi--account-edit]',
 			url: '/me/profile'
 		},

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ExperienceForm } from './profile-job.types';
+	import type { ExperienceForm } from './utils.d';
 
 	let {
 		experiences = [],

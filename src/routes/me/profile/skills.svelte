@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { SkillForm } from './profile-job.types';
+	import type { SkillForm } from './utils.d';
 
 	let {
 		skills = [],
