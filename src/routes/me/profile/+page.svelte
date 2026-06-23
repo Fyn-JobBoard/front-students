@@ -1,11 +1,11 @@
 <script lang="ts">
 	import type { PageProps } from './$types';
-	import ProfileJob from './profile-job.svelte';
+	import Form from './form.svelte';
 
 	const { data, form }: PageProps = $props();
 </script>
 
-<ProfileJob
+<Form
 	{...data}
 	form={form}
 />

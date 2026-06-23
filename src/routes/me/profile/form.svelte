@@ -4,7 +4,7 @@
 	import ProfileJobFormations from './formations.svelte';
 	import ProfileJobHeader from './header.svelte';
 	import ProfileJobSkills from './skills.svelte';
-	import type { ExperienceForm, FormationForm, ProfileJobForm, SkillForm } from './utils.d';
+	import type { ExperienceForm, FormationForm, ProfileJobForm, SkillForm } from './utils';
 
 	let {
 		activityDomains = [],
@@ -72,11 +72,11 @@
 	});
 
 	let nextFormationId = 1;
-	let formations = $state<FormationForm[]>([emptyFormation(0)]);
+	let formations = $state<FormationForm[]>([]);
 	let nextExperienceId = 1;
-	let experiences = $state<ExperienceForm[]>([emptyExperience(0)]);
+	let experiences = $state<ExperienceForm[]>([]);
 	let nextSkillId = 1;
-	let skills = $state<SkillForm[]>([emptySkill(0)]);
+	let skills = $state<SkillForm[]>([]);
 
 	$effect(() => {
 		if (hasInitializedProfileData) {
@@ -87,9 +87,9 @@
 		const mappedExperiences = initialExperiences.map(mapExperience);
 		const mappedSkills = initialSkills.map(mapSkill);
 
-		formations = mappedFormations.length ? mappedFormations : [emptyFormation(0)];
-		experiences = mappedExperiences.length ? mappedExperiences : [emptyExperience(0)];
-		skills = mappedSkills.length ? mappedSkills : [emptySkill(0)];
+		formations = mappedFormations.length ? mappedFormations : [];
+		experiences = mappedExperiences.length ? mappedExperiences : [];
+		skills = mappedSkills.length ? mappedSkills : [];
 
 		nextFormationId = Math.max(0, ...mappedFormations.map((formation) => formation.id)) + 1;
 		nextExperienceId = Math.max(0, ...mappedExperiences.map((experience) => experience.id)) + 1;
