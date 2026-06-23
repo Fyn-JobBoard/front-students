@@ -138,7 +138,7 @@
 
 		<ProfileJobHeader />
 
-		<form method="POST" action="?/saveProfileJob" class="mt-8 grid gap-8">
+		<form method="POST" class="mt-8 grid gap-8">
 			{#if form?.profileJobError}
 				<p
 					class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 font-just-sans text-sm text-red-700"

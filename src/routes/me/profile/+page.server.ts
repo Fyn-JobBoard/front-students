@@ -93,7 +93,7 @@ const parseIndexedRecords = (formData: FormData, prefix: string) => {
 };
 
 export const actions: Actions = {
-	saveProfileJob: async ({ cookies, fetch, request }) => {
+	default: async ({ cookies, fetch, request }) => {
 		const authenticatedFetch = FynFetchClients.from_cookies(cookies, undefined, fetch);
 
 		// Pas accès aux data de +layout.server.ts -> Re-récupération du compte étudiant
