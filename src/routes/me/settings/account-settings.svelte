@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import type { ActivityDomain } from 'fyn-api-sdk';
 	import AccountAccessSection from './account-access-section.svelte';
 	import type { AccountSettingsForm, AccountSettingsProfile } from './account-settings';
@@ -49,7 +50,7 @@
 
 		<AccountSettingsHeader />
 
-		<form method="POST" action="?/updateProfile" class="mt-8 grid gap-8">
+		<form method="POST" action="?/updateProfile" class="mt-8 grid gap-8" use:enhance>
 			{#if form?.profileError}
 				<p
 					class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 font-just-sans text-sm text-red-700"
