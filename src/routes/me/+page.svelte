@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import Kanban from '$lib/components/kanban/applications.svelte';
 	import Profile from '$lib/components/profile/profile.svelte';
 	import Button from '$lib/components/ui/button.svelte';
@@ -76,7 +77,9 @@
 		size="default"
 		action={{
 			onclick() {
-				confirm('Es-tu sûr de vouloir supprimer ton compte ? Ceci est irreversible.');
+				if (confirm('Es-tu sûr de vouloir supprimer ton compte ? Ceci est irreversible.')) {
+					goto('/unregister');
+				}
 			},
 			type: 'button'
 		}}
