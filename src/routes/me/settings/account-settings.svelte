@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { ActivityDomain } from 'fyn-api-sdk';
 	import AccountAccessSection from './account-access-section.svelte';
-	import AccountSettingsHeader from './account-settings-header.svelte';
 	import type { AccountSettingsForm, AccountSettingsProfile } from './account-settings';
+	import AccountSettingsHeader from './account-settings-header.svelte';
 	import ActivityDomainsSection from './activity-domains-section.svelte';
 	import ExternalLinksSection from './external-links-section.svelte';
 	import PasswordModal from './password-modal.svelte';
@@ -49,7 +49,7 @@
 
 		<AccountSettingsHeader />
 
-		<form method="POST" action="?/saveProfile" class="mt-8 grid gap-8">
+		<form method="POST" action="?/updateProfile" class="mt-8 grid gap-8">
 			{#if form?.profileError}
 				<p
 					class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 font-just-sans text-sm text-red-700"

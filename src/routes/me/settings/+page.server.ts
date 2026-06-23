@@ -52,7 +52,7 @@ const getPasswordFields = async ({ request }: RequestEvent) => {
 };
 
 export const actions: Actions = {
-	saveProfile: async ({ cookies, fetch, request }) => {
+	updateProfile: async ({ cookies, fetch, request }) => {
 		const data = await request.formData();
 		const email = data.get('email')?.toString().trim() ?? '';
 		const first_name = data.get('first_name')?.toString().trim() ?? '';
@@ -60,11 +60,11 @@ export const actions: Actions = {
 		const birthdate = data.get('birthdate')?.toString().trim() ?? '';
 		const bio = data.get('bio')?.toString().trim() ?? '';
 		const links = data
-			.getAll('links')
+			.getAll('link')
 			.map((value) => value.toString().trim())
 			.filter(Boolean);
 
-		if (!email || !first_name || !last_name || !birthdate) {
+		if (!(email && first_name && last_name && birthdate)) {
 			return fail(400, {
 				profileError: 'Les champs email, prénom, nom et date de naissance sont requis.'
 			});

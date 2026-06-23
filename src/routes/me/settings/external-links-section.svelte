@@ -2,6 +2,9 @@
 	import type { AccountSettingsProfile } from './account-settings';
 
 	let { profile }: { profile: AccountSettingsProfile } = $props();
+
+	let reload = $state(0);
+	let links = $derived(profile.links);
 </script>
 
 <section class="grid gap-5 border-t border-ocean-blue/10 pt-8">
@@ -16,63 +19,49 @@
 	</div>
 
 	<ul class="grid gap-5">
-		{#each profile.links as link, index}
-			<li>
-				<label
-					class="mb-2 block font-just-sans text-sm font-semibold text-ocean-blue"
-					for="link-{index}"
-				>
-					<input
-						class="block w-full rounded-xl border border-ocean-blue/15 bg-lighthouse-white px-4 py-3 font-just-sans text-sm text-ocean-blue placeholder:text-ecume-blue focus:border-ocean-blue focus:ring-4 focus:ring-ocean-blue/10 focus:outline-none"
-						id="github-link"
-						name="links[{index}]"
-						type="url"
-						value={link}
-						placeholder="https://exemple.com"
-					/>
-				</label>
-			</li>
-		{/each}
-		<!-- <div>
-			<label class="mb-2 block font-just-sans text-sm font-semibold text-ocean-blue" for="github-link">
-				GitHub
-			</label>
-			<input
-				class="block w-full rounded-xl border border-ocean-blue/15 bg-lighthouse-white px-4 py-3 font-just-sans text-sm text-ocean-blue placeholder:text-ecume-blue focus:border-ocean-blue focus:ring-4 focus:ring-ocean-blue/10 focus:outline-none"
-				id="github-link"
-				name="links"
-				type="url"
-				value={profile.splitLinks.github}
-				placeholder="https://github.com/ton-profil"
-			/>
-		</div>
+		{#key reload}
+			{#each links as _, index}
+				<li class="mb-2 flex items-stretch gap-2">
+					<label
+						class="block grow font-just-sans text-sm font-semibold text-ocean-blue"
+						for="link-{index}"
+					>
+						<input
+							class="block w-full rounded-xl border border-ocean-blue/15 bg-lighthouse-white px-4 py-3 font-just-sans text-sm text-ocean-blue placeholder:text-ecume-blue focus:border-ocean-blue focus:ring-4 focus:ring-ocean-blue/10 focus:outline-none"
+							id="link-{index}"
+							name="link"
+							type="url"
+							bind:value={links[index]}
+							placeholder="https://exemple.com"
+						/>
+					</label>
 
-		<div>
-			<label class="mb-2 block font-just-sans text-sm font-semibold text-ocean-blue" for="linkedin-link">
-				LinkedIn
-			</label>
-			<input
-				class="block w-full rounded-xl border border-ocean-blue/15 bg-lighthouse-white px-4 py-3 font-just-sans text-sm text-ocean-blue placeholder:text-ecume-blue focus:border-ocean-blue focus:ring-4 focus:ring-ocean-blue/10 focus:outline-none"
-				id="linkedin-link"
-				name="links"
-				type="url"
-				value={profile.splitLinks.linkedin}
-				placeholder="https://www.linkedin.com/in/ton-profil"
-			/>
-		</div>
-
-		<div>
-			<label class="mb-2 block font-just-sans text-sm font-semibold text-ocean-blue" for="portfolio-link">
-				Portfolio
-			</label>
-			<input
-				class="block w-full rounded-xl border border-ocean-blue/15 bg-lighthouse-white px-4 py-3 font-just-sans text-sm text-ocean-blue placeholder:text-ecume-blue focus:border-ocean-blue focus:ring-4 focus:ring-ocean-blue/10 focus:outline-none"
-				id="portfolio-link"
-				name="links"
-				type="url"
-				value={profile.splitLinks.portfolio}
-				placeholder="https://ton-portfolio.fr"
-			/>
-		</div> -->
+					<button
+						class="grid aspect-square place-content-center rounded-full border border-ocean-blue/20 font-just-sans text-xs font-semibold text-ocean-blue transition hover:border-ocean-blue hover:bg-white"
+						type="button"
+						onclick={() => {
+							profile.links.splice(index, 1);
+							reload++;
+						}}
+						title="Supprimer le lien"
+					>
+						<span class="icon-[mdi--trash]"></span>
+					</button>
+				</li>
+			{/each}
+		{/key}
 	</ul>
+
+	<div class="flex justify-start">
+		<button
+			class="rounded-full border-2 border-ocean-blue bg-transparent px-5 py-3 font-just-sans text-sm font-semibold text-ocean-blue transition hover:bg-ocean-blue hover:text-white"
+			type="button"
+			onclick={() => {
+				profile.links.push('');
+				reload++;
+			}}
+		>
+			+ Ajouter un lien
+		</button>
+	</div>
 </section>
