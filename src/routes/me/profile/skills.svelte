@@ -14,9 +14,7 @@
 
 <section class="grid gap-6 border-t border-ocean-blue/10 pt-8">
 	<div>
-		<h2 class="m-0 font-grift text-2xl font-extrabold text-ocean-blue">
-			Compétences
-		</h2>
+		<h2 class="m-0 font-grift text-2xl font-extrabold text-ocean-blue">Compétences</h2>
 		<p class="mt-2 font-just-sans text-sm leading-6 text-ecume-blue">
 			Ajoute tes compétences techniques et humaines.
 		</p>
@@ -30,15 +28,13 @@
 					Compétence {index + 1}
 				</legend>
 
-				{#if skills.length > 1}
-					<button
-						class="rounded-full border border-ocean-blue/20 px-3 py-1.5 font-just-sans text-xs font-semibold text-ocean-blue transition hover:border-ocean-blue hover:bg-white"
-						type="button"
-						onclick={() => onRemoveSkill(skill.id)}
-					>
-						Supprimer
-					</button>
-				{/if}
+				<button
+					class="rounded-full border border-ocean-blue/20 px-3 py-1.5 font-just-sans text-xs font-semibold text-ocean-blue transition hover:border-ocean-blue hover:bg-white"
+					type="button"
+					onclick={() => onRemoveSkill(skill.id)}
+				>
+					Supprimer
+				</button>
 			</div>
 
 			<div class="grid gap-5 md:grid-cols-[minmax(0,1fr)_12rem]">

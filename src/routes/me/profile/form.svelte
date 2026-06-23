@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import type { ActivityDomain, Experience, Formation, Skill } from 'fyn-api-sdk';
 	import ProfileJobExperiences from './experiences.svelte';
 	import ProfileJobFormations from './formations.svelte';
@@ -138,7 +139,7 @@
 
 		<ProfileJobHeader />
 
-		<form method="POST" class="mt-8 grid gap-8">
+		<form method="POST" class="mt-8 grid gap-8" use:enhance>
 			{#if form?.profileJobError}
 				<p
 					class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 font-just-sans text-sm text-red-700"

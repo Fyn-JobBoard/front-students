@@ -14,9 +14,7 @@
 
 <section class="grid gap-6 border-t border-ocean-blue/10 pt-8">
 	<div>
-		<h2 class="m-0 font-grift text-2xl font-extrabold text-ocean-blue">
-			Expériences
-		</h2>
+		<h2 class="m-0 font-grift text-2xl font-extrabold text-ocean-blue">Expériences</h2>
 		<p class="mt-2 font-just-sans text-sm leading-6 text-ecume-blue">
 			Ajoute tes expériences professionnelles, stages, missions ou projets significatifs.
 		</p>
@@ -30,15 +28,13 @@
 					Expérience {index + 1}
 				</legend>
 
-				{#if experiences.length > 1}
-					<button
-						class="rounded-full border border-ocean-blue/20 px-3 py-1.5 font-just-sans text-xs font-semibold text-ocean-blue transition hover:border-ocean-blue hover:bg-white"
-						type="button"
-						onclick={() => onRemoveExperience(experience.id)}
-					>
-						Supprimer
-					</button>
-				{/if}
+				<button
+					class="rounded-full border border-ocean-blue/20 px-3 py-1.5 font-just-sans text-xs font-semibold text-ocean-blue transition hover:border-ocean-blue hover:bg-white"
+					type="button"
+					onclick={() => onRemoveExperience(experience.id)}
+				>
+					Supprimer
+				</button>
 			</div>
 
 			<div>
@@ -87,7 +83,7 @@
 					Description
 				</label>
 				<textarea
-					class="min-h-32 block w-full resize-y rounded-xl border border-ocean-blue/15 bg-white px-4 py-3 font-just-sans text-sm leading-6 text-ocean-blue placeholder:text-ecume-blue focus:border-ocean-blue focus:ring-4 focus:ring-ocean-blue/10 focus:outline-none"
+					class="block min-h-32 w-full resize-y rounded-xl border border-ocean-blue/15 bg-white px-4 py-3 font-just-sans text-sm leading-6 text-ocean-blue placeholder:text-ecume-blue focus:border-ocean-blue focus:ring-4 focus:ring-ocean-blue/10 focus:outline-none"
 					id="experience-{experience.id}-description"
 					name="experiences[{index}][description]"
 					maxlength="2048"

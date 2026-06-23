@@ -24,15 +24,13 @@
 					Formation {index + 1}
 				</legend>
 
-				{#if formations.length > 1}
-					<button
-						class="rounded-full border border-ocean-blue/20 px-3 py-1.5 font-just-sans text-xs font-semibold text-ocean-blue transition hover:border-ocean-blue hover:bg-white"
-						type="button"
-						onclick={() => onRemoveFormation(formation.id)}
-					>
-						Supprimer
-					</button>
-				{/if}
+				<button
+					class="rounded-full border border-ocean-blue/20 px-3 py-1.5 font-just-sans text-xs font-semibold text-ocean-blue transition hover:border-ocean-blue hover:bg-white"
+					type="button"
+					onclick={() => onRemoveFormation(formation.id)}
+				>
+					Supprimer
+				</button>
 			</div>
 
 			<div>
@@ -82,7 +80,7 @@
 					<span class="font-normal text-ecume-blue">(optionnel)</span>
 				</label>
 				<textarea
-					class="min-h-32 block w-full resize-y rounded-xl border border-ocean-blue/15 bg-white px-4 py-3 font-just-sans text-sm leading-6 text-ocean-blue placeholder:text-ecume-blue focus:border-ocean-blue focus:ring-4 focus:ring-ocean-blue/10 focus:outline-none"
+					class="block min-h-32 w-full resize-y rounded-xl border border-ocean-blue/15 bg-white px-4 py-3 font-just-sans text-sm leading-6 text-ocean-blue placeholder:text-ecume-blue focus:border-ocean-blue focus:ring-4 focus:ring-ocean-blue/10 focus:outline-none"
 					id="formation-{formation.id}-description"
 					name="formations[{index}][description]"
 					maxlength="1024"
@@ -127,9 +125,7 @@
 						placeholder="12"
 						required
 					/>
-					<p class="mt-2 font-just-sans text-xs text-ecume-blue">
-						Durée de la formation en mois.
-					</p>
+					<p class="mt-2 font-just-sans text-xs text-ecume-blue">Durée de la formation en mois.</p>
 				</div>
 			</div>
 
