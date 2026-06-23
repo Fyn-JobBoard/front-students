@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { AccountSettingsProfile } from './account-settings.types';
+	import type { AccountSettingsProfile } from './account-settings';
 
 	let { profile }: { profile: AccountSettingsProfile } = $props();
 </script>

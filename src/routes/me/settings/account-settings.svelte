@@ -2,7 +2,7 @@
 	import type { ActivityDomain } from 'fyn-api-sdk';
 	import AccountAccessSection from './account-access-section.svelte';
 	import AccountSettingsHeader from './account-settings-header.svelte';
-	import type { AccountSettingsForm, AccountSettingsProfile } from './account-settings.types';
+	import type { AccountSettingsForm, AccountSettingsProfile } from './account-settings';
 	import ActivityDomainsSection from './activity-domains-section.svelte';
 	import ExternalLinksSection from './external-links-section.svelte';
 	import PasswordModal from './password-modal.svelte';

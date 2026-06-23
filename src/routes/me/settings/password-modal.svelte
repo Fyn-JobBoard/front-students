@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { AccountSettingsForm } from './account-settings.types';
+	import type { AccountSettingsForm } from './account-settings';
 
 	let {
 		form = null,
