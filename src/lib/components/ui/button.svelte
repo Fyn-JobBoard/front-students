@@ -12,7 +12,7 @@
 		size = 'default',
 		children
 	}: {
-		type: 'primary' | 'secondary' | 'neutral';
+		type: 'primary' | 'secondary' | 'neutral' | 'danger';
 		size?: 'default' | 'small';
 		children: Snippet;
 		action:
@@ -36,7 +36,8 @@
 			'px-3 py-1.5 text-sm': size === 'small',
 			'bg-ocean-blue text-white': type === 'primary',
 			'bg-lighthouse-yellow text-ocean-blue': type === 'secondary',
-			'border-2 border-ocean-blue bg-transparent text-ocean-blue': type === 'neutral'
+			'border-2 border-ocean-blue bg-transparent text-ocean-blue': type === 'neutral',
+			'bg-[#D13838] text-white': type === 'danger'
 		}}
 	>
 		{@render children()}

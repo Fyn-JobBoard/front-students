@@ -1,33 +1,13 @@
 <script lang="ts">
 	let {
-		identifier,
 		firstName,
 		lastName,
 		size = 'md'
 	}: {
-		identifier?: string;
-		firstName?: string;
-		lastName?: string;
+		firstName: string;
+		lastName: string;
 		size?: 'sm' | 'md' | 'lg';
 	} = $props();
-
-	const initials = $derived.by(() => {
-		if (firstName && lastName) {
-			return `${firstName[0]}${lastName[0]}`.toUpperCase();
-		}
-
-		if (identifier) {
-			return identifier
-				.trim()
-				.split(/\s+/)
-				.slice(0, 2)
-				.map((part) => part[0])
-				.join('')
-				.toUpperCase();
-		}
-
-		return '';
-	});
 </script>
 
 <div
@@ -37,7 +17,6 @@
 		'h-12 w-12': size === 'md',
 		'h-18 w-18': size === 'lg'
 	}}
-	aria-label={identifier ?? `${firstName ?? ''} ${lastName ?? ''}`.trim()}
 >
 	<span
 		class={{
@@ -47,6 +26,6 @@
 			'text-lg': size === 'lg'
 		}}
 	>
-		{initials}
+		{firstName[0]}{lastName[0]}
 	</span>
 </div>

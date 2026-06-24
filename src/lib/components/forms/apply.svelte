@@ -16,7 +16,7 @@
 	} = $props();
 </script>
 
-<section class="rounded-md bg-white p-8">
+<section class="rounded-2xl border border-bleuet-blue bg-white p-8 px-6 py-7 shadow-sm">
 	<h3 class="text-2xl font-light">Postuler à cette offre</h3>
 	<p class="text-sm font-light text-ecume-blue">
 		{#if job.scrapped_from}

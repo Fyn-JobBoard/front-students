@@ -215,7 +215,7 @@ The application will be available at `http://localhost:5173`
 GCP_BUILDPACKS=1 bun run build
 
 # Run the built application
-bun run build/index.js
+bun build/index.js
 ```
 
 **With npm:**
