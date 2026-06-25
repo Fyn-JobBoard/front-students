@@ -5,7 +5,7 @@
 		{
 			icon: 'icon-[mdi--file-document-outline]',
 			title: 'Vérification CV',
-			description: 'Notre IA analyse votre CV et vous donne un score de compatibilité détaillé avec les offres ciblées, plus des suggestions personnalisées pour maximiser vos chances.',
+			description: 'Notre IA analyse ton CV et te donne un score de compatibilité détaillé avec les offres ciblées, plus des suggestions personnalisées pour maximiser tes chances.',
 			cta: 'Analyser mon CV →',
 			url: '/me/my-cv',
 			bg: 'bg-ocean-blue',
@@ -17,7 +17,7 @@
 		{
 			icon: 'icon-[mdi--account-voice]',
 			title: 'Préparer les entretiens',
-			description: "Simulez des entretiens avec notre coach IA. Entraînez-vous sur les questions les plus fréquentes et obtenez un feedback instantané et personnalisé.",
+			description: "Simule des entretiens avec notre coach IA. Entraîne-toi sur les questions les plus fréquentes et obtiens un feedback instantané et personnalisé.",
 			cta: "S'entraîner →",
 			url: '/me/preparation',
 			bg: 'bg-lighthouse-yellow',
@@ -29,7 +29,7 @@
 		{
 			icon: 'icon-[mdi--bell-outline]',
 			title: 'Alertes personnalisées',
-			description: 'Configurez des alertes ciblées et recevez les meilleures nouvelles offres directement dans votre boîte mail dès leur publication sur les plateformes.',
+			description: 'Configure tes alertes ciblées et reçois les meilleures nouvelles offres directement dans t\'a boîte mail dès leur publication sur les plateformes.',
 			cta: 'Configurer mes alertes →',
 			url: '/me/notifications',
 			bg: 'bg-butter-yellow',
@@ -41,7 +41,7 @@
 		{
 			icon: 'icon-[mdi--view-grid-outline]',
 			title: 'Annuaire entreprises',
-			description: "Consultez les fiches détaillées de 850+ entreprises partenaires : culture, témoignages d'alternants, processus de recrutement et contacts RH directs.",
+			description: "Consulte les fiches détaillées de 850+ entreprises partenaires : culture, témoignages d'alternants, processus de recrutement et contacts RH directs.",
 			cta: 'Explorer les entreprises →',
 			url: '/companies',
 			bg: 'bg-white border border-bleuet-blue',
@@ -59,10 +59,10 @@
 		
 		<div class="mb-14 text-center">
 			<h2 class="mb-4 font-grift text-4xl font-extrabold text-ocean-blue">
-				Des outils pensés pour vous
+				Des outils pensés pour toi
 			</h2>
 			<p class="mx-auto max-w-lg font-just-sans text-base text-ecume-blue">
-				Maximisez vos chances de décrocher l'alternance idéale
+				Maximise tes chances de décrocher l'alternance idéale
 				avec notre suite complète d'outils propulsés par l'IA
 			</p>
 		</div>
