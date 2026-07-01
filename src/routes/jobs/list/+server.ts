@@ -19,7 +19,7 @@ export const GET: RequestHandler = async ({ fetch, url, cookies }) => {
 				url.searchParams.get('company_id') ?? undefined,
 				url.searchParams
 					.getAll('activity_domain')
-					.map(parseInt)
+					.map((v) => parseInt(v))
 					.filter((v) => !isNaN(v)),
 				url.searchParams.get('contract') ?? undefined
 			)
