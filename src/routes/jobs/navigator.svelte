@@ -51,9 +51,19 @@
 	}
 
 	async function fetch_offers(): Promise<NonNullable<typeof offers>> {
-		const answer: ListJobsResponse = await fetch(
-			`/jobs/list?page=1&query=${encodeURI(query ?? '')}`
-		).then((r) => r.json());
+		const url = new URL('/jobs/list', page.url);
+		url.searchParams.append('page', '1');
+		if (query) {
+			url.searchParams.append('query', query);
+		}
+		filters.activity_domains?.forEach(({ id }) => {
+			url.searchParams.append('activity_domain', id.toString());
+		});
+		filters.contracts?.forEach(({ value }) => {
+			url.searchParams.append('contract', value.toString());
+		});
+
+		const answer: ListJobsResponse = await fetch(url).then((r) => r.json());
 		console.log(answer);
 
 		offers = answer.list.map((job) => ({ job, featured: false }));

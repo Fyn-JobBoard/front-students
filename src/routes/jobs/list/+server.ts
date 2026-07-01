@@ -15,7 +15,13 @@ export const GET: RequestHandler = async ({ fetch, url, cookies }) => {
 			.jobsControllerFindAllV1(
 				isNaN(page) ? 1 : page,
 				undefined,
-				url.searchParams.get('query') ?? undefined
+				url.searchParams.get('query') ?? undefined,
+				url.searchParams.get('company_id') ?? undefined,
+				url.searchParams
+					.getAll('activity_domain')
+					.map(parseInt)
+					.filter((v) => !isNaN(v)),
+				url.searchParams.get('contract') ?? undefined
 			)
 			.catch((r) => {
 				console.error(r);

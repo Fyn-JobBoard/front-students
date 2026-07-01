@@ -69,6 +69,8 @@
 					() => contracts.has(value as unknown as Job.ContractEnum),
 					(checked) => {
 						if (checked) {
+							// Api can only filter by 1 contract yet
+							contracts.clear();
 							contracts.add(value as unknown as Job.ContractEnum);
 						} else {
 							contracts.delete(value as unknown as Job.ContractEnum);
